@@ -27,6 +27,8 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 import MainNavigator from './src/router/Main';
 import RootNavigator from './src/router';
+import { Provider } from 'react-redux';
+import { store } from './src/store';
 
 
 
@@ -38,7 +40,9 @@ function App(): JSX.Element {
   };
 
   return (
+    <Provider store={store}>
    <RootNavigator/>
+    </Provider>
   );
 }
 
