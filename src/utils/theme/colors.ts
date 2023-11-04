@@ -3,7 +3,6 @@ export type ColorTheme = {
   secondary: string;
   text: string;
   textSecondary: string;
-  textPrimary: string;
   appBackground: string;
   grey: string;
   red: string;
@@ -30,9 +29,8 @@ const Colors: ColorPalettes = {
     grey: '#757177',
     red: '#BD2027',
     text: sharedColors.white,
-
-    textPrimary: sharedColors.white,
-    textSecondary: '#717E8C',
+    textSecondary:sharedColors.white,
+   
 
     appBackground: '#121212',
     ...sharedColors,
@@ -43,8 +41,8 @@ const Colors: ColorPalettes = {
     grey: '#757177',
     red: '#BD2027',
     text: sharedColors.black,
-    textPrimary: '#161629',
-    textSecondary: '#717E8C',
+    textSecondary: sharedColors.black,
+    
     appBackground: '#FFFFFF',
     ...sharedColors,
   },

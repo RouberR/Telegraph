@@ -1,18 +1,18 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import { TouchableOpacity, View} from 'react-native';
+import {TouchableOpacity, View} from 'react-native';
 import {AuthRoute, AuthStackParamList} from '../../../router/Auth';
 import {useAppSelector, useColors} from '../../../utils/hooks';
 import {authSignIn} from '../../../api/Auth';
 import React from 'react';
-import { useDispatch } from 'react-redux';
-import { setTheme } from '../../../store/Settings/settings';
-import { Text } from '../../../components';
+import {useDispatch} from 'react-redux';
+import {setTheme} from '../../../store/Settings/settings';
+import {Button, Text} from '../../../components';
 
 type Props = NativeStackScreenProps<AuthStackParamList, AuthRoute.Welcome>;
 
 export const Welcome = ({route, navigation}: Props) => {
   const count = useAppSelector(state => state.user);
-  const {colors} = useColors()
+  const {colors} = useColors();
 
   console.log(count);
 
@@ -27,8 +27,7 @@ export const Welcome = ({route, navigation}: Props) => {
     getTest();
   }, []);
 
-
-  const theme = useAppSelector((state) => state.settings.theme);
+  const theme = useAppSelector(state => state.settings.theme);
   const dispatch = useDispatch();
 
   const toggleTheme = () => {
@@ -48,10 +47,17 @@ export const Welcome = ({route, navigation}: Props) => {
         </View>
       </TouchableOpacity>
 
-      <View >
-      <Text>First Screen</Text>
-      <TouchableOpacity onPress={toggleTheme}><Text style={{color: "red"}}>"Toggle Theme": {theme}</Text></TouchableOpacity>
-    </View>
+      <View>
+        <Text>First Screen</Text>
+        <TouchableOpacity onPress={toggleTheme}>
+          <Text style={{color: 'red'}}>"Toggle Theme": {theme}</Text>
+        </TouchableOpacity>
+        <View style={{marginHorizontal: 16, gap: 10}}>
+          <Button type="primary" value="Sign Up" />
+          <Button type="secondary" value="Sign Up" />
+          <Button type="error" value="Sign Up" />
+        </View>
+      </View>
     </View>
   );
 };

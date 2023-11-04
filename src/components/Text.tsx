@@ -1,8 +1,6 @@
-import React, { memo } from 'react';
-import { ColorValue, StyleSheet, Text, TextProps, TextStyle } from 'react-native';
-import { useColors } from '../utils/hooks';
-
-
+import React, {memo} from 'react';
+import {ColorValue, StyleSheet, Text, TextProps, TextStyle} from 'react-native';
+import {useColors} from '../utils/hooks';
 
 interface ITextProps extends TextProps {
   letterSpacing?: 0 | 0.2 | 0.4 | 0.5;
@@ -34,25 +32,27 @@ const _Text: React.FC<ITextProps> = memo(
     textDecorationLine,
     ...props
   }) => {
-const {colors}= useColors()
+    const {colors} = useColors();
     return (
       <Text
         numberOfLines={numberOfLines}
         selectable={selectable}
-        style={StyleSheet.compose(style, {
+        style={StyleSheet.compose(
+          {
             fontWeight,
             opacity,
             fontSize,
-            color: colors.text,
+            color: color ? color : colors.text,
             lineHeight,
             textAlign,
             flexShrink,
             letterSpacing,
             textDecorationLine,
-          })}
+          },
+          style,
+        )}
         onPress={onPress}
-        {...props}
-      >
+        {...props}>
         {children}
       </Text>
     );
