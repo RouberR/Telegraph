@@ -1,16 +1,18 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { persistReducer, persistStore } from 'redux-persist'
-import { userSlice } from './User/User'
+import { userSlice } from './User/user'
+import { settingsSlice } from './Settings/settings'
 
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  whitelist: ['user'],
+  whitelist: ['user', "settings"],
 }
 
 const rootReducer = combineReducers({
   user: userSlice.reducer,
+  settings: settingsSlice.reducer,
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

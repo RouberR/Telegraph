@@ -1,3 +1,4 @@
 import { useAppDispatch, useAppSelector } from './useStore'
-
-export { useAppDispatch, useAppSelector }
+import useColors from './useColors'
+import useStyles from './useStyles'
+export { useAppDispatch, useAppSelector, useColors, useStyles }

@@ -1,5 +1,6 @@
 import React, { memo } from 'react';
 import { ColorValue, StyleSheet, Text, TextProps, TextStyle } from 'react-native';
+import { useColors } from '../utils/hooks';
 
 
 
@@ -33,7 +34,7 @@ const _Text: React.FC<ITextProps> = memo(
     textDecorationLine,
     ...props
   }) => {
-
+const {colors}= useColors()
     return (
       <Text
         numberOfLines={numberOfLines}
@@ -42,7 +43,7 @@ const _Text: React.FC<ITextProps> = memo(
             fontWeight,
             opacity,
             fontSize,
-            color,
+            color: colors.text,
             lineHeight,
             textAlign,
             flexShrink,

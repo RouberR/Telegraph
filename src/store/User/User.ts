@@ -3,13 +3,12 @@ import { createSlice } from '@reduxjs/toolkit'
 interface UserState {
   token: string | undefined
   userInfo: any | undefined
-  language: string
+
 }
 
 const initialState: UserState = {
   token: undefined,
   userInfo: undefined,
-  language: 'en',
 }
 
 export const userSlice = createSlice({
@@ -22,9 +21,7 @@ export const userSlice = createSlice({
     setUserInfo: (state, action) => {
       state.userInfo = action.payload
     },
-    setLanguage: (state, action) => {
-      state.language = action.payload
-    },
+
 
     clearUser: (state) => {
       state.token = undefined
@@ -33,4 +30,4 @@ export const userSlice = createSlice({
   },
 })
 
-export const { setUserInfo, setToken, clearUser, setLanguage } = userSlice.actions
+export const { setUserInfo, setToken, clearUser } = userSlice.actions
