@@ -1,4 +1,5 @@
 import Touchable from './Touchable';
 import Text from './Text';
 import {Button} from './Button';
-export {Touchable, Text, Button};
+import TextInput from './TextInput';
+export {Touchable, Text, Button, TextInput};

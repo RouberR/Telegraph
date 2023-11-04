@@ -5,10 +5,10 @@ import {useStyles} from '../utils/hooks';
 import {TColors} from '../utils/theme/colors';
 
 type IButtonProps = {
-  type: 'primary' | 'secondary' | 'error';
+  type?: 'primary' | 'secondary' | 'error';
   onPress: () => void;
   value: string;
-  disabled: boolean;
+  disabled?: boolean;
 };
 
 export const Button: React.FC<IButtonProps> = ({

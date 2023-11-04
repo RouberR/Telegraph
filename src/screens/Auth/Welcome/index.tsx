@@ -53,9 +53,15 @@ export const Welcome = ({route, navigation}: Props) => {
           <Text style={{color: 'red'}}>"Toggle Theme": {theme}</Text>
         </TouchableOpacity>
         <View style={{marginHorizontal: 16, gap: 10}}>
-          <Button type="primary" value="Sign Up" />
-          <Button type="secondary" value="Sign Up" />
-          <Button type="error" value="Sign Up" />
+          <Button
+            value="Sign Up"
+            onPress={() => navigation.navigate(AuthRoute.SignUp)}
+          />
+          <Button
+            type="secondary"
+            value="Sign In"
+            onPress={() => navigation.navigate(AuthRoute.SignIn)}
+          />
         </View>
       </View>
     </View>

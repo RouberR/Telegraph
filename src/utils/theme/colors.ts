@@ -6,6 +6,8 @@ export type ColorTheme = {
   appBackground: string;
   grey: string;
   red: string;
+  input: string;
+  inputActive: string
 };
 
 const sharedColors = {
@@ -30,7 +32,9 @@ const Colors: ColorPalettes = {
     red: '#BD2027',
     text: sharedColors.white,
     textSecondary:sharedColors.white,
-   
+    input: "#384857",
+    inputActive: "#207198",
+    // placheolder: "#717E8C",
 
     appBackground: '#121212',
     ...sharedColors,
@@ -42,7 +46,10 @@ const Colors: ColorPalettes = {
     red: '#BD2027',
     text: sharedColors.black,
     textSecondary: sharedColors.black,
-    
+    input: "#384857",
+    inputActive: "#207198",
+    // placheolder: "#717E8C",
+
     appBackground: '#FFFFFF',
     ...sharedColors,
   },
