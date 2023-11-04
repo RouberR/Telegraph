@@ -44,7 +44,9 @@ export const SignUp = ({route, navigation}: Props) => {
     );
   };
 
-  const handleSignUp = () => {};
+  const handleSignUp = () => {
+    navigation.navigate(AuthRoute.Confirm);
+  };
 
   return (
     <ScrollView

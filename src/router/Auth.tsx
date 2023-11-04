@@ -4,18 +4,20 @@ import {Welcome} from '../screens/Auth/Welcome';
 import {SignIn} from '../screens/Auth/SignIn';
 import {SignUp} from '../screens/Auth/SignUp';
 import {useColors} from '../utils/hooks';
-import {StyleSheet} from 'react-native';
+import {Confirm} from '../screens/Auth/Confirm';
 
 export enum AuthRoute {
   Welcome = 'Welcome',
   SignIn = 'SignIn',
   SignUp = 'SignUp',
+  Confirm = 'Confirm',
 }
 
 export type AuthStackParamList = {
   [AuthRoute.Welcome]: undefined;
   [AuthRoute.SignIn]: undefined;
   [AuthRoute.SignUp]: undefined;
+  [AuthRoute.Confirm]: undefined;
 };
 
 const AuthStack = createNativeStackNavigator<AuthStackParamList>();
@@ -49,7 +51,18 @@ const AuthNavigator: React.FC = () => {
         component={SignIn}
         options={{title: 'Sign In'}}
       />
-      <AuthStack.Screen name={AuthRoute.SignUp} component={SignUp} />
+
+      <AuthStack.Screen
+        name={AuthRoute.SignUp}
+        component={SignUp}
+        options={{title: 'Sign Up'}}
+      />
+
+      <AuthStack.Screen
+        name={AuthRoute.Confirm}
+        component={Confirm}
+        options={{title: 'Confirm'}}
+      />
     </AuthStack.Navigator>
   );
 };

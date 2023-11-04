@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet} from 'react-native';
+import {StyleProp, StyleSheet, TouchableOpacity, ViewStyle} from 'react-native';
 import {Text, Touchable} from '.';
 import {useStyles} from '../utils/hooks';
 import {TColors} from '../utils/theme/colors';
@@ -9,6 +9,7 @@ type IButtonProps = {
   onPress: () => void;
   value: string;
   disabled?: boolean;
+  containerStyle?: StyleProp<ViewStyle>;
 };
 
 export const Button: React.FC<IButtonProps> = ({
@@ -16,6 +17,7 @@ export const Button: React.FC<IButtonProps> = ({
   onPress,
   value = '',
   disabled = false,
+  containerStyle = {},
 }) => {
   const {colors, styles} = useStyles(createStyles);
 
@@ -23,7 +25,7 @@ export const Button: React.FC<IButtonProps> = ({
 
   return (
     <Touchable
-      style={[StyleSheet.compose(buttonStyle, styles.button)]}
+      style={[StyleSheet.compose(buttonStyle, styles.button), containerStyle]}
       onPress={onPress}
       disabled={disabled}>
       <Text
