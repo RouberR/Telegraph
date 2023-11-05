@@ -16,5 +16,5 @@ interface Styles<T extends StyleSheet.NamedStyles<T>> {
     return {
       colors: colors,
       styles: useMemo(() => createStyle(colors), [colors, createStyle]),
-    };
+          };
   }

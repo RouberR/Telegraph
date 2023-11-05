@@ -7,6 +7,7 @@ import React from 'react';
 import {useDispatch} from 'react-redux';
 import {setTheme} from '../../../store/Settings/settings';
 import {Button, Text} from '../../../components';
+import {RootRoutes} from '../../../router';
 
 type Props = NativeStackScreenProps<AuthStackParamList, AuthRoute.Welcome>;
 
@@ -55,7 +56,7 @@ export const Welcome = ({route, navigation}: Props) => {
         <View style={{marginHorizontal: 16, gap: 10}}>
           <Button
             value="Sign Up"
-            onPress={() => navigation.navigate(AuthRoute.Confirm)}
+            onPress={() => navigation.navigate(RootRoutes.Main)}
           />
           <Button
             type="secondary"
