@@ -3,4 +3,5 @@ import Text from './Text';
 import {Button} from './Button';
 import TextInput from './TextInput';
 import CodeFieldAnimated from './CodeInput';
-export {Touchable, Text, Button, TextInput, CodeFieldAnimated};
+import {Loading} from './Loading';
+export {Touchable, Text, Button, TextInput, CodeFieldAnimated, Loading};

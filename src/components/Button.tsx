@@ -1,6 +1,6 @@
 import React from 'react';
-import {StyleProp, StyleSheet, TouchableOpacity, ViewStyle} from 'react-native';
-import {Text, Touchable} from '.';
+import {StyleProp, StyleSheet, ViewStyle} from 'react-native';
+import {Loading, Text, Touchable} from '.';
 import {useStyles} from '../utils/hooks';
 import {TColors} from '../utils/theme/colors';
 
@@ -10,6 +10,7 @@ type IButtonProps = {
   value: string;
   disabled?: boolean;
   containerStyle?: StyleProp<ViewStyle>;
+  isLoading?: boolean;
 };
 
 export const Button: React.FC<IButtonProps> = ({
@@ -18,6 +19,7 @@ export const Button: React.FC<IButtonProps> = ({
   value = '',
   disabled = false,
   containerStyle = {},
+  isLoading = false,
 }) => {
   const {colors, styles} = useStyles(createStyles);
 
@@ -27,13 +29,17 @@ export const Button: React.FC<IButtonProps> = ({
     <Touchable
       style={[StyleSheet.compose(buttonStyle, styles.button), containerStyle]}
       onPress={onPress}
-      disabled={disabled}>
-      <Text
-        fontWeight="600"
-        fontSize={16}
-        color={type === 'secondary' ? colors.textSecondary : colors.white}>
-        {value}
-      </Text>
+      disabled={disabled || isLoading}>
+      {isLoading ? (
+        <Loading loading={isLoading} />
+      ) : (
+        <Text
+          fontWeight="600"
+          fontSize={16}
+          color={type === 'secondary' ? colors.textSecondary : colors.white}>
+          {value}
+        </Text>
+      )}
     </Touchable>
   );
 };

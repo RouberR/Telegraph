@@ -4,6 +4,7 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {AuthRoute, AuthStackParamList} from '../../../router/Auth';
 import {Button, TextInput} from '../../../components';
 import {MIN_EMAIL_LENGTH, MIN_PASSWORD_LENGTH} from '../../../utils/constants';
+import {authSignUp} from '../../../api/Auth';
 
 type Props = NativeStackScreenProps<AuthStackParamList, AuthRoute.SignUp>;
 
@@ -28,7 +29,7 @@ const placeholders: Record<keyof SignUpForm, string> = {
 
 export const SignUp = ({route, navigation}: Props) => {
   const [formState, setFormState] = useState(initialFormState);
-
+  const [loading, setLoading] = useState(false);
   const handleFieldChange = (fieldName: keyof SignUpForm, value: string) => {
     setFormState(prevFormState => ({
       ...prevFormState,
@@ -44,8 +45,27 @@ export const SignUp = ({route, navigation}: Props) => {
     );
   };
 
-  const handleSignUp = () => {
-    navigation.navigate(AuthRoute.Confirm);
+  const handleSignUp = async () => {
+    try {
+      setLoading(true);
+      const data = {
+        firstName: formState.firstName,
+        lastName: formState.lastName,
+        email: formState.email,
+        password: formState.password,
+        confirmPassword: formState.confirmPassword,
+      };
+      const response = await authSignUp(data);
+
+      navigation.navigate(AuthRoute.Confirm, {
+        codeExpired: response.codeExpired,
+        email: formState.email,
+      });
+    } catch (e) {
+      console.log('Error auth sign up', e);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -68,6 +88,7 @@ export const SignUp = ({route, navigation}: Props) => {
           value="Sign Up"
           onPress={handleSignUp}
           disabled={isSignUpDisabled()}
+          isLoading={loading}
         />
       </KeyboardAvoidingView>
     </ScrollView>

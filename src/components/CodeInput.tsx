@@ -1,5 +1,5 @@
 import {Animated, StyleSheet, Platform} from 'react-native';
-import React, {useState} from 'react';
+import React from 'react';
 
 import {
   CodeField,
@@ -40,8 +40,13 @@ const animateCell = ({
   ]).start();
 };
 
-const CodeFieldAnimated = () => {
-  const [value, setValue] = useState('');
+const CodeFieldAnimated = ({
+  value,
+  setValue,
+}: {
+  value: string;
+  setValue: (text: string) => void;
+}) => {
   const {colors} = useColors();
 
   const DEFAULT_CELL_BG_COLOR = colors.codeInputBackground;

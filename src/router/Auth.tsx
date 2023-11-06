@@ -17,7 +17,13 @@ export type AuthStackParamList = {
   [AuthRoute.Welcome]: undefined;
   [AuthRoute.SignIn]: undefined;
   [AuthRoute.SignUp]: undefined;
-  [AuthRoute.Confirm]: undefined;
+  [AuthRoute.Confirm]: {
+    codeExpired: {
+      seconds: number;
+      milliseconds: number;
+    };
+    email: string;
+  };
 };
 
 const AuthStack = createNativeStackNavigator<AuthStackParamList>();

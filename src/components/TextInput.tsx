@@ -4,6 +4,7 @@ import {useStyles} from '../utils/hooks';
 import {TColors} from '../utils/theme/colors';
 import Text from './Text';
 import {Touchable} from '.';
+import Animated, {FadeInDown, FadeOut} from 'react-native-reanimated';
 
 interface ITextInput extends TextInputProps {
   placeholder: string;
@@ -11,6 +12,8 @@ interface ITextInput extends TextInputProps {
   onChangeText: (text: string) => void;
   isSecurity?: boolean;
   autoFocus?: boolean;
+  error?: boolean;
+  errorMessage?: string;
 }
 
 const _TextInput: React.FC<ITextInput> = ({
@@ -19,6 +22,8 @@ const _TextInput: React.FC<ITextInput> = ({
   onChangeText,
   isSecurity,
   autoFocus,
+  error,
+  errorMessage,
   ...props
 }) => {
   const {colors, styles} = useStyles(createStyles);
@@ -30,29 +35,58 @@ const _TextInput: React.FC<ITextInput> = ({
   };
 
   return (
-    <View
-      style={[
-        styles.inputContainer,
-        {
-          borderColor: isFocused ? colors.inputActive : colors.input,
-        },
-      ]}>
-      <TextInput
-        style={styles.input}
-        placeholder={placeholder}
-        placeholderTextColor={isFocused ? colors.inputActive : colors.input}
-        value={value}
-        onChangeText={onChangeText}
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
-        secureTextEntry={secureTextEntry}
-        autoFocus={autoFocus}
-        {...props}
-      />
-      {isSecurity && isFocused && (
-        <Touchable style={styles.toggleButton} onPress={toggleSecureTextEntry}>
-          <Text>{secureTextEntry ? 'Show' : 'Hide'}</Text>
-        </Touchable>
+    <View>
+      <Animated.Text
+        entering={FadeInDown}
+        exiting={FadeOut}
+        style={[
+          styles.label,
+          {
+            color: isFocused
+              ? colors.inputActive
+              : error
+              ? colors.red
+              : colors.input,
+          },
+        ]}>
+        {value && placeholder}
+      </Animated.Text>
+
+      <View
+        style={[
+          styles.inputContainer,
+          {
+            borderColor: isFocused
+              ? colors.inputActive
+              : error
+              ? colors.red
+              : colors.input,
+          },
+        ]}>
+        <TextInput
+          style={styles.input}
+          placeholder={placeholder}
+          placeholderTextColor={isFocused ? colors.inputActive : colors.input}
+          value={value}
+          onChangeText={onChangeText}
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
+          secureTextEntry={secureTextEntry}
+          autoFocus={autoFocus}
+          {...props}
+        />
+        {isSecurity && isFocused && (
+          <Touchable
+            style={styles.toggleButton}
+            onPress={toggleSecureTextEntry}>
+            <Text>{secureTextEntry ? 'Show' : 'Hide'}</Text>
+          </Touchable>
+        )}
+      </View>
+      {error && (
+        <Text style={styles.errorText} fontSize={14}>
+          {errorMessage}
+        </Text>
       )}
     </View>
   );
@@ -75,6 +109,18 @@ const createStyles = (colors: TColors) =>
     },
     toggleButton: {
       marginRight: 8,
+    },
+    errorText: {
+      color: colors.red,
+      padding: 10,
+    },
+    label: {
+      bottom: -8,
+      left: 8,
+      backgroundColor: colors.appBackground,
+      alignSelf: 'flex-start',
+      zIndex: 2,
+      fontSize: 12,
     },
   });
 

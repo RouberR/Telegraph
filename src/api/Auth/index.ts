@@ -1,6 +1,10 @@
 import {Options} from 'ky';
 import {ApiError, api} from '..';
 import {
+  ConfirmEmailRequest,
+  ConfirmEmailResponse,
+  ResendEmailCodeRequest,
+  ResendEmailCodeResponse,
   SignInRequestData,
   SignInpResponseData,
   SignUpRequestData,
@@ -10,6 +14,8 @@ import {
 enum AuthLink {
   'SIGN_UP' = 'auth/sign-up',
   'SIGN_IN' = 'auth/sign-in',
+  "RESEND_CODE" = 'auth/new-code',
+  "EMAIL_CONFIRM" = "auth/confirm"
 }
 
 
@@ -43,3 +49,34 @@ export const authSignIn = async (
     return response;
   
 };
+
+export const resendEmailCode = async (
+  data: ResendEmailCodeRequest,
+): Promise<ResendEmailCodeResponse> => {
+  const options: Options = {
+    method: 'POST',
+    json: data,
+  };
+  const response = await api(
+    AuthLink.RESEND_CODE,
+    options,
+  ).json<ResendEmailCodeResponse>();
+  return response;
+};
+
+
+export const confirmEmail = async (
+  data: ConfirmEmailRequest,
+): Promise<ConfirmEmailResponse> => {
+  const options: Options = {
+    method: 'POST',
+    json: data,
+  };
+  const response = await api(
+    AuthLink.EMAIL_CONFIRM,
+    options,
+  ).json<ConfirmEmailResponse>();
+  return response;
+};
+
+
