@@ -8,6 +8,7 @@ import {useDispatch} from 'react-redux';
 import {setTheme} from '../../../store/Settings/settings';
 import {Button, Text} from '../../../components';
 import {RootRoutes} from '../../../router';
+import {MainRoute} from '../../../router/Main';
 
 type Props = NativeStackScreenProps<AuthStackParamList, AuthRoute.Welcome>;
 
@@ -28,14 +29,6 @@ export const Welcome = ({route, navigation}: Props) => {
     getTest();
   }, []);
 
-  const theme = useAppSelector(state => state.settings.theme);
-  const dispatch = useDispatch();
-
-  const toggleTheme = () => {
-    // Toggle the theme when the button is pressed
-    const newTheme = theme === 'light' ? 'dark' : 'light';
-    dispatch(setTheme(newTheme));
-  };
   return (
     <View>
       <Text>Hello</Text>
@@ -50,13 +43,13 @@ export const Welcome = ({route, navigation}: Props) => {
 
       <View>
         <Text>First Screen</Text>
-        <TouchableOpacity onPress={toggleTheme}>
-          <Text style={{color: 'red'}}>"Toggle Theme": {theme}</Text>
-        </TouchableOpacity>
+
         <View style={{marginHorizontal: 16, gap: 10}}>
           <Button
             value="Sign Up"
-            onPress={() => navigation.navigate(AuthRoute.SignUp)}
+            onPress={() =>
+              navigation.navigate(RootRoutes.Main, {screen: MainRoute.Settings})
+            }
           />
           <Button
             type="secondary"

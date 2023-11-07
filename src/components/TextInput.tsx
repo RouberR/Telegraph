@@ -1,5 +1,12 @@
 import React, {useState} from 'react';
-import {View, TextInput, StyleSheet, TextInputProps} from 'react-native';
+import {
+  View,
+  TextInput,
+  StyleSheet,
+  TextInputProps,
+  StyleProp,
+  ViewStyle,
+} from 'react-native';
 import {useStyles} from '../utils/hooks';
 import {TColors} from '../utils/theme/colors';
 import Text from './Text';
@@ -14,6 +21,8 @@ interface ITextInput extends TextInputProps {
   autoFocus?: boolean;
   error?: boolean;
   errorMessage?: string;
+  disabled?: boolean;
+  containerStyle?: StyleProp<ViewStyle>;
 }
 
 const _TextInput: React.FC<ITextInput> = ({
@@ -24,6 +33,8 @@ const _TextInput: React.FC<ITextInput> = ({
   autoFocus,
   error,
   errorMessage,
+  disabled,
+  containerStyle,
   ...props
 }) => {
   const {colors, styles} = useStyles(createStyles);
@@ -62,6 +73,7 @@ const _TextInput: React.FC<ITextInput> = ({
               ? colors.red
               : colors.input,
           },
+          containerStyle,
         ]}>
         <TextInput
           style={styles.input}
@@ -73,6 +85,7 @@ const _TextInput: React.FC<ITextInput> = ({
           onBlur={() => setFocused(false)}
           secureTextEntry={secureTextEntry}
           autoFocus={autoFocus}
+          editable={disabled}
           {...props}
         />
         {isSecurity && isFocused && (
