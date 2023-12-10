@@ -15,6 +15,9 @@ import {RootRoutes} from '../../../router';
 import {CompositeScreenProps} from '@react-navigation/native';
 import {MainStackParamList} from '../../../router/Main';
 import {isEmailValid} from '../../../utils/stringsValidation';
+import {getUser} from '../../../api/Profile';
+import {useDispatch} from 'react-redux';
+import {setUserInfo} from '../../../store/User/user';
 
 type Props = CompositeScreenProps<
   NativeStackScreenProps<AuthStackParamList, AuthRoute.SignIn>,
@@ -25,7 +28,7 @@ export const SignIn = ({route, navigation}: Props) => {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState({errorCode: '', message: ''});
-
+  const dispatch = useDispatch();
   const handleSignIn = async () => {
     if (!isEmailValid(email)) {
       setError({errorCode: '400', message: 'Email must be an email'});
@@ -34,7 +37,9 @@ export const SignIn = ({route, navigation}: Props) => {
     try {
       setLoading(true);
       const response = await authSignIn({email: email, password: password});
-      AsyncStorage.setItem(AsyncStore.ACCESS_TOKEN, response.accessToken);
+      await AsyncStorage.setItem(AsyncStore.ACCESS_TOKEN, response.accessToken);
+      const getUserResponse = await getUser();
+      dispatch(setUserInfo(getUserResponse));
       navigation.navigate(RootRoutes.Main);
     } catch (e: any) {
       console.log('Error sign in', e);

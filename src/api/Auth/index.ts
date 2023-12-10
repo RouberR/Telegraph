@@ -15,7 +15,8 @@ enum AuthLink {
   'SIGN_UP' = 'auth/sign-up',
   'SIGN_IN' = 'auth/sign-in',
   "RESEND_CODE" = 'auth/new-code',
-  "EMAIL_CONFIRM" = "auth/confirm"
+  "EMAIL_CONFIRM" = "auth/confirm",
+  "SIGN_OUT"='auth/sign-out'
 }
 
 
@@ -30,9 +31,9 @@ export const authSignUp = async (
   const response = await api(
     AuthLink.SIGN_UP,
     options,
-  ).json<SignUpResponseData>();
+  )
 
-  return response;
+  return response.json()
 };
 
 export const authSignIn = async (
@@ -45,8 +46,8 @@ export const authSignIn = async (
     const response = await api(
       AuthLink.SIGN_IN,
       options,
-    ).json<SignInpResponseData>();
-    return response;
+    );
+    return response.json();
   
 };
 
@@ -60,8 +61,8 @@ export const resendEmailCode = async (
   const response = await api(
     AuthLink.RESEND_CODE,
     options,
-  ).json<ResendEmailCodeResponse>();
-  return response;
+  )
+  return response.json()
 };
 
 
@@ -75,8 +76,19 @@ export const confirmEmail = async (
   const response = await api(
     AuthLink.EMAIL_CONFIRM,
     options,
-  ).json<ConfirmEmailResponse>();
-  return response;
+  )
+  return response.json()
 };
 
+
+export const signOut = async () => {
+  const options: Options = {
+    method: 'DELETE',
+  };
+  const response = await api(
+    AuthLink.SIGN_OUT,
+    options,
+  )
+  return response;
+};
 

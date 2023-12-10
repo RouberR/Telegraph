@@ -1,8 +1,12 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {ScrollView, StyleSheet, View} from 'react-native';
+import {Alert, ScrollView, StyleSheet, View} from 'react-native';
 import {Button, Text, TextInput, Toggle, Touchable} from '../../components';
 import {useState} from 'react';
-import {MIN_EMAIL_LENGTH, MIN_PASSWORD_LENGTH} from '../../utils/constants';
+import {
+  AsyncStore,
+  MIN_EMAIL_LENGTH,
+  MIN_PASSWORD_LENGTH,
+} from '../../utils/constants';
 import {MainRoute, MainStackParamList} from '../../router/Main';
 import FastImage from 'react-native-fast-image';
 import {
@@ -11,19 +15,29 @@ import {
   folder,
   question,
   sun,
-  user,
+  userIcon,
 } from '../../assets/settingsIcon';
 import {useAppSelector, useColors} from '../../utils/hooks';
 import {useDispatch} from 'react-redux';
 import {setTheme} from '../../store/Settings/settings';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {deleteUser} from '../../api/Profile';
+import {clearUser} from '../../store/User/user';
+import {RootParamList, RootRoutes} from '../../router';
+import {AuthStackParamList} from '../../router/Auth';
+import {CompositeScreenProps} from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {signOut} from '../../api/Auth';
 
-type Props = NativeStackScreenProps<MainStackParamList, MainRoute.Settings>;
-
+type Props = CompositeScreenProps<
+  NativeStackScreenProps<MainStackParamList, MainRoute.Settings>,
+  NativeStackScreenProps<RootParamList>
+>;
 export const Settings = ({route, navigation}: Props) => {
   const {colors} = useColors();
   const {bottom} = useSafeAreaInsets();
   const theme = useAppSelector(state => state.settings.theme);
+  const user = useAppSelector(state => state.user);
   const dispatch = useDispatch();
 
   const toggleTheme = () => {
@@ -40,7 +54,7 @@ export const Settings = ({route, navigation}: Props) => {
     {
       id: '1',
       title: 'Account',
-      icon: user,
+      icon: userIcon,
       onPress: () => navigation.navigate(MainRoute.Account),
     },
     {
@@ -76,6 +90,38 @@ export const Settings = ({route, navigation}: Props) => {
     },
   ];
 
+  const showModalDeleteAccount = () => {
+    Alert.alert(
+      'Удаление аккаунта',
+      'Вы уверены, что хотите удалить аккаунт?',
+      [
+        {text: 'Отмена', style: 'cancel'},
+        {text: 'Удалить', onPress: deleteAccount},
+      ],
+      {cancelable: false},
+    );
+  };
+
+  const deleteAccount = async () => {
+    try {
+      await deleteUser();
+      dispatch(clearUser());
+      await AsyncStorage.removeItem(AsyncStore.ACCESS_TOKEN);
+    } catch (e) {
+      console.log('Error delete account', e);
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      await signOut();
+      dispatch(clearUser());
+      await AsyncStorage.removeItem(AsyncStore.ACCESS_TOKEN);
+    } catch (e) {
+      console.log('Error logout user ', e);
+    }
+  };
+
   return (
     <View style={{marginHorizontal: 16, flex: 1}}>
       <ScrollView style={{flex: 1}}>
@@ -91,8 +137,8 @@ export const Settings = ({route, navigation}: Props) => {
             style={{width: 72, height: 72}}
           />
           <View style={{gap: 5}}>
-            <Text>Name</Text>
-            <Text fontSize={12}>Email</Text>
+            <Text>{`${user.firstName} ${user.lastName}`}</Text>
+            <Text fontSize={12}>{user.email}</Text>
           </View>
         </View>
         <View>
@@ -121,7 +167,11 @@ export const Settings = ({route, navigation}: Props) => {
               )}
             </Touchable>
           ))}
-          <Text fontWeight="600" style={{marginTop: 10}} color={colors.red}>
+          <Text
+            fontWeight="600"
+            style={{marginTop: 10}}
+            color={colors.red}
+            onPress={handleLogout}>
             Logout
           </Text>
         </View>
@@ -133,7 +183,7 @@ export const Settings = ({route, navigation}: Props) => {
         }}
         type="error"
         value="Delete account"
-        onPress={() => {}}
+        onPress={showModalDeleteAccount}
       />
     </View>
   );

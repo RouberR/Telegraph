@@ -5,14 +5,17 @@ interface UserState {
   firstName: string,
   lastName:string
   email: string
-
+  updatedAt: string;
+  avatarUrl: string;
 }
 
 const initialState: UserState = {
   id: "",
   firstName: "",
   lastName:"",
-  email: ""
+  email: "",
+  updatedAt: "",
+  avatarUrl: "",
 }
 
 export const userSlice = createSlice({
@@ -22,13 +25,17 @@ export const userSlice = createSlice({
     // setToken: (state, action) => {
     //   state.token = action.payload
     // },
-    // setUserInfo: (state, action) => {
-    //   state.userInfo = action.payload
-    // },
+    setUserInfo: (state, action) => {
+      return {
+        ...action.payload,
+      };
+    },
 
 
-    clearUser: () => initialState,
+    clearUser: () => {
+      return initialState
+    },
   },
 })
 
-export const { clearUser } = userSlice.actions
+export const { clearUser, setUserInfo } = userSlice.actions

@@ -53,7 +53,7 @@ const BottomBar: React.FC = () => {
           />
         ),
         headerRight: () => (
-          <Touchable onPress={() => navigation.navigate(RootRoutes.Auth)}>
+          <Touchable onPress={() => navigation.navigate(MainRoute.Settings)}>
             <FastImage
               source={settings}
               style={{width: 24, height: 24, marginRight: 12}}

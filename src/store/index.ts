@@ -3,6 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { persistReducer, persistStore } from 'redux-persist'
 import { userSlice } from './User/user'
 import { settingsSlice } from './Settings/settings'
+import { setStoreReference } from '../api'
 
 const persistConfig = {
   key: 'root',
@@ -25,6 +26,7 @@ export const store = configureStore({
     }),
 })
 
+setStoreReference(store);
 export const persistor = persistStore(store, null, () => {})
 
 export type RootState = ReturnType<typeof store.getState>

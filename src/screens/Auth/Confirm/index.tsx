@@ -10,6 +10,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {RootRoutes} from '../../../router';
 import {MainStackParamList} from '../../../router/Main';
 import {CompositeScreenProps} from '@react-navigation/native';
+import {getUser} from '../../../api/Profile';
+import {useDispatch} from 'react-redux';
+import {setUserInfo} from '../../../store/User/user';
 
 type Props = CompositeScreenProps<
   NativeStackScreenProps<AuthStackParamList, AuthRoute.Confirm>,
@@ -22,12 +25,14 @@ export const Confirm = ({route, navigation}: Props) => {
   const {bottom} = useSafeAreaInsets();
   const [loading, setLoading] = useState(false);
   const [timer, setTimer] = useState(codeExpired.seconds);
-
+  const dispatch = useDispatch();
   const handleSignIn = async () => {
     try {
       setLoading(true);
       const response = await confirmEmail({code: code, email: email});
       AsyncStorage.setItem(AsyncStore.ACCESS_TOKEN, response.accessToken);
+      const getUserResponse = await getUser();
+      dispatch(setUserInfo(getUserResponse));
       navigation.navigate(RootRoutes.Main);
     } catch (e) {
       console.log('Error confirm email', e);

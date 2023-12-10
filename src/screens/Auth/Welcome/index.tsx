@@ -18,16 +18,16 @@ export const Welcome = ({route, navigation}: Props) => {
 
   console.log(count);
 
-  const getTest = async () => {
-    const response = await authSignIn({
-      email: 'i.s.toaccept@gmail.com',
-      password: 'password',
-    });
-    console.log('response', response);
-  };
-  React.useEffect(() => {
-    getTest();
-  }, []);
+  // const getTest = async () => {
+  //   const response = await authSignIn({
+  //     email: 'i.s.toaccept@gmail.com',
+  //     password: 'password',
+  //   });
+  //   console.log('response', response);
+  // };
+  // React.useEffect(() => {
+  //   getTest();
+  // }, []);
 
   return (
     <View>
@@ -47,9 +47,10 @@ export const Welcome = ({route, navigation}: Props) => {
         <View style={{marginHorizontal: 16, gap: 10}}>
           <Button
             value="Sign Up"
-            onPress={() =>
-              navigation.navigate(RootRoutes.Main, {screen: MainRoute.Settings})
-            }
+            // onPress={() =>
+            //   navigation.navigate(RootRoutes.Main, {screen: MainRoute.Settings})
+            // }
+            onPress={() => navigation.navigate(AuthRoute.SignUp)}
           />
           <Button
             type="secondary"

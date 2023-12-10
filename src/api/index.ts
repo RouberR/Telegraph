@@ -1,12 +1,25 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ky from 'ky';
 import { AsyncStore } from '../utils/constants';
+import { clearUser } from '../store/User/user';
+import { RootRoutes } from '../router';
 
 export interface ApiError {
   error: string;
   message: string;
   statusCode: number;
 }
+
+let navigation: any
+let store: any
+
+export const setNavigationReference = (ref:ReactNavigation.RootParamList) => {
+  navigation = ref;
+};
+
+export const setStoreReference = (reduxStore) => {
+  store = reduxStore;
+};
 
 export const api = ky.create({
   throwHttpErrors: true,
@@ -15,19 +28,23 @@ export const api = ky.create({
     beforeRequest: [
       async request => {
         const accessToken = await AsyncStorage.getItem(AsyncStore.ACCESS_TOKEN);
-        request.headers.set('Authorization', `Bearer ${accessToken}`);
+        request.headers.set('Authorization', `${accessToken}`);
       },
     ],
     afterResponse: [
       async (request, options, response) => {
-       
-        if (response.status === 403) {
-          const token = await ky('https://chat-pai.onrender.com/auth/refresh-tokens').text();
+        if (response.status === 403 ) {
+          const token = await ky.post('https://chat-pai.onrender.com/auth/refresh-tokens').text();
           await AsyncStorage.setItem(AsyncStore.ACCESS_TOKEN, token);
           request.headers.set('Authorization', `token ${token}`);
 
           return ky(request);
         }
+        if( response.status === 401){
+          store.dispatch(clearUser());
+          navigation.navigate(RootRoutes.Auth);
+}
+       
       },
     ],
   },

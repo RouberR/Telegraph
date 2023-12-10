@@ -7,6 +7,7 @@ import {MainRoute, MainStackParamList} from '../../../router/Main';
 import FastImage from 'react-native-fast-image';
 import ContactList from './TabList';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {useAppSelector} from '../../../utils/hooks';
 
 type Props = NativeStackScreenProps<MainStackParamList, MainRoute.Home>;
 const contacts = [
@@ -49,6 +50,7 @@ const contacts = [
 ];
 export const Home = ({route, navigation}: Props) => {
   const {bottom} = useSafeAreaInsets();
+  const user = useAppSelector(state => state.user);
   const handleOnPressItem = (item: any) => {
     console.log('item', item);
   };
@@ -67,8 +69,8 @@ export const Home = ({route, navigation}: Props) => {
           }}
           source={require('./256.png')}
         />
-        <Text>Email</Text>
-        <Text>FirsName</Text>
+        <Text>{user.email}</Text>
+        <Text>{`${user.firstName} ${user.lastName}`}</Text>
       </View>
       <ContactList contacts={contacts} onPressItem={handleOnPressItem} />
       <Button

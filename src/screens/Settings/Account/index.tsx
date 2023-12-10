@@ -2,22 +2,26 @@ import React, {useState} from 'react';
 import {KeyboardAvoidingView, ScrollView, StyleSheet, View} from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {AuthRoute, AuthStackParamList} from '../../../router/Auth';
-import {Button, TextInput} from '../../../components';
-import {MIN_EMAIL_LENGTH, MIN_PASSWORD_LENGTH} from '../../../utils/constants';
+import {Button, Loading, TextInput} from '../../../components';
+import {
+  MIN_EMAIL_LENGTH,
+  MIN_FIRST_NAME_LENGTH,
+  MIN_LAST_NAME_LENGTH,
+  MIN_PASSWORD_LENGTH,
+} from '../../../utils/constants';
 import {authSignUp} from '../../../api/Auth';
 import {MainRoute, MainStackParamList} from '../../../router/Main';
 import FastImage from 'react-native-fast-image';
+import {useAppSelector} from '../../../utils/hooks';
+import {getUser, updateUser} from '../../../api/Profile';
+import {setUserInfo} from '../../../store/User/user';
+import {useDispatch} from 'react-redux';
 
 type Props = NativeStackScreenProps<MainStackParamList, MainRoute.Account>;
 
 interface SignUpForm {
   [key: string]: string;
 }
-const initialFormState: SignUpForm = {
-  firstName: '',
-  lastName: '',
-  email: '',
-};
 
 const placeholders: Record<keyof SignUpForm, string> = {
   firstName: 'First Name',
@@ -26,8 +30,16 @@ const placeholders: Record<keyof SignUpForm, string> = {
 };
 
 export const Account = ({route, navigation}: Props) => {
-  const [formState, setFormState] = useState(initialFormState);
+  const user = useAppSelector(state => state.user);
+
+  const [formState, setFormState] = useState<SignUpForm>({
+    firstName: user.firstName,
+    lastName: user.lastName,
+    email: user.email,
+  });
   const [loading, setLoading] = useState(false);
+
+  const dispatch = useDispatch();
   const handleFieldChange = (fieldName: keyof SignUpForm, value: string) => {
     setFormState(prevFormState => ({
       ...prevFormState,
@@ -35,15 +47,29 @@ export const Account = ({route, navigation}: Props) => {
     }));
   };
 
-  const isSignUpDisabled = () => {
+  const isDisableButtonSave = () => {
     return (
       formState.email.length < MIN_EMAIL_LENGTH ||
-      formState.password.length < MIN_PASSWORD_LENGTH ||
-      formState.password !== formState.confirmPassword
+      formState.lastName.length < MIN_LAST_NAME_LENGTH ||
+      formState.firstName.length < MIN_FIRST_NAME_LENGTH
     );
   };
 
-  const handleSave = () => {};
+  const handleSave = async () => {
+    try {
+      setLoading(true);
+      const newUserInfo = await updateUser({
+        firstName: formState.firstName,
+        lastName: formState.lastName,
+      });
+      dispatch(setUserInfo(newUserInfo));
+      navigation.goBack();
+    } catch (e) {
+      console.log('Error update user ', e);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <ScrollView
       contentContainerStyle={styles.container}
@@ -52,8 +78,9 @@ export const Account = ({route, navigation}: Props) => {
         source={require('../../Main/Home/256.png')}
         style={{width: 121, height: 121, alignSelf: 'center'}}
       />
+
       <View style={{gap: 16, marginBottom: 22}}>
-        {Object.keys(initialFormState).map(fieldName => (
+        {Object.keys(formState).map(fieldName => (
           <TextInput
             key={fieldName}
             placeholder={placeholders[fieldName]}
@@ -70,7 +97,7 @@ export const Account = ({route, navigation}: Props) => {
             containerStyle={{marginTop: 20}}
             value="Save"
             onPress={handleSave}
-            disabled={isSignUpDisabled()}
+            disabled={isDisableButtonSave()}
             isLoading={loading}
           />
         </KeyboardAvoidingView>
