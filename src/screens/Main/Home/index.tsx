@@ -70,7 +70,7 @@ export const Home = ({route, navigation}: Props) => {
           source={require('./256.png')}
         />
         <Text>{user.email}</Text>
-        <Text>{`${user.firstName} ${user.lastName}`}</Text>
+        <Text>{`${user.firstName} ${user.lastName} (${user.userName})`}</Text>
       </View>
       <ContactList
         contacts={contacts}

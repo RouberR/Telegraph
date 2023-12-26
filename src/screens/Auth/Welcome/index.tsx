@@ -60,14 +60,14 @@ export const Welcome = ({route, navigation}: Props) => {
           By tapping "Register" you agree to our
           <Text
             onPress={() => Linking.openURL(TermsOfUseLink)}
-            color={colors.white}>
+            color={colors.text}>
             {' '}
             Terms of Use
           </Text>{' '}
           and
           <Text
             onPress={() => Linking.openURL(PrivacyPolicyLink)}
-            color={colors.white}>
+            color={colors.text}>
             {' '}
             Privacy Policy
           </Text>

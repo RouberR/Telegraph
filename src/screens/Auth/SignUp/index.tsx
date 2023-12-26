@@ -16,6 +16,7 @@ const initialFormState: SignUpForm = {
   firstName: '',
   lastName: '',
   email: '',
+  userName: "",
   password: '',
   confirmPassword: '',
 };
@@ -24,6 +25,7 @@ const placeholders: Record<keyof SignUpForm, string> = {
   firstName: 'First Name',
   lastName: 'Last Name',
   email: 'Email',
+  userName: "Username",
   password: 'Password',
   confirmPassword: 'Confirm Password',
 };
@@ -55,6 +57,7 @@ export const SignUp = ({route, navigation}: Props) => {
         firstName: formState.firstName,
         lastName: formState.lastName,
         email: formState.email,
+        userName: formState.userName,
         password: formState.password,
         confirmPassword: formState.confirmPassword,
       };

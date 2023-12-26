@@ -1,26 +1,54 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {ScrollView, StyleSheet, View} from 'react-native';
 import {Button, Text, TextInput} from '../../../components';
-import {useState} from 'react';
-import {MIN_EMAIL_LENGTH, MIN_PASSWORD_LENGTH} from '../../../utils/constants';
+
 import {MainRoute, MainStackParamList} from '../../../router/Main';
+import {useEffect, useState} from 'react';
+import {GiftedChat, IMessage} from 'react-native-gifted-chat';
 
 type Props = NativeStackScreenProps<MainStackParamList, MainRoute.Chat>;
 
 export const Chat = ({route, navigation}: Props) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [messages, setMessages] = useState<IMessage[]>([]);
+  const [socket, setSocket] = useState<WebSocket | null>(null);
 
-  const handleSignIn = () => {};
+  // useEffect(() => {
+  //   // Create a WebSocket connection when the component mounts
+  //   const newSocket = new WebSocket('YOUR_WEBSOCKET_SERVER_URL');
+  //   setSocket(newSocket);
+
+  //   // Clean up WebSocket connection on component unmount
+  //   return () => {
+  //     newSocket.close();
+  //   };
+  // }, []);
+
+  useEffect(() => {
+    if (socket) {
+      // Set up WebSocket event listeners
+      socket.onmessage = event => {
+        const newMessage = JSON.parse(event.data);
+        setMessages(prevMessages =>
+          GiftedChat.append(prevMessages, newMessage),
+        );
+      };
+    }
+  }, [socket]);
+
+  const onSend = (newMessages: IMessage[] = []) => {
+    if (socket && socket.readyState === WebSocket.OPEN) {
+      // Send the new message to the WebSocket server
+      socket.send(JSON.stringify(newMessages[0]));
+      setMessages(prevMessages => GiftedChat.append(prevMessages, newMessages));
+    }
+  };
 
   return (
-    <ScrollView
-      contentContainerStyle={styles.container}
-      keyboardShouldPersistTaps="handled">
-      <View>
-        <Text>Chat</Text>
-      </View>
-    </ScrollView>
+    <GiftedChat
+      messages={messages}
+      onSend={newMessages => onSend(newMessages)}
+      user={{_id: 1}}
+    />
   );
 };
 

@@ -8,6 +8,7 @@ import {
   MIN_FIRST_NAME_LENGTH,
   MIN_LAST_NAME_LENGTH,
   MIN_PASSWORD_LENGTH,
+  MIN_USERNAME_LENGTH,
 } from '../../../utils/constants';
 import {authSignUp} from '../../../api/Auth';
 import {MainRoute, MainStackParamList} from '../../../router/Main';
@@ -31,6 +32,7 @@ interface SignUpForm {
 const placeholders: Record<keyof SignUpForm, string> = {
   firstName: 'First Name',
   lastName: 'Last Name',
+  userName: 'Username',
   email: 'Email',
 };
 
@@ -46,6 +48,7 @@ export const Account = ({route, navigation}: Props) => {
   const [formState, setFormState] = useState<SignUpForm>({
     firstName: user.firstName,
     lastName: user.lastName,
+    userName: user.userName,
     email: user.email,
   });
 
@@ -64,7 +67,8 @@ export const Account = ({route, navigation}: Props) => {
     return (
       formState.email.length < MIN_EMAIL_LENGTH ||
       formState.lastName.length < MIN_LAST_NAME_LENGTH ||
-      formState.firstName.length < MIN_FIRST_NAME_LENGTH
+      formState.firstName.length < MIN_FIRST_NAME_LENGTH ||
+      formState.userName.length < MIN_USERNAME_LENGTH
     );
   };
 
@@ -75,7 +79,7 @@ export const Account = ({route, navigation}: Props) => {
       const formData = new FormData();
       formData.append('firstName', formState.firstName);
       formData.append('lastName', formState.lastName);
-
+      formData.append('userName', formState.userName);
       if (photo?.assets?.[0]?.uri) {
         const file = {
           uri: photo.assets[0].uri,
