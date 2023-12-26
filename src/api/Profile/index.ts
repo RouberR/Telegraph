@@ -36,10 +36,12 @@ export const deleteUser = async () => {
 };
 
 
-export const updateUser = async (data: UpdateUserRequest): Promise<UserProfile> => {
+export const updateUser = async (formData:  FormData): Promise<UserProfile> => {
   const options: Options = {
     method: 'PATCH',
-    json: data,
+    body: formData,
+    // json: formData,
+    
   };
   const response = await api(
     ProfileLink.USER_PROFILE_UPDATE,

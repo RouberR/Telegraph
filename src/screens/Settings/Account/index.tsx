@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {KeyboardAvoidingView, ScrollView, StyleSheet, View} from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {AuthRoute, AuthStackParamList} from '../../../router/Auth';
-import {Button, Loading, TextInput} from '../../../components';
+import {Button, Loading, TextInput, Touchable} from '../../../components';
 import {
   MIN_EMAIL_LENGTH,
   MIN_FIRST_NAME_LENGTH,
@@ -16,6 +16,11 @@ import {useAppSelector} from '../../../utils/hooks';
 import {getUser, updateUser} from '../../../api/Profile';
 import {setUserInfo} from '../../../store/User/user';
 import {useDispatch} from 'react-redux';
+import {
+  ImageLibraryOptions,
+  ImagePickerResponse,
+  launchImageLibrary,
+} from 'react-native-image-picker';
 
 type Props = NativeStackScreenProps<MainStackParamList, MainRoute.Account>;
 
@@ -29,6 +34,12 @@ const placeholders: Record<keyof SignUpForm, string> = {
   email: 'Email',
 };
 
+const options: ImageLibraryOptions = {
+  mediaType: 'photo',
+  maxHeight: 512,
+  maxWidth: 512,
+  // includeBase64: true,
+};
 export const Account = ({route, navigation}: Props) => {
   const user = useAppSelector(state => state.user);
 
@@ -37,6 +48,8 @@ export const Account = ({route, navigation}: Props) => {
     lastName: user.lastName,
     email: user.email,
   });
+
+  const [photo, setPhoto] = useState<ImagePickerResponse>();
   const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
@@ -58,26 +71,50 @@ export const Account = ({route, navigation}: Props) => {
   const handleSave = async () => {
     try {
       setLoading(true);
-      const newUserInfo = await updateUser({
-        firstName: formState.firstName,
-        lastName: formState.lastName,
-      });
+
+      const formData = new FormData();
+      formData.append('firstName', formState.firstName);
+      formData.append('lastName', formState.lastName);
+
+      if (photo?.assets?.[0]?.uri) {
+        const file = {
+          uri: photo.assets[0].uri,
+          name: photo.assets[0].fileName,
+          type: photo.assets[0].type,
+        };
+        formData.append('file', file);
+      }
+
+      const newUserInfo = await updateUser(formData);
       dispatch(setUserInfo(newUserInfo));
       navigation.goBack();
     } catch (e) {
-      console.log('Error update user ', e);
+      console.log('Error updating user: ', e);
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleSelectImage = async () => {
+    const result = await launchImageLibrary(options);
+    setPhoto(result);
+    console.log('result', result);
   };
   return (
     <ScrollView
       contentContainerStyle={styles.container}
       keyboardShouldPersistTaps="handled">
-      <FastImage
-        source={require('../../Main/Home/256.png')}
-        style={{width: 121, height: 121, alignSelf: 'center'}}
-      />
+      <Touchable style={{alignSelf: 'center'}} onPress={handleSelectImage}>
+        <FastImage
+          source={{uri: photo?.assets?.[0]?.uri}}
+          style={{
+            width: 121,
+            height: 121,
+            alignSelf: 'center',
+            borderRadius: 60,
+          }}
+        />
+      </Touchable>
 
       <View style={{gap: 16, marginBottom: 22}}>
         {Object.keys(formState).map(fieldName => (

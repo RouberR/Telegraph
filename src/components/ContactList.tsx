@@ -1,16 +1,22 @@
 import React, {useState} from 'react';
 import {View, FlatList, StyleSheet} from 'react-native';
-import {useStyles} from '../../../utils/hooks';
-import {TColors} from '../../../utils/theme/colors';
-import {Text, Touchable} from '../../../components';
 import FastImage, {Source} from 'react-native-fast-image';
 
-type ITabList = {
-  contacts: Array<{id: string; avatar: Source}>;
+import {useStyles} from '../utils/hooks';
+import {TColors} from '../utils/theme/colors';
+import {Text, Touchable} from '.';
+
+type IContactList = {
+  contacts: Array<{id: string; avatar: Source; name: string}>;
   onPressItem: (item: any) => void;
+  showHeader?: boolean;
 };
 
-const TabList: React.FC<ITabList> = ({contacts, onPressItem}) => {
+const ContactList: React.FC<IContactList> = ({
+  contacts,
+  onPressItem,
+  showHeader = false,
+}) => {
   const [selectedTab, setSelectedTab] = useState('Contact');
   const {colors, styles} = useStyles(createStyles(selectedTab));
 
@@ -20,19 +26,23 @@ const TabList: React.FC<ITabList> = ({contacts, onPressItem}) => {
       keyExtractor={item => item.id}
       scrollEnabled={false}
       ListHeaderComponent={
-        <View style={styles.containerTab}>
-          <Touchable
-            onPress={() => setSelectedTab('Contact')}
-            style={styles.tabContact}>
-            <Text color={colors.text}>Contact</Text>
-          </Touchable>
-          <Touchable
-            disabled={true}
-            onPress={() => setSelectedTab('Group')}
-            style={styles.tabGroup}>
-            <Text color={colors.grey}>Group</Text>
-          </Touchable>
-        </View>
+        showHeader ? (
+          <View style={styles.containerTab}>
+            <Touchable
+              onPress={() => setSelectedTab('Contact')}
+              style={styles.tabContact}>
+              <Text color={colors.text}>Contact</Text>
+            </Touchable>
+            <Touchable
+              disabled={true}
+              onPress={() => setSelectedTab('Group')}
+              style={styles.tabGroup}>
+              <Text color={colors.grey}>Group</Text>
+            </Touchable>
+          </View>
+        ) : (
+          <></>
+        )
       }
       renderItem={({item}) => (
         <Touchable
@@ -50,8 +60,6 @@ const TabList: React.FC<ITabList> = ({contacts, onPressItem}) => {
     />
   );
 };
-
-export default TabList;
 
 const createStyles = (selectedTab: string) => (colors: TColors) =>
   StyleSheet.create({
@@ -79,3 +87,5 @@ const createStyles = (selectedTab: string) => (colors: TColors) =>
     containerContact: {flexDirection: 'row', padding: 10},
     itemContent: {marginLeft: 10, gap: 2},
   });
+
+export default ContactList;

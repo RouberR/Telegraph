@@ -33,18 +33,23 @@ export const api = ky.create({
     ],
     afterResponse: [
       async (request, options, response) => {
-        if (response.status === 403 ) {
-          const token = await ky.post('https://chat-pai.onrender.com/auth/refresh-tokens').text();
+        if (response.status === 403 || response.status === 401 ) {
+         try{
+          const accessToken = await AsyncStorage.getItem(AsyncStore.ACCESS_TOKEN);
+          const token = await ky.post('https://chat-pai.onrender.com/auth/refresh-tokens', {
+            headers: {
+              Authorization: `${accessToken}`,
+            },
+          }).text();
           await AsyncStorage.setItem(AsyncStore.ACCESS_TOKEN, token);
-          request.headers.set('Authorization', `token ${token}`);
-
+          request.headers.set('Authorization', `${token}`);
           return ky(request);
+         }catch(e){
+            store.dispatch(clearUser());
+            navigation.navigate(RootRoutes.Auth);
+            return 
+         }
         }
-        if( response.status === 401){
-          store.dispatch(clearUser());
-          navigation.navigate(RootRoutes.Auth);
-}
-       
       },
     ],
   },

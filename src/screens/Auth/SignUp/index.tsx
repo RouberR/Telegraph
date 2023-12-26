@@ -5,6 +5,7 @@ import {AuthRoute, AuthStackParamList} from '../../../router/Auth';
 import {Button, TextInput} from '../../../components';
 import {MIN_EMAIL_LENGTH, MIN_PASSWORD_LENGTH} from '../../../utils/constants';
 import {authSignUp} from '../../../api/Auth';
+import {ModalCustom} from '../../../components/Modal';
 
 type Props = NativeStackScreenProps<AuthStackParamList, AuthRoute.SignUp>;
 
@@ -28,8 +29,10 @@ const placeholders: Record<keyof SignUpForm, string> = {
 };
 
 export const SignUp = ({route, navigation}: Props) => {
+  const [isModal, setIsModal] = useState(false);
   const [formState, setFormState] = useState(initialFormState);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState({error: '', message: '', statusCode: ''});
   const handleFieldChange = (fieldName: keyof SignUpForm, value: string) => {
     setFormState(prevFormState => ({
       ...prevFormState,
@@ -61,37 +64,52 @@ export const SignUp = ({route, navigation}: Props) => {
         codeExpired: response.codeExpired,
         email: formState.email,
       });
-    } catch (e) {
-      console.log('Error auth sign up', e);
+    } catch (error: any) {
+      console.log('Error auth sign up', error);
+      try {
+        const errorBody = JSON.parse(error.response._bodyText);
+        setError(errorBody);
+      } catch (parseError) {
+        console.error('Error parsing error body:', parseError);
+      }
+      setIsModal(true);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <ScrollView
-      contentContainerStyle={styles.container}
-      keyboardShouldPersistTaps="handled">
-      {Object.keys(initialFormState).map(fieldName => (
-        <TextInput
-          key={fieldName}
-          placeholder={placeholders[fieldName]}
-          value={formState[fieldName]}
-          onChangeText={text => handleFieldChange(fieldName, text)}
-          isSecurity={
-            fieldName === 'password' || fieldName === 'confirmPassword'
-          }
-        />
-      ))}
-      <KeyboardAvoidingView behavior="padding" enabled>
-        <Button
-          value="Sign Up"
-          onPress={handleSignUp}
-          disabled={isSignUpDisabled()}
-          isLoading={loading}
-        />
-      </KeyboardAvoidingView>
-    </ScrollView>
+    <>
+      <ModalCustom
+        isModalVisible={isModal}
+        subTitle={error.message}
+        title={error.error}
+        setIsModalVisible={setIsModal}
+      />
+      <ScrollView
+        contentContainerStyle={styles.container}
+        keyboardShouldPersistTaps="handled">
+        {Object.keys(initialFormState).map(fieldName => (
+          <TextInput
+            key={fieldName}
+            placeholder={placeholders[fieldName]}
+            value={formState[fieldName]}
+            onChangeText={text => handleFieldChange(fieldName, text)}
+            isSecurity={
+              fieldName === 'password' || fieldName === 'confirmPassword'
+            }
+          />
+        ))}
+        <KeyboardAvoidingView behavior="padding" enabled>
+          <Button
+            value="Sign Up"
+            onPress={handleSignUp}
+            disabled={isSignUpDisabled()}
+            isLoading={loading}
+          />
+        </KeyboardAvoidingView>
+      </ScrollView>
+    </>
   );
 };
 

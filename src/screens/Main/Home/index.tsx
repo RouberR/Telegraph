@@ -5,7 +5,7 @@ import {useState} from 'react';
 import {MIN_EMAIL_LENGTH, MIN_PASSWORD_LENGTH} from '../../../utils/constants';
 import {MainRoute, MainStackParamList} from '../../../router/Main';
 import FastImage from 'react-native-fast-image';
-import ContactList from './TabList';
+import ContactList from '../../../components/ContactList';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useAppSelector} from '../../../utils/hooks';
 
@@ -72,7 +72,11 @@ export const Home = ({route, navigation}: Props) => {
         <Text>{user.email}</Text>
         <Text>{`${user.firstName} ${user.lastName}`}</Text>
       </View>
-      <ContactList contacts={contacts} onPressItem={handleOnPressItem} />
+      <ContactList
+        contacts={contacts}
+        onPressItem={handleOnPressItem}
+        showHeader={true}
+      />
       <Button
         type="secondary"
         value="Add contact"

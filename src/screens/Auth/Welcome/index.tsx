@@ -1,5 +1,5 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {TouchableOpacity, View} from 'react-native';
+import {Linking, StyleSheet, TouchableOpacity, View} from 'react-native';
 import {AuthRoute, AuthStackParamList} from '../../../router/Auth';
 import {useAppSelector, useColors} from '../../../utils/hooks';
 import {authSignIn} from '../../../api/Auth';
@@ -9,6 +9,9 @@ import {setTheme} from '../../../store/Settings/settings';
 import {Button, Text} from '../../../components';
 import {RootRoutes} from '../../../router';
 import {MainRoute} from '../../../router/Main';
+import FastImage from 'react-native-fast-image';
+import {welcomeLogo} from '../../../assets';
+import {PrivacyPolicyLink, TermsOfUseLink} from '../../../utils/constants';
 
 type Props = NativeStackScreenProps<AuthStackParamList, AuthRoute.Welcome>;
 
@@ -30,21 +33,14 @@ export const Welcome = ({route, navigation}: Props) => {
   // }, []);
 
   return (
-    <View>
-      <Text>Hello</Text>
-      <TouchableOpacity onPress={() => navigation.navigate(AuthRoute.SignIn)}>
-        <Text style={{color: colors.primary}}>Go SignIn</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate(AuthRoute.SignUp)}>
-        <View>
-          <Text>go SignUp</Text>
-        </View>
-      </TouchableOpacity>
-
-      <View>
-        <Text>First Screen</Text>
-
-        <View style={{marginHorizontal: 16, gap: 10}}>
+    <>
+      <View style={styles.container}>
+        <FastImage
+          source={welcomeLogo}
+          style={styles.logo}
+          resizeMode="contain"
+        />
+        <View style={styles.containerButtons}>
           <Button
             value="Sign Up"
             // onPress={() =>
@@ -59,6 +55,42 @@ export const Welcome = ({route, navigation}: Props) => {
           />
         </View>
       </View>
-    </View>
+      <View style={styles.containerFooter}>
+        <Text textAlign="center" color={colors.grey} fontSize={14}>
+          By tapping "Register" you agree to our
+          <Text
+            onPress={() => Linking.openURL(TermsOfUseLink)}
+            color={colors.white}>
+            {' '}
+            Terms of Use
+          </Text>{' '}
+          and
+          <Text
+            onPress={() => Linking.openURL(PrivacyPolicyLink)}
+            color={colors.white}>
+            {' '}
+            Privacy Policy
+          </Text>
+        </Text>
+      </View>
+    </>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  logo: {
+    width: '100%',
+    height: 400,
+  },
+  containerButtons: {
+    marginHorizontal: 16,
+    gap: 10,
+  },
+  containerFooter: {
+    marginBottom: 16,
+    marginHorizontal: 16,
+  },
+});
