@@ -3,6 +3,4 @@ const welcomeLogo = require('./WelcomeLogo.png');
 const deleteIcon = require('./DeleteIcon.png');
 const backIcon = require('./BackButton.png');
 
-export {
- search, welcomeLogo, deleteIcon, backIcon 
-};
+export { search, welcomeLogo, deleteIcon, backIcon };

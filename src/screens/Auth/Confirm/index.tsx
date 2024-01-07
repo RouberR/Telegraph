@@ -1,35 +1,35 @@
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {StyleSheet, View} from 'react-native';
-import {AuthRoute, AuthStackParamList} from '../../../router/Auth';
-import {Button, CodeFieldAnimated, Text} from '../../../components';
-import {useEffect, useState} from 'react';
-import {AsyncStore} from '../../../utils/constants';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {confirmEmail, resendEmailCode} from '../../../api/Auth';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { StyleSheet, View } from 'react-native';
+import { AuthRoute, AuthStackParamList } from '../../../router/Auth';
+import { Button, CodeFieldAnimated, Text } from '../../../components';
+import { useEffect, useState } from 'react';
+import { AsyncStore } from '../../../utils/constants';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { confirmEmail, resendEmailCode } from '../../../api/Auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {RootRoutes} from '../../../router';
-import {MainStackParamList} from '../../../router/Main';
-import {CompositeScreenProps} from '@react-navigation/native';
-import {getUser} from '../../../api/Profile';
-import {useDispatch} from 'react-redux';
-import {setUserInfo} from '../../../store/User/user';
+import { RootRoutes } from '../../../router';
+import { MainStackParamList } from '../../../router/Main';
+import { CompositeScreenProps } from '@react-navigation/native';
+import { getUser } from '../../../api/Profile';
+import { useDispatch } from 'react-redux';
+import { setUserInfo } from '../../../store/User/user';
 
 type Props = CompositeScreenProps<
   NativeStackScreenProps<AuthStackParamList, AuthRoute.Confirm>,
   NativeStackScreenProps<MainStackParamList>
 >;
 
-export const Confirm = ({route, navigation}: Props) => {
-  const {codeExpired, email} = route?.params || '';
+export const Confirm = ({ route, navigation }: Props) => {
+  const { codeExpired, email } = route?.params || '';
   const [code, setCode] = useState('');
-  const {bottom} = useSafeAreaInsets();
+  const { bottom } = useSafeAreaInsets();
   const [loading, setLoading] = useState(false);
   const [timer, setTimer] = useState(codeExpired.seconds);
   const dispatch = useDispatch();
   const handleSignIn = async () => {
     try {
       setLoading(true);
-      const response = await confirmEmail({code: code, email: email});
+      const response = await confirmEmail({ code: code, email: email });
       AsyncStorage.setItem(AsyncStore.ACCESS_TOKEN, response.accessToken);
       const getUserResponse = await getUser();
       dispatch(setUserInfo(getUserResponse));
@@ -43,7 +43,7 @@ export const Confirm = ({route, navigation}: Props) => {
 
   const handleResend = async () => {
     try {
-      await resendEmailCode({email: email});
+      await resendEmailCode({ email: email });
       startResendTimer();
     } catch (e) {
       console.log('Error resend code', e);
@@ -54,7 +54,7 @@ export const Confirm = ({route, navigation}: Props) => {
     setTimer(codeExpired.seconds);
     if (timer > 0) {
       const timerInterval = setInterval(() => {
-        setTimer(timer => timer - 1);
+        setTimer((timer) => timer - 1);
         if (timer <= 0) {
           clearInterval(timerInterval);
         }
@@ -75,8 +75,8 @@ export const Confirm = ({route, navigation}: Props) => {
           {email}
         </Text>
         <Text textAlign="center">
-          Enter the 4-digit OTP code that has been sent from Email to complete
-          your account registration
+          Enter the 4-digit OTP code that has been sent from Email to complete your account
+          registration
         </Text>
         <CodeFieldAnimated value={code} setValue={setCode} />
 

@@ -12,17 +12,13 @@ type Props = {
   children?: React.ReactNode;
 };
 
-const ThemeProvider: FC<Props> = ({children}) => {
+const ThemeProvider: FC<Props> = ({ children }) => {
   const [colors, setColors] = useState(Colors.dark);
 
   const applyColors = (colorTheme: TColors) => {
     setColors(colorTheme);
   };
 
-  return (
-    <ThemeContext.Provider value={{ applyColors, colors }}>
-      {children}
-    </ThemeContext.Provider>
-  );
+  return <ThemeContext.Provider value={{ applyColors, colors }}>{children}</ThemeContext.Provider>;
 };
-export {ThemeContext, ThemeProvider};
+export { ThemeContext, ThemeProvider };

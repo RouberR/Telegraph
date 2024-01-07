@@ -5,6 +5,4 @@ const folder = require('./Folder.png');
 const chield = require('./Chield.png');
 const addGroup = require('./AddGroup.png');
 
-export {
- userIcon, sun, question, folder, chield, addGroup 
-};
+export { userIcon, sun, question, folder, chield, addGroup };

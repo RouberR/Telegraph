@@ -1,18 +1,16 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit';
 import { UserProfile } from '../../api/Profile/ProfileType';
 
-
-
 const initialState: UserProfile = {
-  id: "",
-  firstName: "",
-  lastName:"",
-  email: "",
-  userName: "",
-  updatedAt: "",
-  avatarUrl: "",
-  chats: []
-}
+  id: '',
+  firstName: '',
+  lastName: '',
+  email: '',
+  userName: '',
+  updatedAt: '',
+  avatarUrl: '',
+  chats: [],
+};
 
 export const userSlice = createSlice({
   name: 'user',
@@ -27,11 +25,10 @@ export const userSlice = createSlice({
       };
     },
 
-
     clearUser: () => {
-      return initialState
+      return initialState;
     },
   },
-})
+});
 
-export const { clearUser, setUserInfo } = userSlice.actions
+export const { clearUser, setUserInfo } = userSlice.actions;

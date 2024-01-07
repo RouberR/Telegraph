@@ -1,5 +1,5 @@
-import {Options} from 'ky';
-import {ApiError, api} from '..';
+import { Options } from 'ky';
+import { ApiError, api } from '..';
 import {
   ConfirmEmailRequest,
   ConfirmEmailResponse,
@@ -19,9 +19,7 @@ enum AuthLink {
   'SIGN_OUT' = 'auth/sign-out',
 }
 
-export const authSignUp = async (
-  data: SignUpRequestData,
-): Promise<SignUpResponseData> => {
+export const authSignUp = async (data: SignUpRequestData): Promise<SignUpResponseData> => {
   const options: Options = {
     method: 'POST',
     json: data,
@@ -31,9 +29,7 @@ export const authSignUp = async (
   return response.json();
 };
 
-export const authSignIn = async (
-  data: SignInRequestData,
-): Promise<SignInpResponseData> => {
+export const authSignIn = async (data: SignInRequestData): Promise<SignInpResponseData> => {
   const options: Options = {
     method: 'POST',
     json: data,
@@ -43,7 +39,7 @@ export const authSignIn = async (
 };
 
 export const resendEmailCode = async (
-  data: ResendEmailCodeRequest,
+  data: ResendEmailCodeRequest
 ): Promise<ResendEmailCodeResponse> => {
   const options: Options = {
     method: 'POST',
@@ -53,9 +49,7 @@ export const resendEmailCode = async (
   return response.json();
 };
 
-export const confirmEmail = async (
-  data: ConfirmEmailRequest,
-): Promise<ConfirmEmailResponse> => {
+export const confirmEmail = async (data: ConfirmEmailRequest): Promise<ConfirmEmailResponse> => {
   const options: Options = {
     method: 'POST',
     json: data,

@@ -1,11 +1,11 @@
-import React, {useState} from 'react';
-import {KeyboardAvoidingView, ScrollView, StyleSheet} from 'react-native';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {AuthRoute, AuthStackParamList} from '../../../router/Auth';
-import {Button, TextInput} from '../../../components';
-import {MIN_EMAIL_LENGTH, MIN_PASSWORD_LENGTH} from '../../../utils/constants';
-import {authSignUp} from '../../../api/Auth';
-import {ModalCustom} from '../../../components/Modal';
+import React, { useState } from 'react';
+import { KeyboardAvoidingView, ScrollView, StyleSheet } from 'react-native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { AuthRoute, AuthStackParamList } from '../../../router/Auth';
+import { Button, TextInput } from '../../../components';
+import { MIN_EMAIL_LENGTH, MIN_PASSWORD_LENGTH } from '../../../utils/constants';
+import { authSignUp } from '../../../api/Auth';
+import { ModalCustom } from '../../../components/Modal';
 
 type Props = NativeStackScreenProps<AuthStackParamList, AuthRoute.SignUp>;
 
@@ -30,13 +30,13 @@ const placeholders: Record<keyof SignUpForm, string> = {
   confirmPassword: 'Confirm Password',
 };
 
-export const SignUp = ({route, navigation}: Props) => {
+export const SignUp = ({ route, navigation }: Props) => {
   const [isModal, setIsModal] = useState(false);
   const [formState, setFormState] = useState(initialFormState);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState({error: '', message: '', statusCode: ''});
+  const [error, setError] = useState({ error: '', message: '', statusCode: '' });
   const handleFieldChange = (fieldName: keyof SignUpForm, value: string) => {
-    setFormState(prevFormState => ({
+    setFormState((prevFormState) => ({
       ...prevFormState,
       [fieldName]: value,
     }));
@@ -89,18 +89,14 @@ export const SignUp = ({route, navigation}: Props) => {
         title={error.error}
         setIsModalVisible={setIsModal}
       />
-      <ScrollView
-        contentContainerStyle={styles.container}
-        keyboardShouldPersistTaps="handled">
-        {Object.keys(initialFormState).map(fieldName => (
+      <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
+        {Object.keys(initialFormState).map((fieldName) => (
           <TextInput
             key={fieldName}
             placeholder={placeholders[fieldName]}
             value={formState[fieldName]}
-            onChangeText={text => handleFieldChange(fieldName, text)}
-            isSecurity={
-              fieldName === 'password' || fieldName === 'confirmPassword'
-            }
+            onChangeText={(text) => handleFieldChange(fieldName, text)}
+            isSecurity={fieldName === 'password' || fieldName === 'confirmPassword'}
           />
         ))}
         <KeyboardAvoidingView behavior="padding" enabled>

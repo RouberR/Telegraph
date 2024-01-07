@@ -1,5 +1,5 @@
 import i18n from 'i18next';
-import {initReactI18next} from 'react-i18next';
+import { initReactI18next } from 'react-i18next';
 import en from './en.json';
 import ru from './ru.json';
 
@@ -19,4 +19,4 @@ i18n
     lng: 'en', // default language to use.
   });
 
-export default {i18n};
+export default { i18n };

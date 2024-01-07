@@ -1,24 +1,26 @@
 module.exports = {
   root: true,
-  extends: [
-    '@react-native',
-    'airbnb',
-    'plugin:react-hooks/recommended',
-    'plugin:@typescript-eslint/recommended',
-  ],
-  plugins: [
-    'react',
-    'react-native',
-    'jsx-a11y',
-    'import',
-    '@typescript-eslint',
-  ],
+  extends: ['@react-native'],
+  plugins: ['react', 'react-native', 'import'],
   rules: {
-    'react/jsx-filename-extension': [1, {extensions: ['.js', '.jsx']}],
-    'import/extensions': ['error', 'never', {js: 'never', jsx: 'never'}],
-    'import/no-extraneous-dependencies': ['error', {devDependencies: true}],
-    'react-hooks/rules-of-hooks': 'error',
-    'react-hooks/exhaustive-deps': 'warn',
     'no-unused-vars': 'off',
+
+    // allow .js files to contain JSX code
+    'react/jsx-filename-extension': [1, { extensions: ['.ts', '.tsx', '.js', '.jsx'] }],
+    // prevent eslint to complain about the "styles" variable being used before it was defined
+    'no-use-before-define': ['error', { variables: false }],
+    // ignore errors for the react-navigation package
+    'react/prop-types': ['error', { ignore: ['navigation', 'navigation.navigate'] }],
+    // ignore errors for import directives
+    'import/extensions': [
+      'error',
+      'ignorePackages',
+      {
+        js: 'never',
+        jsx: 'never',
+        ts: 'never',
+        tsx: 'never',
+      },
+    ],
   },
 };

@@ -26,7 +26,7 @@ export const api = ky.create({
   prefixUrl: 'https://chat-pai.onrender.com',
   hooks: {
     beforeRequest: [
-      async request => {
+      async (request) => {
         const accessToken = await AsyncStorage.getItem(AsyncStore.ACCESS_TOKEN);
         request.headers.set('Authorization', `${accessToken}`);
       },
@@ -35,9 +35,7 @@ export const api = ky.create({
       async (request, options, response) => {
         if (response.status === 403 || response.status === 401) {
           try {
-            const accessToken = await AsyncStorage.getItem(
-              AsyncStore.ACCESS_TOKEN,
-            );
+            const accessToken = await AsyncStorage.getItem(AsyncStore.ACCESS_TOKEN);
             const token = await ky
               .post('https://chat-pai.onrender.com/auth/refresh-tokens', {
                 headers: {

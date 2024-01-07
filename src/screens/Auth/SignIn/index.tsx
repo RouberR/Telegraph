@@ -1,33 +1,29 @@
-import {ScrollView, StyleSheet} from 'react-native';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import { ScrollView, StyleSheet } from 'react-native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
-import {AuthRoute, AuthStackParamList} from '../../../router/Auth';
-import {Button, TextInput} from '../../../components';
-import {useState} from 'react';
-import {
-  AsyncStore,
-  MIN_EMAIL_LENGTH,
-  MIN_PASSWORD_LENGTH,
-} from '../../../utils/constants';
-import {authSignIn} from '../../../api/Auth';
+import { AuthRoute, AuthStackParamList } from '../../../router/Auth';
+import { Button, TextInput } from '../../../components';
+import { useState } from 'react';
+import { AsyncStore, MIN_EMAIL_LENGTH, MIN_PASSWORD_LENGTH } from '../../../utils/constants';
+import { authSignIn } from '../../../api/Auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {RootRoutes} from '../../../router';
-import {CompositeScreenProps} from '@react-navigation/native';
-import {MainStackParamList} from '../../../router/Main';
-import {isEmailValid} from '../../../utils/stringsValidation';
-import {getUser} from '../../../api/Profile';
-import {useDispatch} from 'react-redux';
-import {setUserInfo} from '../../../store/User/user';
+import { RootRoutes } from '../../../router';
+import { CompositeScreenProps } from '@react-navigation/native';
+import { MainStackParamList } from '../../../router/Main';
+import { isEmailValid } from '../../../utils/stringsValidation';
+import { getUser } from '../../../api/Profile';
+import { useDispatch } from 'react-redux';
+import { setUserInfo } from '../../../store/User/user';
 
 type Props = CompositeScreenProps<
   NativeStackScreenProps<AuthStackParamList, AuthRoute.SignIn>,
   NativeStackScreenProps<MainStackParamList>
 >;
-export const SignIn = ({route, navigation}: Props) => {
+export const SignIn = ({ route, navigation }: Props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState({error: '', message: '', statusCode: ''});
+  const [error, setError] = useState({ error: '', message: '', statusCode: '' });
   const dispatch = useDispatch();
   const handleSignIn = async () => {
     if (!isEmailValid(email)) {
@@ -40,7 +36,7 @@ export const SignIn = ({route, navigation}: Props) => {
     }
     try {
       setLoading(true);
-      const response = await authSignIn({email: email, password: password});
+      const response = await authSignIn({ email: email, password: password });
       await AsyncStorage.setItem(AsyncStore.ACCESS_TOKEN, response.accessToken);
       const getUserResponse = await getUser();
       dispatch(setUserInfo(getUserResponse));
@@ -59,9 +55,7 @@ export const SignIn = ({route, navigation}: Props) => {
   };
 
   return (
-    <ScrollView
-      contentContainerStyle={styles.container}
-      keyboardShouldPersistTaps="handled">
+    <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
       <TextInput
         placeholder="Email"
         value={email}
@@ -80,10 +74,7 @@ export const SignIn = ({route, navigation}: Props) => {
         value="Sign In"
         onPress={handleSignIn}
         isLoading={loading}
-        disabled={
-          email.length < MIN_EMAIL_LENGTH ||
-          password.length < MIN_PASSWORD_LENGTH
-        }
+        disabled={email.length < MIN_EMAIL_LENGTH || password.length < MIN_PASSWORD_LENGTH}
       />
     </ScrollView>
   );

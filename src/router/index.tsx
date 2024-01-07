@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
   NavigationContainer,
   DefaultTheme,
@@ -12,8 +12,8 @@ import { useAppSelector, useColors } from '../utils/hooks';
 import { Colors } from '../utils/theme';
 import BottomBar from './BottomBar';
 import MainNavigator from './Main';
-import {setNavigationReference} from '../api';
-import {AsyncStore} from '../utils/constants';
+import { setNavigationReference } from '../api';
+import { AsyncStore } from '../utils/constants';
 
 export enum RootRoutes {
   Auth = 'Auth',
@@ -28,9 +28,9 @@ export type RootParamList = {
 const RootStack = createNativeStackNavigator<RootParamList>();
 
 const RootNavigator: React.FC = () => {
-  const user = useAppSelector(state => state.user);
-  const {applyColors, colors} = useColors();
-  const theme = useAppSelector(state => state.settings.theme);
+  const user = useAppSelector((state) => state.user);
+  const { applyColors, colors } = useColors();
+  const theme = useAppSelector((state) => state.settings.theme);
   const navigationRef = useNavigationContainerRef();
 
   useEffect(() => {
@@ -67,7 +67,8 @@ const RootNavigator: React.FC = () => {
     <NavigationContainer theme={MyTheme} ref={navigationRef}>
       <RootStack.Navigator
         initialRouteName={RootRoutes.Auth}
-        screenOptions={{headerShown: false}}>
+        screenOptions={{ headerShown: false }}
+      >
         {user.id ? (
           <RootStack.Screen component={MainNavigator} name={RootRoutes.Main} />
         ) : (

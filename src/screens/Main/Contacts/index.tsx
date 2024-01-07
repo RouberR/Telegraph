@@ -1,17 +1,17 @@
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {ScrollView, StyleSheet} from 'react-native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { ScrollView, StyleSheet } from 'react-native';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { debounce } from 'lodash';
-import {Button, Loading, TextInput} from '../../../components';
+import { Button, Loading, TextInput } from '../../../components';
 import { MIN_EMAIL_LENGTH, MIN_PASSWORD_LENGTH } from '../../../utils/constants';
 import { MainRoute, MainStackParamList } from '../../../router/Main';
 import ContactList from '../../../components/ContactList';
 import { createChat, getAllUsers } from '../../../api/Chat';
-import {UsersResponse} from '../../../api/Chat/ChatType';
+import { UsersResponse } from '../../../api/Chat/ChatType';
 
 type Props = NativeStackScreenProps<MainStackParamList, MainRoute.Contacts>;
 
-export const Contacts = ({route, navigation}: Props) => {
+export const Contacts = ({ route, navigation }: Props) => {
   const [search, setSearch] = useState('');
   const [searchResults, setSearchResults] = useState<UsersResponse>();
   const [loading, setLoading] = useState(false);
@@ -19,13 +19,7 @@ export const Contacts = ({route, navigation}: Props) => {
     try {
       setLoading(true);
       const isEmail = /\S+@\S+\.\S+/.test(textSearch);
-      const result = await getAllUsers(
-        'asc',
-        1,
-        50,
-        isEmail ? 'email' : 'userName',
-        textSearch,
-      );
+      const result = await getAllUsers('asc', 1, 50, isEmail ? 'email' : 'userName', textSearch);
       setSearchResults(result);
     } catch (e) {
       console.log('Error get all users', e);
@@ -55,24 +49,18 @@ export const Contacts = ({route, navigation}: Props) => {
   };
 
   return (
-    <ScrollView
-      contentContainerStyle={styles.container}
-      keyboardShouldPersistTaps="handled"
-    >
+    <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
       <TextInput
         placeholder="Find the user by email"
         value={search}
         onChangeText={handleInputChange}
         rightIcon
       />
-      <ContactList
-        contacts={searchResults?.data || []}
-        onPressItem={handleOnPressItem}
-      />
+      <ContactList contacts={searchResults?.data || []} onPressItem={handleOnPressItem} />
       <Loading loading={loading} />
     </ScrollView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {

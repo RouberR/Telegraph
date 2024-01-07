@@ -1,5 +1,5 @@
-import {Options} from 'ky';
-import { api} from '..';
+import { Options } from 'ky';
+import { api } from '..';
 import { ChatResponse, CreateChatData, UsersResponse } from './ChatType';
 
 enum ChatLink {
@@ -12,7 +12,7 @@ export const getAllUsers = async (
   page = 1,
   limit = 50,
   searchBy: 'userName' | 'email' = 'userName',
-  searchText = '',
+  searchText = ''
 ): Promise<UsersResponse> => {
   const queryParams = new URLSearchParams({
     orderBy,
@@ -26,17 +26,12 @@ export const getAllUsers = async (
     method: 'GET',
   };
 
-  const response = await api(
-    `${ChatLink.USER_ALL}?${queryParams.toString()}`,
-    options,
-  );
+  const response = await api(`${ChatLink.USER_ALL}?${queryParams.toString()}`, options);
 
   return response.json();
 };
 
-export const createChat = async (
-  data: CreateChatData,
-): Promise<ChatResponse> => {
+export const createChat = async (data: CreateChatData): Promise<ChatResponse> => {
   const options: Options = {
     method: 'POST',
     json: data,

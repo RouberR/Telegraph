@@ -1,34 +1,30 @@
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {Linking, StyleSheet, View} from 'react-native';
-import {AuthRoute, AuthStackParamList} from '../../../router/Auth';
-import {useAppSelector, useColors} from '../../../utils/hooks';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { Linking, StyleSheet, View } from 'react-native';
+import { AuthRoute, AuthStackParamList } from '../../../router/Auth';
+import { useAppSelector, useColors } from '../../../utils/hooks';
 
 import React from 'react';
 
-import {Button, Text} from '../../../components';
+import { Button, Text } from '../../../components';
 
 import FastImage from 'react-native-fast-image';
-import {welcomeLogo} from '../../../assets';
-import {PrivacyPolicyLink, TermsOfUseLink} from '../../../utils/constants';
-import {useTranslation} from 'react-i18next';
+import { welcomeLogo } from '../../../assets';
+import { PrivacyPolicyLink, TermsOfUseLink } from '../../../utils/constants';
+import { useTranslation } from 'react-i18next';
 
 type Props = NativeStackScreenProps<AuthStackParamList, AuthRoute.Welcome>;
 
-export const Welcome = ({route, navigation}: Props) => {
-  const {t} = useTranslation();
-  const {colors} = useColors();
+export const Welcome = ({ route, navigation }: Props) => {
+  const { t } = useTranslation();
+  const { colors } = useColors();
 
-  const count = useAppSelector(state => state.user);
+  const count = useAppSelector((state) => state.user);
   console.log(count);
 
   return (
     <>
       <View style={styles.container}>
-        <FastImage
-          source={welcomeLogo}
-          style={styles.logo}
-          resizeMode="contain"
-        />
+        <FastImage source={welcomeLogo} style={styles.logo} resizeMode="contain" />
         <View style={styles.containerButtons}>
           <Button
             value={t('SIGN_UP')}
@@ -47,16 +43,12 @@ export const Welcome = ({route, navigation}: Props) => {
       <View style={styles.containerFooter}>
         <Text textAlign="center" color={colors.grey} fontSize={14}>
           By tapping "Register" you agree to our
-          <Text
-            onPress={() => Linking.openURL(TermsOfUseLink)}
-            color={colors.text}>
+          <Text onPress={() => Linking.openURL(TermsOfUseLink)} color={colors.text}>
             {' '}
             Terms of Use
           </Text>{' '}
           and
-          <Text
-            onPress={() => Linking.openURL(PrivacyPolicyLink)}
-            color={colors.text}>
+          <Text onPress={() => Linking.openURL(PrivacyPolicyLink)} color={colors.text}>
             {' '}
             Privacy Policy
           </Text>

@@ -1,11 +1,11 @@
 import React from 'react';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import FastImage from 'react-native-fast-image';
 import { useNavigation } from '@react-navigation/native';
-import {MainRoute} from './Main';
-import {Home} from '../screens/Main/Home';
-import {Messenger} from '../screens/Main/Messenger';
-import {Contacts} from '../screens/Main/Contacts';
+import { MainRoute } from './Main';
+import { Home } from '../screens/Main/Home';
+import { Messenger } from '../screens/Main/Messenger';
+import { Contacts } from '../screens/Main/Contacts';
 import { contact, home, logo, messenger, settings } from '../assets/bottomBar';
 import { useColors } from '../utils/hooks';
 import { Touchable } from '../components';
@@ -26,7 +26,7 @@ export enum MainTabRoute {
 const Tab = createBottomTabNavigator<MainTabParamList>();
 
 const BottomBar: React.FC = () => {
-  const {colors} = useColors();
+  const { colors } = useColors();
   const navigation = useNavigation();
   return (
     <Tab.Navigator
@@ -48,7 +48,7 @@ const BottomBar: React.FC = () => {
         headerLeft: () => (
           <FastImage
             source={logo}
-            style={{width: 120, height: 32, marginLeft: 12}}
+            style={{ width: 120, height: 32, marginLeft: 12 }}
             tintColor={colors.primary}
           />
         ),
@@ -56,20 +56,21 @@ const BottomBar: React.FC = () => {
           <Touchable onPress={() => navigation.navigate(MainRoute.Settings)}>
             <FastImage
               source={settings}
-              style={{width: 24, height: 24, marginRight: 12}}
+              style={{ width: 24, height: 24, marginRight: 12 }}
               tintColor={colors.primary}
             />
           </Touchable>
         ),
-      }}>
+      }}
+    >
       <Tab.Screen
         name={MainRoute.Home}
         component={Home}
         options={{
-          tabBarIcon: ({focused}) => (
+          tabBarIcon: ({ focused }) => (
             <FastImage
               source={home}
-              style={{width: 24, height: 24}}
+              style={{ width: 24, height: 24 }}
               tintColor={focused ? colors.primary : colors.grey}
             />
           ),
@@ -79,10 +80,10 @@ const BottomBar: React.FC = () => {
         name={MainRoute.Messenger}
         component={Messenger}
         options={{
-          tabBarIcon: ({focused}) => (
+          tabBarIcon: ({ focused }) => (
             <FastImage
               source={messenger}
-              style={{width: 24, height: 24}}
+              style={{ width: 24, height: 24 }}
               tintColor={focused ? colors.primary : colors.grey}
             />
           ),
@@ -92,10 +93,10 @@ const BottomBar: React.FC = () => {
         name={MainRoute.Contacts}
         component={Contacts}
         options={{
-          tabBarIcon: ({focused}) => (
+          tabBarIcon: ({ focused }) => (
             <FastImage
               source={contact}
-              style={{width: 24, height: 24}}
+              style={{ width: 24, height: 24 }}
               tintColor={focused ? colors.primary : colors.grey}
             />
           ),

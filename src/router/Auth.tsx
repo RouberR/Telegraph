@@ -1,10 +1,10 @@
 import React from 'react';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {Welcome} from '../screens/Auth/Welcome';
-import {SignIn} from '../screens/Auth/SignIn';
-import {SignUp} from '../screens/Auth/SignUp';
-import {useColors} from '../utils/hooks';
-import {Confirm} from '../screens/Auth/Confirm';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { Welcome } from '../screens/Auth/Welcome';
+import { SignIn } from '../screens/Auth/SignIn';
+import { SignUp } from '../screens/Auth/SignUp';
+import { useColors } from '../utils/hooks';
+import { Confirm } from '../screens/Auth/Confirm';
 
 export enum AuthRoute {
   Welcome = 'Welcome',
@@ -29,7 +29,7 @@ export type AuthStackParamList = {
 const AuthStack = createNativeStackNavigator<AuthStackParamList>();
 
 const AuthNavigator: React.FC = () => {
-  const {colors} = useColors();
+  const { colors } = useColors();
   return (
     <AuthStack.Navigator
       screenOptions={{
@@ -46,28 +46,21 @@ const AuthNavigator: React.FC = () => {
           fontWeight: '600',
           color: colors.text,
         },
-      }}>
+      }}
+    >
       <AuthStack.Screen
         name={AuthRoute.Welcome}
         component={Welcome}
-        options={{headerShown: false}}
+        options={{ headerShown: false }}
       />
-      <AuthStack.Screen
-        name={AuthRoute.SignIn}
-        component={SignIn}
-        options={{title: 'Sign In'}}
-      />
+      <AuthStack.Screen name={AuthRoute.SignIn} component={SignIn} options={{ title: 'Sign In' }} />
 
-      <AuthStack.Screen
-        name={AuthRoute.SignUp}
-        component={SignUp}
-        options={{title: 'Sign Up'}}
-      />
+      <AuthStack.Screen name={AuthRoute.SignUp} component={SignUp} options={{ title: 'Sign Up' }} />
 
       <AuthStack.Screen
         name={AuthRoute.Confirm}
         component={Confirm}
-        options={{title: 'Confirm'}}
+        options={{ title: 'Confirm' }}
       />
     </AuthStack.Navigator>
   );

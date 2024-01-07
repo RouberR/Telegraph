@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import {KeyboardAvoidingView, ScrollView, StyleSheet, View} from 'react-native';
+import { KeyboardAvoidingView, ScrollView, StyleSheet, View } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import FastImage from 'react-native-fast-image';
-import {useDispatch} from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {
   ImageLibraryOptions,
   ImagePickerResponse,
   launchImageLibrary,
 } from 'react-native-image-picker';
-import {AuthRoute, AuthStackParamList} from '../../../router/Auth';
-import {Button, Loading, TextInput, Touchable} from '../../../components';
+import { AuthRoute, AuthStackParamList } from '../../../router/Auth';
+import { Button, Loading, TextInput, Touchable } from '../../../components';
 import {
   MIN_EMAIL_LENGTH,
   MIN_FIRST_NAME_LENGTH,
@@ -17,8 +17,8 @@ import {
   MIN_PASSWORD_LENGTH,
   MIN_USERNAME_LENGTH,
 } from '../../../utils/constants';
-import {authSignUp} from '../../../api/Auth';
-import {MainRoute, MainStackParamList} from '../../../router/Main';
+import { authSignUp } from '../../../api/Auth';
+import { MainRoute, MainStackParamList } from '../../../router/Main';
 import { useAppSelector } from '../../../utils/hooks';
 import { getUser, updateUser } from '../../../api/Profile';
 import { setUserInfo } from '../../../store/User/user';
@@ -42,8 +42,8 @@ const options: ImageLibraryOptions = {
   maxWidth: 512,
   // includeBase64: true,
 };
-export const Account = ({route, navigation}: Props) => {
-  const user = useAppSelector(state => state.user);
+export const Account = ({ route, navigation }: Props) => {
+  const user = useAppSelector((state) => state.user);
 
   const [formState, setFormState] = useState<SignUpForm>({
     firstName: user.firstName,
@@ -57,7 +57,7 @@ export const Account = ({route, navigation}: Props) => {
 
   const dispatch = useDispatch();
   const handleFieldChange = (fieldName: keyof SignUpForm, value: string) => {
-    setFormState(prevFormState => ({
+    setFormState((prevFormState) => ({
       ...prevFormState,
       [fieldName]: value,
     }));
@@ -65,12 +65,12 @@ export const Account = ({route, navigation}: Props) => {
 
   const isDisableButtonSave = () => {
     return (
-    formState.email.length < MIN_EMAIL_LENGTH ||
+      formState.email.length < MIN_EMAIL_LENGTH ||
       formState.lastName.length < MIN_LAST_NAME_LENGTH ||
       formState.firstName.length < MIN_FIRST_NAME_LENGTH ||
       formState.userName.length < MIN_USERNAME_LENGTH
-  );
-};
+    );
+  };
 
   const handleSave = async () => {
     try {
@@ -105,12 +105,10 @@ export const Account = ({route, navigation}: Props) => {
     console.log('result', result);
   };
   return (
-    <ScrollView
-      contentContainerStyle={styles.container}
-      keyboardShouldPersistTaps="handled">
-      <Touchable style={{alignSelf: 'center'}} onPress={handleSelectImage}>
+    <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
+      <Touchable style={{ alignSelf: 'center' }} onPress={handleSelectImage}>
         <FastImage
-          source={{uri: photo?.assets?.[0]?.uri || user.avatarUrl}}
+          source={{ uri: photo?.assets?.[0]?.uri || user.avatarUrl }}
           style={{
             width: 121,
             height: 121,
@@ -120,22 +118,20 @@ export const Account = ({route, navigation}: Props) => {
         />
       </Touchable>
 
-      <View style={{gap: 16, marginBottom: 22}}>
-        {Object.keys(formState).map(fieldName => (
+      <View style={{ gap: 16, marginBottom: 22 }}>
+        {Object.keys(formState).map((fieldName) => (
           <TextInput
             key={fieldName}
             placeholder={placeholders[fieldName]}
             value={formState[fieldName]}
-            onChangeText={text => handleFieldChange(fieldName, text)}
+            onChangeText={(text) => handleFieldChange(fieldName, text)}
             disabled={fieldName !== 'email'}
-            isSecurity={
-              fieldName === 'password' || fieldName === 'confirmPassword'
-            }
+            isSecurity={fieldName === 'password' || fieldName === 'confirmPassword'}
           />
         ))}
         <KeyboardAvoidingView behavior="padding" enabled>
           <Button
-            containerStyle={{marginTop: 20}}
+            containerStyle={{ marginTop: 20 }}
             value="Save"
             onPress={handleSave}
             disabled={isDisableButtonSave()}

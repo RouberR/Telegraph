@@ -1,25 +1,20 @@
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {ScrollView, StyleSheet, View} from 'react-native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { useState } from 'react';
 import { Button, Text, TextInput } from '../../../components';
-import {MIN_EMAIL_LENGTH, MIN_PASSWORD_LENGTH} from '../../../utils/constants';
-import {MainRoute, MainStackParamList} from '../../../router/Main';
+import { MIN_EMAIL_LENGTH, MIN_PASSWORD_LENGTH } from '../../../utils/constants';
+import { MainRoute, MainStackParamList } from '../../../router/Main';
 
 type Props = NativeStackScreenProps<MainStackParamList, MainRoute.Help>;
 
-export const Help = ({route, navigation}: Props) => {
+export const Help = ({ route, navigation }: Props) => {
   const [message, setMessage] = useState('');
 
   const handleSendReport = () => {};
 
   return (
-    <ScrollView
-      contentContainerStyle={styles.container}
-      keyboardShouldPersistTaps="handled"
-    >
-      <Text>
-        Do you have any questions? Ideas? Complaints? Send them to us!
-      </Text>
+    <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
+      <Text>Do you have any questions? Ideas? Complaints? Send them to us!</Text>
       <TextInput
         placeholder="Enter message"
         value={message}
@@ -27,14 +22,10 @@ export const Help = ({route, navigation}: Props) => {
         multiline
         containerStyle={{ height: 150, alignItems: 'baseline' }}
       />
-      <Button
-        value="Send report"
-        onPress={handleSendReport}
-        containerStyle={{ marginTop: 32 }}
-      />
+      <Button value="Send report" onPress={handleSendReport} containerStyle={{ marginTop: 32 }} />
     </ScrollView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {

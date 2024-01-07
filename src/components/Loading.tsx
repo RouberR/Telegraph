@@ -1,11 +1,11 @@
-import {ActivityIndicator} from 'react-native';
-import {useColors} from '../utils/hooks';
+import { ActivityIndicator } from 'react-native';
+import { useColors } from '../utils/hooks';
 
 type ILoading = {
   loading: boolean;
 };
-export const Loading: React.FC<ILoading> = ({loading}) => {
-  const {colors} = useColors();
+export const Loading: React.FC<ILoading> = ({ loading }) => {
+  const { colors } = useColors();
 
   return (
     loading && (

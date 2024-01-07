@@ -1,11 +1,11 @@
-import React, {useState} from 'react';
-import {View, FlatList, StyleSheet} from 'react-native';
+import React, { useState } from 'react';
+import { View, FlatList, StyleSheet } from 'react-native';
 import FastImage from 'react-native-fast-image';
 
-import {useStyles} from '../utils/hooks';
-import {TColors} from '../utils/theme/colors';
-import {Text, Touchable} from '.';
-import {UsersData} from '../api/Chat/ChatType';
+import { useStyles } from '../utils/hooks';
+import { TColors } from '../utils/theme/colors';
+import { Text, Touchable } from '.';
+import { UsersData } from '../api/Chat/ChatType';
 
 type IContactList = {
   contacts: Array<UsersData>;
@@ -13,32 +13,23 @@ type IContactList = {
   showHeader?: boolean;
 };
 
-const ContactList: React.FC<IContactList> = ({
-  contacts,
-  onPressItem,
-  showHeader = false,
-}) => {
+const ContactList: React.FC<IContactList> = ({ contacts, onPressItem, showHeader = false }) => {
   const [selectedTab, setSelectedTab] = useState('Contact');
-  const {colors, styles} = useStyles(createStyles(selectedTab));
+  const { colors, styles } = useStyles(createStyles(selectedTab));
 
   return (
     <FlatList
       data={selectedTab === 'Contact' ? contacts : []}
-      keyExtractor={item => item.id}
+      keyExtractor={(item) => item.id}
       scrollEnabled={false}
       ListHeaderComponent={
         showHeader ? (
           <View style={styles.containerTab}>
-            <Touchable
-              onPress={() => setSelectedTab('Contact')}
-              style={styles.tabContact}>
+            <Touchable onPress={() => setSelectedTab('Contact')} style={styles.tabContact}>
               <Text color={colors.text}>Contact</Text>
             </Touchable>
-            <Touchable
-              disabled
-              onPress={() => setSelectedTab('Group')}
-              style={styles.tabGroup}>
-              <Text style={{opacity: 0.5}} color={colors.grey}>
+            <Touchable disabled onPress={() => setSelectedTab('Group')} style={styles.tabGroup}>
+              <Text style={{ opacity: 0.5 }} color={colors.grey}>
                 Group
               </Text>
             </Touchable>
@@ -47,11 +38,9 @@ const ContactList: React.FC<IContactList> = ({
           <></>
         )
       }
-      renderItem={({item}) => (
-        <Touchable
-          onPress={() => onPressItem(item)}
-          style={styles.containerContact}>
-          <FastImage source={{uri: item.avatarUrl}} style={styles.avatar} />
+      renderItem={({ item }) => (
+        <Touchable onPress={() => onPressItem(item)} style={styles.containerContact}>
+          <FastImage source={{ uri: item.avatarUrl }} style={styles.avatar} />
           <View style={styles.itemContent}>
             <Text fontSize={12} color={colors.text}>
               {`${item.firstName} ${item.lastName}`}
@@ -71,37 +60,35 @@ const ContactList: React.FC<IContactList> = ({
 
 const createStyles = (selectedTab: string) => (colors: TColors) =>
   StyleSheet.create({
-  containerTab: {
-    flexDirection: 'row',
-    flex: 1,
-    justifyContent: 'space-between',
-    marginBottom: 16,
-  },
-  tabContact: {
-    borderBottomWidth: selectedTab === 'Contact' ? 2 : 0,
-    borderBottomColor:
-        selectedTab === 'Contact' ? colors.default : 'transparent',
-    padding: 10,
-    flex: 1,
-    alignItems: 'center',
-  },
-  tabGroup: {
-    borderBottomWidth: selectedTab === 'Group' ? 2 : 0,
-    borderBottomColor:
-        selectedTab === 'Group' ? colors.default : 'transparent',
-    padding: 10,
-    flex: 1,
-    alignItems: 'center',
-  },
-  avatar: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    borderWidth: 1,
-    borderColor: colors.default,
-  },
-  containerContact: {flexDirection: 'row', padding: 10},
-  itemContent: {marginLeft: 10, gap: 4},
-});
+    containerTab: {
+      flexDirection: 'row',
+      flex: 1,
+      justifyContent: 'space-between',
+      marginBottom: 16,
+    },
+    tabContact: {
+      borderBottomWidth: selectedTab === 'Contact' ? 2 : 0,
+      borderBottomColor: selectedTab === 'Contact' ? colors.default : 'transparent',
+      padding: 10,
+      flex: 1,
+      alignItems: 'center',
+    },
+    tabGroup: {
+      borderBottomWidth: selectedTab === 'Group' ? 2 : 0,
+      borderBottomColor: selectedTab === 'Group' ? colors.default : 'transparent',
+      padding: 10,
+      flex: 1,
+      alignItems: 'center',
+    },
+    avatar: {
+      width: 40,
+      height: 40,
+      borderRadius: 20,
+      borderWidth: 1,
+      borderColor: colors.default,
+    },
+    containerContact: { flexDirection: 'row', padding: 10 },
+    itemContent: { marginLeft: 10, gap: 4 },
+  });
 
 export default ContactList;

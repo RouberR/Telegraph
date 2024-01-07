@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
-import {useMemo} from 'react';
-import {TColors} from '../theme/colors';
+import { useMemo } from 'react';
+import { TColors } from '../theme/colors';
 import useColors from './useColors';
 
 interface Styles<T extends StyleSheet.NamedStyles<T>> {
@@ -9,9 +9,9 @@ interface Styles<T extends StyleSheet.NamedStyles<T>> {
 }
 
 export default function <T extends StyleSheet.NamedStyles<T>>(
-  createStyle: (colors: TColors) => T,
+  createStyle: (colors: TColors) => T
 ): Styles<T> {
-  const {colors} = useColors();
+  const { colors } = useColors();
 
   return {
     colors,

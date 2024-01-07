@@ -1,41 +1,34 @@
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {Alert, ScrollView, StyleSheet, View} from 'react-native';
-import {Button, Text, Toggle, Touchable} from '../../components';
-import {useState} from 'react';
-import {AsyncStore} from '../../utils/constants';
-import {MainRoute, MainStackParamList} from '../../router/Main';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { Alert, ScrollView, StyleSheet, View } from 'react-native';
+import { Button, Text, Toggle, Touchable } from '../../components';
+import { useState } from 'react';
+import { AsyncStore } from '../../utils/constants';
+import { MainRoute, MainStackParamList } from '../../router/Main';
 import FastImage from 'react-native-fast-image';
-import {
-  addGroup,
-  chield,
-  folder,
-  question,
-  sun,
-  userIcon,
-} from '../../assets/settingsIcon';
-import {useAppSelector, useColors} from '../../utils/hooks';
-import {useDispatch} from 'react-redux';
-import {setTheme} from '../../store/Settings/settings';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {deleteUser} from '../../api/Profile';
-import {clearUser} from '../../store/User/user';
-import {RootParamList} from '../../router';
-import {CompositeScreenProps} from '@react-navigation/native';
+import { addGroup, chield, folder, question, sun, userIcon } from '../../assets/settingsIcon';
+import { useAppSelector, useColors } from '../../utils/hooks';
+import { useDispatch } from 'react-redux';
+import { setTheme } from '../../store/Settings/settings';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { deleteUser } from '../../api/Profile';
+import { clearUser } from '../../store/User/user';
+import { RootParamList } from '../../router';
+import { CompositeScreenProps } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {signOut} from '../../api/Auth';
+import { signOut } from '../../api/Auth';
 import i18next from 'i18next';
 
 type Props = CompositeScreenProps<
   NativeStackScreenProps<MainStackParamList, MainRoute.Settings>,
   NativeStackScreenProps<RootParamList>
 >;
-export const Settings = ({route, navigation}: Props) => {
-  const {colors} = useColors();
-  const {bottom} = useSafeAreaInsets();
+export const Settings = ({ route, navigation }: Props) => {
+  const { colors } = useColors();
+  const { bottom } = useSafeAreaInsets();
   const dispatch = useDispatch();
 
-  const theme = useAppSelector(state => state.settings.theme);
-  const user = useAppSelector(state => state.user);
+  const theme = useAppSelector((state) => state.settings.theme);
+  const user = useAppSelector((state) => state.user);
   const [userLanguage, setUserLanguage] = useState(i18next.language);
 
   const toggleTheme = () => {
@@ -100,10 +93,10 @@ export const Settings = ({route, navigation}: Props) => {
       'Удаление аккаунта',
       'Вы уверены, что хотите удалить аккаунт?',
       [
-        {text: 'Отмена', style: 'cancel'},
-        {text: 'Удалить', onPress: deleteAccount},
+        { text: 'Отмена', style: 'cancel' },
+        { text: 'Удалить', onPress: deleteAccount },
       ],
-      {cancelable: false},
+      { cancelable: false }
     );
   };
 
@@ -139,26 +132,24 @@ export const Settings = ({route, navigation}: Props) => {
   //   getUserLanguage();
   // }, []);
   return (
-    <View style={{marginHorizontal: 16, flex: 1}}>
-      <ScrollView style={{flex: 1}}>
+    <View style={{ marginHorizontal: 16, flex: 1 }}>
+      <ScrollView style={{ flex: 1 }}>
         <View
           style={{
             flexDirection: 'row',
             alignItems: 'center',
             gap: 12,
             marginBottom: 20,
-          }}>
-          <FastImage
-            source={{uri: user.avatarUrl}}
-            style={{width: 72, height: 72}}
-          />
-          <View style={{gap: 5}}>
+          }}
+        >
+          <FastImage source={{ uri: user.avatarUrl }} style={{ width: 72, height: 72 }} />
+          <View style={{ gap: 5 }}>
             <Text>{`${user.firstName} ${user.lastName}`}</Text>
             <Text fontSize={12}>{user.email}</Text>
           </View>
         </View>
         <View>
-          {settingsConfig.map(item => (
+          {settingsConfig.map((item) => (
             <Touchable
               key={item.id}
               onPress={item.onPress}
@@ -168,28 +159,27 @@ export const Settings = ({route, navigation}: Props) => {
                 justifyContent: 'space-between',
                 // borderWidth: 1,
                 paddingVertical: 10,
-              }}>
-              <View
-                style={{flexDirection: 'row', gap: 10, alignItems: 'center'}}>
+              }}
+            >
+              <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}>
                 <FastImage
                   source={item.icon}
-                  style={{width: 24, height: 24}}
+                  style={{ width: 24, height: 24 }}
                   tintColor={colors.text}
                 />
 
                 <Text>{item.title}</Text>
               </View>
-              {item.dartMode && (
-                <Toggle isToggled={theme === 'dark' ? true : false} />
-              )}
+              {item.dartMode && <Toggle isToggled={theme === 'dark' ? true : false} />}
               {item.languageMode && <Text>{userLanguage}</Text>}
             </Touchable>
           ))}
           <Text
             fontWeight="600"
-            style={{marginTop: 10}}
+            style={{ marginTop: 10 }}
             color={colors.red}
-            onPress={handleLogout}>
+            onPress={handleLogout}
+          >
             Logout
           </Text>
         </View>

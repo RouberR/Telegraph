@@ -1,20 +1,19 @@
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import Animated, {
   Easing,
   withTiming,
   useDerivedValue,
   useAnimatedStyle,
 } from 'react-native-reanimated';
-import {useColors} from '../utils/hooks';
+import { useColors } from '../utils/hooks';
 
 interface ToggleProps {
   isToggled: boolean;
-  
 }
 
-const Toggle: React.FC<ToggleProps> = ({isToggled}) => {
-  const {colors} = useColors();
+const Toggle: React.FC<ToggleProps> = ({ isToggled }) => {
+  const { colors } = useColors();
   const isToggledInternal = useDerivedValue(() => (isToggled ? 1 : 0));
 
   const animatedStyle = useAnimatedStyle(() => {
@@ -38,7 +37,8 @@ const Toggle: React.FC<ToggleProps> = ({isToggled}) => {
           {
             backgroundColor: colors.primary,
           },
-        ]}>
+        ]}
+      >
         <Animated.View
           style={[
             styles.toggleSwitchButton,
