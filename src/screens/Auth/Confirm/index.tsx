@@ -30,7 +30,8 @@ export const Confirm = ({ route, navigation }: Props) => {
     try {
       setLoading(true);
       const response = await confirmEmail({ code: code, email: email });
-      AsyncStorage.setItem(AsyncStore.ACCESS_TOKEN, response.accessToken);
+      await AsyncStorage.setItem(AsyncStore.ACCESS_TOKEN, response.accessToken);
+      await AsyncStorage.setItem(AsyncStore.REFRESH_TOKEN, response.refreshToken);
       const getUserResponse = await getUser();
       dispatch(setUserInfo(getUserResponse));
       navigation.navigate(RootRoutes.Main);

@@ -1,16 +1,16 @@
+import React from 'react';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Linking, StyleSheet, View } from 'react-native';
+import { useTranslation } from 'react-i18next';
+
 import { AuthRoute, AuthStackParamList } from '../../../router/Auth';
 import { useAppSelector, useColors } from '../../../utils/hooks';
-
-import React from 'react';
 
 import { Button, Text } from '../../../components';
 
 import FastImage from 'react-native-fast-image';
 import { welcomeLogo } from '../../../assets';
 import { PrivacyPolicyLink, TermsOfUseLink } from '../../../utils/constants';
-import { useTranslation } from 'react-i18next';
 
 type Props = NativeStackScreenProps<AuthStackParamList, AuthRoute.Welcome>;
 

@@ -38,6 +38,7 @@ export const SignIn = ({ route, navigation }: Props) => {
       setLoading(true);
       const response = await authSignIn({ email: email, password: password });
       await AsyncStorage.setItem(AsyncStore.ACCESS_TOKEN, response.accessToken);
+      await AsyncStorage.setItem(AsyncStore.REFRESH_TOKEN, response.refreshToken);
       const getUserResponse = await getUser();
       dispatch(setUserInfo(getUserResponse));
       navigation.navigate(RootRoutes.Main);

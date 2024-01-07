@@ -5,6 +5,7 @@ export const MIN_FIRST_NAME_LENGTH = 2;
 export const MIN_USERNAME_LENGTH = 5;
 export enum AsyncStore {
   'ACCESS_TOKEN' = 'ACCESS_TOKEN',
+  'REFRESH_TOKEN' = 'REFRESH_TOKEN',
   'LANGUAGE' = 'LANGUAGE',
 }
 

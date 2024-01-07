@@ -21,6 +21,7 @@ export type SignInRequestData = {
 
 export type SignInpResponseData = {
   accessToken: string;
+  refreshToken: string
 };
 
 export type ResendEmailCodeRequest = {
@@ -41,4 +42,5 @@ export type ConfirmEmailRequest = {
 
 export type ConfirmEmailResponse = {
   accessToken: string;
+  refreshToken: string
 };

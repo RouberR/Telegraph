@@ -46,9 +46,10 @@ export const deleteChat = async (id: string) => {
     method: 'DELETE',
   };
   const response = await api(`${ChatLink.CHAT}/${id}`, options);
-
-  return response.json();
+  return response
 };
+
+
 
 export const getChat = async (id: string): Promise<ChatResponse> => {
   const options: Options = {
