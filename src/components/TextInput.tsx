@@ -7,12 +7,12 @@ import {
   StyleProp,
   ViewStyle,
 } from 'react-native';
+import Animated, { FadeInDown, FadeOut } from 'react-native-reanimated';
+import FastImage from 'react-native-fast-image';
 import {useStyles} from '../utils/hooks';
 import {TColors} from '../utils/theme/colors';
 import Text from './Text';
 import {Touchable} from '.';
-import Animated, {FadeInDown, FadeOut} from 'react-native-reanimated';
-import FastImage from 'react-native-fast-image';
 import {search} from '../assets';
 
 interface ITextInput extends TextInputProps {
@@ -120,37 +120,37 @@ const _TextInput: React.FC<ITextInput> = ({
 
 const createStyles = (colors: TColors) =>
   StyleSheet.create({
-    inputContainer: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      borderWidth: 1,
-      borderColor: colors.input,
-      borderRadius: 10,
-      height: 56,
-    },
-    input: {
-      flex: 1,
-      color: colors.text,
-      paddingHorizontal: 10,
-    },
-    toggleButton: {
-      marginRight: 8,
-    },
-    errorText: {
-      color: colors.red,
-      padding: 10,
-    },
-    label: {
-      bottom: -8,
-      left: 8,
-      backgroundColor: colors.appBackground,
-      alignSelf: 'flex-start',
-      zIndex: 2,
-      fontSize: 12,
-    },
-    secureText: {
-      fontSize: 12,
-    },
-  });
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: colors.input,
+    borderRadius: 10,
+    height: 56,
+  },
+  input: {
+    flex: 1,
+    color: colors.text,
+    paddingHorizontal: 10,
+  },
+  toggleButton: {
+    marginRight: 8,
+  },
+  errorText: {
+    color: colors.red,
+    padding: 10,
+  },
+  label: {
+    bottom: -8,
+    left: 8,
+    backgroundColor: colors.appBackground,
+    alignSelf: 'flex-start',
+    zIndex: 2,
+    fontSize: 12,
+  },
+  secureText: {
+    fontSize: 12,
+  },
+});
 
 export default _TextInput;

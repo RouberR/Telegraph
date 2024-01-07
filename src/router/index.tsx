@@ -4,15 +4,15 @@ import {
   DefaultTheme,
   useNavigationContainerRef,
 } from '@react-navigation/native';
-import AuthNavigator from './Auth';
-import {useAppSelector, useColors} from '../utils/hooks';
-import {Colors} from '../utils/theme';
-import BottomBar from './BottomBar';
-import MainNavigator from './Main';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {setNavigationReference} from '../api';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import i18next from 'i18next';
+import AuthNavigator from './Auth';
+import { useAppSelector, useColors } from '../utils/hooks';
+import { Colors } from '../utils/theme';
+import BottomBar from './BottomBar';
+import MainNavigator from './Main';
+import {setNavigationReference} from '../api';
 import {AsyncStore} from '../utils/constants';
 
 export enum RootRoutes {

@@ -1,7 +1,7 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {ScrollView, StyleSheet, View} from 'react-native';
-import {Button, Text, TextInput} from '../../../components';
-import {useState} from 'react';
+import { useState } from 'react';
+import { Button, Text, TextInput } from '../../../components';
 import {MIN_EMAIL_LENGTH, MIN_PASSWORD_LENGTH} from '../../../utils/constants';
 import {MainRoute, MainStackParamList} from '../../../router/Main';
 
@@ -15,7 +15,8 @@ export const Help = ({route, navigation}: Props) => {
   return (
     <ScrollView
       contentContainerStyle={styles.container}
-      keyboardShouldPersistTaps="handled">
+      keyboardShouldPersistTaps="handled"
+    >
       <Text>
         Do you have any questions? Ideas? Complaints? Send them to us!
       </Text>
@@ -23,17 +24,17 @@ export const Help = ({route, navigation}: Props) => {
         placeholder="Enter message"
         value={message}
         onChangeText={setMessage}
-        multiline={true}
-        containerStyle={{height: 150, alignItems: 'baseline'}}
+        multiline
+        containerStyle={{ height: 150, alignItems: 'baseline' }}
       />
       <Button
         value="Send report"
         onPress={handleSendReport}
-        containerStyle={{marginTop: 32}}
+        containerStyle={{ marginTop: 32 }}
       />
     </ScrollView>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {

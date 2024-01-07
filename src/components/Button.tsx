@@ -46,24 +46,24 @@ export const Button: React.FC<IButtonProps> = ({
 
 const createStyles = (colors: TColors) =>
   StyleSheet.create({
-    primary: {
-      backgroundColor: colors.primary,
-    },
-    secondary: {
-      borderWidth: 1,
-      borderColor: colors.secondary,
-    },
-    error: {
-      backgroundColor: colors.red,
-    },
-    button: {
-      height: 56,
-      borderRadius: 16,
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    disabled: {
-      backgroundColor: colors.grey,
-      opacity: 0.7,
-    },
-  });
+  primary: {
+    backgroundColor: colors.primary,
+  },
+  secondary: {
+    borderWidth: 1,
+    borderColor: colors.secondary,
+  },
+  error: {
+    backgroundColor: colors.red,
+  },
+  button: {
+    height: 56,
+    borderRadius: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  disabled: {
+    backgroundColor: colors.grey,
+    opacity: 0.7,
+  },
+});

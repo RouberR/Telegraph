@@ -15,8 +15,8 @@ export type SignUpResponseData = {
 };
 
 export type SignInRequestData = {
-  email: string
-  password: string
+  email: string;
+  password: string;
 };
 
 export type SignInpResponseData = {

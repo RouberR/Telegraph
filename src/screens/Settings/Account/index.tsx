@@ -1,6 +1,13 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {KeyboardAvoidingView, ScrollView, StyleSheet, View} from 'react-native';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import FastImage from 'react-native-fast-image';
+import {useDispatch} from 'react-redux';
+import {
+  ImageLibraryOptions,
+  ImagePickerResponse,
+  launchImageLibrary,
+} from 'react-native-image-picker';
 import {AuthRoute, AuthStackParamList} from '../../../router/Auth';
 import {Button, Loading, TextInput, Touchable} from '../../../components';
 import {
@@ -12,16 +19,9 @@ import {
 } from '../../../utils/constants';
 import {authSignUp} from '../../../api/Auth';
 import {MainRoute, MainStackParamList} from '../../../router/Main';
-import FastImage from 'react-native-fast-image';
-import {useAppSelector} from '../../../utils/hooks';
-import {getUser, updateUser} from '../../../api/Profile';
-import {setUserInfo} from '../../../store/User/user';
-import {useDispatch} from 'react-redux';
-import {
-  ImageLibraryOptions,
-  ImagePickerResponse,
-  launchImageLibrary,
-} from 'react-native-image-picker';
+import { useAppSelector } from '../../../utils/hooks';
+import { getUser, updateUser } from '../../../api/Profile';
+import { setUserInfo } from '../../../store/User/user';
 
 type Props = NativeStackScreenProps<MainStackParamList, MainRoute.Account>;
 
@@ -65,12 +65,12 @@ export const Account = ({route, navigation}: Props) => {
 
   const isDisableButtonSave = () => {
     return (
-      formState.email.length < MIN_EMAIL_LENGTH ||
+    formState.email.length < MIN_EMAIL_LENGTH ||
       formState.lastName.length < MIN_LAST_NAME_LENGTH ||
       formState.firstName.length < MIN_FIRST_NAME_LENGTH ||
       formState.userName.length < MIN_USERNAME_LENGTH
-    );
-  };
+  );
+};
 
   const handleSave = async () => {
     try {

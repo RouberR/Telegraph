@@ -10,6 +10,7 @@ import {useColors} from '../utils/hooks';
 
 interface ToggleProps {
   isToggled: boolean;
+  
 }
 
 const Toggle: React.FC<ToggleProps> = ({isToggled}) => {

@@ -1,9 +1,11 @@
 import React from 'react';
-import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
+import {
+ StyleSheet, View, Text, TouchableOpacity 
+} from 'react-native';
 
-import {useStyles} from '../utils/hooks';
-import {TColors} from '../utils/theme/colors';
 import Modal from 'react-native-modal';
+import { useStyles } from '../utils/hooks';
+import { TColors } from '../utils/theme/colors';
 
 type IModalCustomProps = {
   isModalVisible: boolean;
@@ -29,12 +31,13 @@ export const ModalCustom: React.FC<IModalCustomProps> = ({
       onBackdropPress={handleClose}
       animationIn="fadeIn"
       animationOut="fadeOut"
-      useNativeDriver={true}
-      hideModalContentWhileAnimating={true}
+      useNativeDriver
+      hideModalContentWhileAnimating
       backdropTransitionOutTiming={0}
       animationInTiming={500}
       animationOutTiming={500}
-      avoidKeyboard={true}>
+      avoidKeyboard
+    >
       <View style={styles.modalContainer}>
         <Text style={styles.modalTitle}>{title}</Text>
         <Text style={styles.subTitle}>{subTitle}</Text>
@@ -48,30 +51,30 @@ export const ModalCustom: React.FC<IModalCustomProps> = ({
 
 const createStyles = (colors: TColors) =>
   StyleSheet.create({
-    modalContainer: {
-      backgroundColor: colors.white,
-      padding: 20,
-      borderRadius: 10,
-    },
-    modalTitle: {
-      fontSize: 22,
-      fontWeight: 'bold',
-      marginBottom: 10,
-      textAlign: 'center',
-      color: colors.red,
-    },
-    subTitle: {
-      fontSize: 16,
-      marginBottom: 20,
-    },
-    closeButton: {
-      backgroundColor: colors.primary,
-      padding: 10,
-      borderRadius: 16,
-      alignSelf: 'flex-end',
-    },
-    closeButtonText: {
-      color: colors.white,
-      fontSize: 16,
-    },
-  });
+  modalContainer: {
+    backgroundColor: colors.white,
+    padding: 20,
+    borderRadius: 10,
+  },
+  modalTitle: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    textAlign: 'center',
+    color: colors.red,
+  },
+  subTitle: {
+    fontSize: 16,
+    marginBottom: 20,
+  },
+  closeButton: {
+    backgroundColor: colors.primary,
+    padding: 10,
+    borderRadius: 16,
+    alignSelf: 'flex-end',
+  },
+  closeButtonText: {
+    color: colors.white,
+    fontSize: 16,
+  },
+});

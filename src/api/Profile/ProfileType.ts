@@ -1,7 +1,7 @@
-import { TYPE_CHAT } from "../Chat/ChatType";
+import { TYPE_CHAT } from '../Chat/ChatType';
 
 export type UserProfile = {
-  id:string;
+  id: string;
   firstName: string;
   lastName: string;
   userName: string;
@@ -9,15 +9,15 @@ export type UserProfile = {
   updatedAt: string;
   avatarUrl: string;
   chats: Array<{
-    id:string,
-    title: string,
-    type: TYPE_CHAT
-  }>
+    id: string;
+    title: string;
+    type: TYPE_CHAT;
+  }>;
 };
 
-export type UpdateUserRequest= {
+export type UpdateUserRequest = {
   firstName?: string;
   lastName?: string;
   password?: string;
-  file?: string
-}
+  file?: string;
+};

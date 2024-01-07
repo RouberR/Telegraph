@@ -1,15 +1,15 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import FastImage from 'react-native-fast-image';
+import { useNavigation } from '@react-navigation/native';
 import {MainRoute} from './Main';
 import {Home} from '../screens/Main/Home';
 import {Messenger} from '../screens/Main/Messenger';
 import {Contacts} from '../screens/Main/Contacts';
-import FastImage from 'react-native-fast-image';
-import {contact, home, logo, messenger, settings} from '../assets/bottomBar';
-import {useColors} from '../utils/hooks';
-import {Touchable} from '../components';
-import {RootRoutes} from '.';
-import {useNavigation} from '@react-navigation/native';
+import { contact, home, logo, messenger, settings } from '../assets/bottomBar';
+import { useColors } from '../utils/hooks';
+import { Touchable } from '../components';
+import { RootRoutes } from '.';
 
 type MainTabParamList = {
   Home: undefined;

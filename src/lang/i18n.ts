@@ -4,8 +4,8 @@ import en from './en.json';
 import ru from './ru.json';
 
 const resources = {
-  en: en,
-  ru: ru,
+  en,
+  ru,
 };
 
 i18n
@@ -16,7 +16,7 @@ i18n
   .init({
     compatibilityJSON: 'v3',
     resources,
-    lng: 'en',// default language to use.
+    lng: 'en', // default language to use.
   });
 
 export default {i18n};

@@ -1,12 +1,8 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {Alert, ScrollView, StyleSheet, View} from 'react-native';
-import {Button, Text, TextInput, Toggle, Touchable} from '../../components';
-import {useLayoutEffect, useState} from 'react';
-import {
-  AsyncStore,
-  MIN_EMAIL_LENGTH,
-  MIN_PASSWORD_LENGTH,
-} from '../../utils/constants';
+import {Button, Text, Toggle, Touchable} from '../../components';
+import {useState} from 'react';
+import {AsyncStore} from '../../utils/constants';
 import {MainRoute, MainStackParamList} from '../../router/Main';
 import FastImage from 'react-native-fast-image';
 import {
@@ -23,8 +19,7 @@ import {setTheme} from '../../store/Settings/settings';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {deleteUser} from '../../api/Profile';
 import {clearUser} from '../../store/User/user';
-import {RootParamList, RootRoutes} from '../../router';
-import {AuthStackParamList} from '../../router/Auth';
+import {RootParamList} from '../../router';
 import {CompositeScreenProps} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {signOut} from '../../api/Auth';
@@ -37,22 +32,16 @@ type Props = CompositeScreenProps<
 export const Settings = ({route, navigation}: Props) => {
   const {colors} = useColors();
   const {bottom} = useSafeAreaInsets();
+  const dispatch = useDispatch();
 
   const theme = useAppSelector(state => state.settings.theme);
   const user = useAppSelector(state => state.user);
   const [userLanguage, setUserLanguage] = useState(i18next.language);
 
-  const dispatch = useDispatch();
-
   const toggleTheme = () => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
     dispatch(setTheme(newTheme));
   };
-
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  const handleSignIn = () => {};
 
   const settingsConfig = [
     {
@@ -171,6 +160,7 @@ export const Settings = ({route, navigation}: Props) => {
         <View>
           {settingsConfig.map(item => (
             <Touchable
+              key={item.id}
               onPress={item.onPress}
               style={{
                 flexDirection: 'row',

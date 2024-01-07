@@ -1,7 +1,7 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {Home} from '../screens/Main/Home';
-import {View} from 'react-native';
+import { View } from 'react-native';
+import { Home } from '../screens/Main/Home';
 import BottomBar from './BottomBar';
 import {Chat} from '../screens/Main/Chat';
 import {Settings} from '../screens/Settings';
@@ -37,9 +37,7 @@ export enum MainRoute {
 
 const MainStack = createNativeStackNavigator<MainStackParamList>();
 
-const SettingsScreen: React.FC = () => {
-  return <View></View>;
-};
+const SettingsScreen: React.FC = () => <View />;
 
 const MainNavigator: React.FC = () => {
   const {colors} = useColors();

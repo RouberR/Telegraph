@@ -35,7 +35,7 @@ const ContactList: React.FC<IContactList> = ({
               <Text color={colors.text}>Contact</Text>
             </Touchable>
             <Touchable
-              disabled={true}
+              disabled
               onPress={() => setSelectedTab('Group')}
               style={styles.tabGroup}>
               <Text style={{opacity: 0.5}} color={colors.grey}>
@@ -53,9 +53,9 @@ const ContactList: React.FC<IContactList> = ({
           style={styles.containerContact}>
           <FastImage source={{uri: item.avatarUrl}} style={styles.avatar} />
           <View style={styles.itemContent}>
-            <Text
-              fontSize={12}
-              color={colors.text}>{`${item.firstName} ${item.lastName}`}</Text>
+            <Text fontSize={12} color={colors.text}>
+              {`${item.firstName} ${item.lastName}`}
+            </Text>
             <Text color={colors.text} fontSize={14}>
               {item.userName || item.title}
             </Text>
@@ -71,37 +71,37 @@ const ContactList: React.FC<IContactList> = ({
 
 const createStyles = (selectedTab: string) => (colors: TColors) =>
   StyleSheet.create({
-    containerTab: {
-      flexDirection: 'row',
-      flex: 1,
-      justifyContent: 'space-between',
-      marginBottom: 16,
-    },
-    tabContact: {
-      borderBottomWidth: selectedTab === 'Contact' ? 2 : 0,
-      borderBottomColor:
+  containerTab: {
+    flexDirection: 'row',
+    flex: 1,
+    justifyContent: 'space-between',
+    marginBottom: 16,
+  },
+  tabContact: {
+    borderBottomWidth: selectedTab === 'Contact' ? 2 : 0,
+    borderBottomColor:
         selectedTab === 'Contact' ? colors.default : 'transparent',
-      padding: 10,
-      flex: 1,
-      alignItems: 'center',
-    },
-    tabGroup: {
-      borderBottomWidth: selectedTab === 'Group' ? 2 : 0,
-      borderBottomColor:
+    padding: 10,
+    flex: 1,
+    alignItems: 'center',
+  },
+  tabGroup: {
+    borderBottomWidth: selectedTab === 'Group' ? 2 : 0,
+    borderBottomColor:
         selectedTab === 'Group' ? colors.default : 'transparent',
-      padding: 10,
-      flex: 1,
-      alignItems: 'center',
-    },
-    avatar: {
-      width: 40,
-      height: 40,
-      borderRadius: 20,
-      borderWidth: 1,
-      borderColor: colors.default,
-    },
-    containerContact: {flexDirection: 'row', padding: 10},
-    itemContent: {marginLeft: 10, gap: 4},
-  });
+    padding: 10,
+    flex: 1,
+    alignItems: 'center',
+  },
+  avatar: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: colors.default,
+  },
+  containerContact: {flexDirection: 'row', padding: 10},
+  itemContent: {marginLeft: 10, gap: 4},
+});
 
 export default ContactList;

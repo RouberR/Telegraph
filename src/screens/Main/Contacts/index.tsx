@@ -1,13 +1,14 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {ScrollView, StyleSheet} from 'react-native';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { debounce } from 'lodash';
 import {Button, Loading, TextInput} from '../../../components';
-import {useCallback, useEffect, useMemo, useState} from 'react';
-import {MIN_EMAIL_LENGTH, MIN_PASSWORD_LENGTH} from '../../../utils/constants';
-import {MainRoute, MainStackParamList} from '../../../router/Main';
+import { MIN_EMAIL_LENGTH, MIN_PASSWORD_LENGTH } from '../../../utils/constants';
+import { MainRoute, MainStackParamList } from '../../../router/Main';
 import ContactList from '../../../components/ContactList';
-import {createChat, getAllUsers} from '../../../api/Chat';
-import {debounce} from 'lodash';
+import { createChat, getAllUsers } from '../../../api/Chat';
 import {UsersResponse} from '../../../api/Chat/ChatType';
+
 type Props = NativeStackScreenProps<MainStackParamList, MainRoute.Contacts>;
 
 export const Contacts = ({route, navigation}: Props) => {
@@ -42,7 +43,7 @@ export const Contacts = ({route, navigation}: Props) => {
         participantId: item.id,
         type: 'Direct',
       });
-      navigation.navigate(MainRoute.Chat, {...createNewChat});
+      navigation.navigate(MainRoute.Chat, { ...createNewChat });
     } catch (e) {
       console.log('Error create chat ', e);
     }
@@ -56,12 +57,13 @@ export const Contacts = ({route, navigation}: Props) => {
   return (
     <ScrollView
       contentContainerStyle={styles.container}
-      keyboardShouldPersistTaps="handled">
+      keyboardShouldPersistTaps="handled"
+    >
       <TextInput
         placeholder="Find the user by email"
         value={search}
         onChangeText={handleInputChange}
-        rightIcon={true}
+        rightIcon
       />
       <ContactList
         contacts={searchResults?.data || []}
@@ -70,7 +72,7 @@ export const Contacts = ({route, navigation}: Props) => {
       <Loading loading={loading} />
     </ScrollView>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {

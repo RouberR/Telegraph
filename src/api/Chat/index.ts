@@ -1,24 +1,18 @@
 import {Options} from 'ky';
 import { api} from '..';
-import {
-  ChatResponse,
-  CreateChatData,
-  UsersResponse,
-} from './ChatType';
+import { ChatResponse, CreateChatData, UsersResponse } from './ChatType';
 
 enum ChatLink {
   'USER_ALL' = 'user/all',
-  "CHAT" = 'chat'
-
+  'CHAT' = 'chat',
 }
-
 
 export const getAllUsers = async (
   orderBy: 'asc' | 'desc' = 'asc',
-  page: number = 1,
-  limit: number = 50,
-  searchBy: 'userName' | "email" = 'userName' ,
-  searchText: string = ''
+  page = 1,
+  limit = 50,
+  searchBy: 'userName' | 'email' = 'userName',
+  searchText = '',
 ): Promise<UsersResponse> => {
   const queryParams = new URLSearchParams({
     orderBy,
@@ -34,12 +28,11 @@ export const getAllUsers = async (
 
   const response = await api(
     `${ChatLink.USER_ALL}?${queryParams.toString()}`,
-    options
+    options,
   );
 
   return response.json();
 };
-
 
 export const createChat = async (
   data: CreateChatData,
@@ -48,40 +41,24 @@ export const createChat = async (
     method: 'POST',
     json: data,
   };
-  const response = await api(
-    ChatLink.CHAT,
-    options,
-  )
+  const response = await api(ChatLink.CHAT, options);
 
-  return response.json()
+  return response.json();
 };
 
-
-export const deleteChat = async (
-  id:string
-) => {
+export const deleteChat = async (id: string) => {
   const options: Options = {
     method: 'DELETE',
   };
-  const response = await api(
-    `${ChatLink.CHAT}/${id}`,
-    options,
-  )
+  const response = await api(`${ChatLink.CHAT}/${id}`, options);
 
-  return response.json()
+  return response.json();
 };
 
-
-export const getChat = async (
- id:string
-): Promise<ChatResponse> => {
+export const getChat = async (id: string): Promise<ChatResponse> => {
   const options: Options = {
     method: 'GET',
-   
   };
-  const response = await api(
-    `${ChatLink.CHAT}/${id}`,
-    options,
-  )
-  return response.json()
+  const response = await api(`${ChatLink.CHAT}/${id}`, options);
+  return response.json();
 };

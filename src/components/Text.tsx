@@ -1,5 +1,7 @@
 import React, {memo} from 'react';
-import {ColorValue, StyleSheet, Text, TextProps, TextStyle} from 'react-native';
+import {
+ ColorValue, StyleSheet, Text, TextProps, TextStyle 
+} from 'react-native';
 import {useColors} from '../utils/hooks';
 
 interface ITextProps extends TextProps {
@@ -42,7 +44,7 @@ const _Text: React.FC<ITextProps> = memo(
             fontWeight,
             opacity,
             fontSize,
-            color: color ? color : colors.text,
+            color: color || colors.text,
             lineHeight,
             textAlign,
             flexShrink,
