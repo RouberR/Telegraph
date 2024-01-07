@@ -1,7 +1,7 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {Alert, ScrollView, StyleSheet, View} from 'react-native';
 import {Button, Text, TextInput, Toggle, Touchable} from '../../components';
-import {useState} from 'react';
+import {useLayoutEffect, useState} from 'react';
 import {
   AsyncStore,
   MIN_EMAIL_LENGTH,
@@ -28,6 +28,7 @@ import {AuthStackParamList} from '../../router/Auth';
 import {CompositeScreenProps} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {signOut} from '../../api/Auth';
+import i18next from 'i18next';
 
 type Props = CompositeScreenProps<
   NativeStackScreenProps<MainStackParamList, MainRoute.Settings>,
@@ -36,8 +37,11 @@ type Props = CompositeScreenProps<
 export const Settings = ({route, navigation}: Props) => {
   const {colors} = useColors();
   const {bottom} = useSafeAreaInsets();
+
   const theme = useAppSelector(state => state.settings.theme);
   const user = useAppSelector(state => state.user);
+  const [userLanguage, setUserLanguage] = useState(i18next.language);
+
   const dispatch = useDispatch();
 
   const toggleTheme = () => {
@@ -72,18 +76,30 @@ export const Settings = ({route, navigation}: Props) => {
     },
     {
       id: '4',
+      title: 'Language',
+      icon: sun,
+      onPress: async () => {
+        const language = userLanguage === 'ru' ? 'en' : 'ru';
+        i18next.changeLanguage(language);
+        await AsyncStorage.setItem(AsyncStore.LANGUAGE, language);
+        setUserLanguage(language);
+      },
+      languageMode: true,
+    },
+    {
+      id: '5',
       title: 'Storage and Data',
       icon: folder,
       onPress: () => {},
     },
     {
-      id: '5',
+      id: '6',
       title: 'Help',
       icon: question,
       onPress: () => navigation.navigate(MainRoute.Help),
     },
     {
-      id: '6',
+      id: '7',
       title: 'Invite a Friend',
       icon: addGroup,
       onPress: () => {},
@@ -122,6 +138,17 @@ export const Settings = ({route, navigation}: Props) => {
     }
   };
 
+  // const getUserLanguage = async () => {
+  //   const language = await AsyncStorage.getItem(AsyncStore.LANGUAGE);
+  //   if (!!language) {
+  //     setUserLanguage(language);
+  //   } else {
+  //     setUserLanguage(i18next.language);
+  //   }
+  // };
+  // useLayoutEffect(() => {
+  //   getUserLanguage();
+  // }, []);
   return (
     <View style={{marginHorizontal: 16, flex: 1}}>
       <ScrollView style={{flex: 1}}>
@@ -165,6 +192,7 @@ export const Settings = ({route, navigation}: Props) => {
               {item.dartMode && (
                 <Toggle isToggled={theme === 'dark' ? true : false} />
               )}
+              {item.languageMode && <Text>{userLanguage}</Text>}
             </Touchable>
           ))}
           <Text

@@ -1,36 +1,25 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {Linking, StyleSheet, TouchableOpacity, View} from 'react-native';
+import {Linking, StyleSheet, View} from 'react-native';
 import {AuthRoute, AuthStackParamList} from '../../../router/Auth';
 import {useAppSelector, useColors} from '../../../utils/hooks';
-import {authSignIn} from '../../../api/Auth';
+
 import React from 'react';
-import {useDispatch} from 'react-redux';
-import {setTheme} from '../../../store/Settings/settings';
+
 import {Button, Text} from '../../../components';
-import {RootRoutes} from '../../../router';
-import {MainRoute} from '../../../router/Main';
+
 import FastImage from 'react-native-fast-image';
 import {welcomeLogo} from '../../../assets';
 import {PrivacyPolicyLink, TermsOfUseLink} from '../../../utils/constants';
+import {useTranslation} from 'react-i18next';
 
 type Props = NativeStackScreenProps<AuthStackParamList, AuthRoute.Welcome>;
 
 export const Welcome = ({route, navigation}: Props) => {
-  const count = useAppSelector(state => state.user);
+  const {t} = useTranslation();
   const {colors} = useColors();
 
+  const count = useAppSelector(state => state.user);
   console.log(count);
-
-  // const getTest = async () => {
-  //   const response = await authSignIn({
-  //     email: 'i.s.toaccept@gmail.com',
-  //     password: 'password',
-  //   });
-  //   console.log('response', response);
-  // };
-  // React.useEffect(() => {
-  //   getTest();
-  // }, []);
 
   return (
     <>
@@ -42,7 +31,7 @@ export const Welcome = ({route, navigation}: Props) => {
         />
         <View style={styles.containerButtons}>
           <Button
-            value="Sign Up"
+            value={t('SIGN_UP')}
             // onPress={() =>
             //   navigation.navigate(RootRoutes.Main, {screen: MainRoute.Settings})
             // }

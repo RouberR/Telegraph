@@ -11,6 +11,9 @@ import BottomBar from './BottomBar';
 import MainNavigator from './Main';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {setNavigationReference} from '../api';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import i18next from 'i18next';
+import {AsyncStore} from '../utils/constants';
 
 export enum RootRoutes {
   Auth = 'Auth',
@@ -29,6 +32,21 @@ const RootNavigator: React.FC = () => {
   const {applyColors, colors} = useColors();
   const theme = useAppSelector(state => state.settings.theme);
   const navigationRef = useNavigationContainerRef();
+
+  useEffect(() => {
+    const loadLanguage = async () => {
+      try {
+        const storedLanguage = await AsyncStorage.getItem(AsyncStore.LANGUAGE);
+        if (storedLanguage) {
+          i18next.changeLanguage(storedLanguage);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    loadLanguage();
+  }, []);
+
   useEffect(() => {
     applyColors(theme === 'dark' ? Colors.dark : Colors.light);
   }, [theme]);
