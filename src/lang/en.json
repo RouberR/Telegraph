@@ -1,5 +1,14 @@
 {
     "translation": {
-        "SIGN_UP": "Sign up"
+        "SIGN_UP": "Sign up",
+        "SIGN_IN": "Sign In",
+        "FIRST_NAME": "First Name",
+        "LAST_NAME": "Last Name",
+        "EMAIL": "Email",
+        "USER_NAME": "Username",
+        "PASSWORD": "Password",
+        "CONFIRM_PASSWORD": "Confirm Password",
+        "FIND_USER_BY_EMAIL": "Find the user by email",
+        "FIND_USER_BY_USERNAME": "Find the user by username"
      }
 }

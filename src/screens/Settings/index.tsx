@@ -133,41 +133,20 @@ export const Settings = ({ route, navigation }: Props) => {
   //   getUserLanguage();
   // }, []);
   return (
-    <View style={{ marginHorizontal: 16, flex: 1 }}>
-      <ScrollView style={{ flex: 1 }}>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            gap: 12,
-            marginBottom: 20,
-          }}
-        >
-          <FastImage source={{ uri: user.avatarUrl }} style={{ width: 72, height: 72 }} />
-          <View style={{ gap: 5 }}>
+    <View style={styles.container}>
+      <ScrollView style={styles.scrollStyle}>
+        <View style={styles.headerContainer}>
+          <FastImage source={{ uri: user.avatarUrl }} style={styles.avatar} />
+          <View style={styles.containerUserInfo}>
             <Text>{`${user.firstName} ${user.lastName}`}</Text>
             <Text fontSize={12}>{user.email}</Text>
           </View>
         </View>
         <View>
           {settingsConfig.map((item) => (
-            <Touchable
-              key={item.id}
-              onPress={item.onPress}
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                // borderWidth: 1,
-                paddingVertical: 10,
-              }}
-            >
-              <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}>
-                <FastImage
-                  source={item.icon}
-                  style={{ width: 24, height: 24 }}
-                  tintColor={colors.text}
-                />
+            <Touchable key={item.id} onPress={item.onPress} style={styles.settingsConfigContainer}>
+              <View style={styles.settingsTitleContainer}>
+                <FastImage source={item.icon} style={styles.icon} tintColor={colors.text} />
 
                 <Text>{item.title}</Text>
               </View>
@@ -177,7 +156,7 @@ export const Settings = ({ route, navigation }: Props) => {
           ))}
           <Text
             fontWeight="600"
-            style={{ marginTop: 10 }}
+            style={styles.textLogout}
             color={colors.red}
             onPress={handleLogout}
           >
@@ -186,10 +165,7 @@ export const Settings = ({ route, navigation }: Props) => {
         </View>
       </ScrollView>
       <Button
-        containerStyle={{
-          marginTop: 20,
-          marginBottom: bottom || 22,
-        }}
+        containerStyle={StyleSheet.compose(styles.button, { marginBottom: bottom || 22 })}
         type="error"
         value="Delete account"
         onPress={showModalDeleteAccount}
@@ -200,9 +176,28 @@ export const Settings = ({ route, navigation }: Props) => {
 
 const styles = StyleSheet.create({
   container: {
-    flexGrow: 1,
     marginHorizontal: 16,
-    gap: 24,
-    marginTop: 24,
+    flex: 1,
+  },
+  scrollStyle: { flex: 1 },
+  headerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    marginBottom: 20,
+  },
+  avatar: { width: 72, height: 72, borderRadius: 36 },
+  containerUserInfo: { gap: 5 },
+  settingsConfigContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 10,
+  },
+  settingsTitleContainer: { flexDirection: 'row', gap: 10, alignItems: 'center' },
+  icon: { width: 24, height: 24 },
+  textLogout: { marginTop: 10 },
+  button: {
+    marginTop: 20,
   },
 });

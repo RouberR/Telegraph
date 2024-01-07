@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { KeyboardAvoidingView, ScrollView, StyleSheet } from 'react-native';
+import { Alert, KeyboardAvoidingView, ScrollView, StyleSheet } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { useTranslation } from 'react-i18next';
 
 import { AuthRoute, AuthStackParamList } from '../../../router/Auth';
 import { Button, TextInput } from '../../../components';
@@ -22,16 +23,9 @@ const initialFormState: SignUpForm = {
   confirmPassword: '',
 };
 
-const placeholders: Record<keyof SignUpForm, string> = {
-  firstName: 'First Name',
-  lastName: 'Last Name',
-  email: 'Email',
-  userName: 'Username',
-  password: 'Password',
-  confirmPassword: 'Confirm Password',
-};
-
 export const SignUp = ({ route, navigation }: Props) => {
+  const { t } = useTranslation();
+
   const [isModal, setIsModal] = useState(false);
   const [formState, setFormState] = useState(initialFormState);
   const [loading, setLoading] = useState(false);
@@ -41,6 +35,15 @@ export const SignUp = ({ route, navigation }: Props) => {
       ...prevFormState,
       [fieldName]: value,
     }));
+  };
+
+  const placeholders: Record<keyof SignUpForm, string> = {
+    firstName: t('FIRST_NAME'),
+    lastName: t('FIRST_NAME'),
+    email: t('EMAIL'),
+    userName: t('USER_NAME'),
+    password: t('PASSWORD'),
+    confirmPassword: t('CONFIRM_PASSWORD'),
   };
 
   const isSignUpDisabled = () => {
@@ -74,6 +77,9 @@ export const SignUp = ({ route, navigation }: Props) => {
         const errorBody = JSON.parse(error.response._bodyText);
         setError(errorBody);
       } catch (parseError) {
+        Alert.alert('Warning', `parseError`, [{ text: 'Отмена', style: 'cancel' }], {
+          cancelable: false,
+        });
         console.error('Error parsing error body:', parseError);
       }
       setIsModal(true);
@@ -102,7 +108,7 @@ export const SignUp = ({ route, navigation }: Props) => {
         ))}
         <KeyboardAvoidingView behavior="padding" enabled>
           <Button
-            value="Sign Up"
+            value={t('SIGN_UP')}
             onPress={handleSignUp}
             disabled={isSignUpDisabled()}
             isLoading={loading}

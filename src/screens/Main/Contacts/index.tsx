@@ -1,18 +1,19 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { ScrollView, StyleSheet } from 'react-native';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { debounce } from 'lodash';
 
-import { Button, Loading, TextInput } from '../../../components';
-import { MIN_EMAIL_LENGTH, MIN_PASSWORD_LENGTH } from '../../../utils/constants';
+import { Loading, TextInput } from '../../../components';
 import { MainRoute, MainStackParamList } from '../../../router/Main';
 import ContactList from '../../../components/ContactList';
 import { createChat, getAllUsers } from '../../../api/Chat';
 import { UsersResponse } from '../../../api/Chat/ChatType';
+import { useTranslation } from 'react-i18next';
 
 type Props = NativeStackScreenProps<MainStackParamList, MainRoute.Contacts>;
 
 export const Contacts = ({ route, navigation }: Props) => {
+  const { t } = useTranslation();
   const [search, setSearch] = useState('');
   const [searchResults, setSearchResults] = useState<UsersResponse>();
   const [loading, setLoading] = useState(false);
@@ -52,7 +53,7 @@ export const Contacts = ({ route, navigation }: Props) => {
   return (
     <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
       <TextInput
-        placeholder="Find the user by email"
+        placeholder={t('FIND_USER_BY_EMAIL')}
         value={search}
         onChangeText={handleInputChange}
         rightIcon

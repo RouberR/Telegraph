@@ -4,20 +4,20 @@ import { useCallback, useState } from 'react';
 import { debounce } from 'lodash';
 import { useDispatch } from 'react-redux';
 import { useFocusEffect } from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
 
-import { Button, Loading, TextInput } from '../../../components';
-import { MIN_EMAIL_LENGTH, MIN_PASSWORD_LENGTH } from '../../../utils/constants';
+import { Loading, TextInput } from '../../../components';
 import { MainRoute, MainStackParamList } from '../../../router/Main';
 import ContactList from '../../../components/ContactList';
-import { TYPE_CHAT, UsersResponse } from '../../../api/Chat/ChatType';
-import { createChat, getAllUsers, getChat } from '../../../api/Chat';
+import { TYPE_CHAT } from '../../../api/Chat/ChatType';
+import { getChat } from '../../../api/Chat';
 import { useAppSelector } from '../../../utils/hooks';
-import { getUser } from '../../../api/Profile';
 import { setUserInfo } from '../../../store/User/user';
 
 type Props = NativeStackScreenProps<MainStackParamList, MainRoute.Messenger>;
 
 export const Messenger = ({ route, navigation }: Props) => {
+  const { t } = useTranslation();
   const [search, setSearch] = useState('');
   const [searchResults, setSearchResults] =
     useState<Array<{ id: string; title: string; type: TYPE_CHAT }>>();
@@ -57,8 +57,7 @@ export const Messenger = ({ route, navigation }: Props) => {
   const onRefresh = async () => {
     try {
       setRefreshing(true);
-      const getUserResponse = await getUser();
-      dispatch(setUserInfo(getUserResponse));
+      getUser();
     } catch (e) {
       console.log('Error refresh ', e);
     } finally {
@@ -66,12 +65,14 @@ export const Messenger = ({ route, navigation }: Props) => {
     }
   };
 
+  const getUser = async () => {
+    const getUserResponse = await getUser();
+    dispatch(setUserInfo(getUserResponse));
+  };
+
   useFocusEffect(
     useCallback(() => {
-      async () => {
-        const getUserResponse = await getUser();
-        dispatch(setUserInfo(getUserResponse));
-      };
+      getUser();
     }, [])
   );
 
@@ -82,7 +83,7 @@ export const Messenger = ({ route, navigation }: Props) => {
       refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
     >
       <TextInput
-        placeholder="Find the chat by username"
+        placeholder={t('FIND_USER_BY_USERNAME')}
         value={search}
         onChangeText={handleInputChange}
         rightIcon

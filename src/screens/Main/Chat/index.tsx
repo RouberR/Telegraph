@@ -37,7 +37,6 @@ export const Chat = ({ route, navigation }: Props) => {
   const initialMessages = chatParams.messages.map(formatMessage);
 
   const [messages, setMessages] = useState<IMessage[]>(initialMessages.reverse());
-  console.log('messages', messages);
   const [socket, setSocket] = useState<Socket | null>(null);
   const [isSocketConnected, setIsSocketConnected] = useState(false);
 

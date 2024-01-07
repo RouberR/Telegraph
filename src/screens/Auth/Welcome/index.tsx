@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import FastImage from 'react-native-fast-image';
 
 import { AuthRoute, AuthStackParamList } from '../../../router/Auth';
-import { useAppSelector, useColors } from '../../../utils/hooks';
+import { useColors } from '../../../utils/hooks';
 import { Button, Text } from '../../../components';
 import { welcomeLogo } from '../../../assets';
 import { PrivacyPolicyLink, TermsOfUseLink } from '../../../utils/constants';
@@ -16,24 +16,15 @@ export const Welcome = ({ route, navigation }: Props) => {
   const { t } = useTranslation();
   const { colors } = useColors();
 
-  const count = useAppSelector((state) => state.user);
-  console.log(count);
-
   return (
     <>
       <View style={styles.container}>
         <FastImage source={welcomeLogo} style={styles.logo} resizeMode="contain" />
         <View style={styles.containerButtons}>
-          <Button
-            value={t('SIGN_UP')}
-            // onPress={() =>
-            //   navigation.navigate(RootRoutes.Main, {screen: MainRoute.Settings})
-            // }
-            onPress={() => navigation.navigate(AuthRoute.SignUp)}
-          />
+          <Button value={t('SIGN_UP')} onPress={() => navigation.navigate(AuthRoute.SignUp)} />
           <Button
             type="secondary"
-            value="Sign In"
+            value={t('SIGN_IN')}
             onPress={() => navigation.navigate(AuthRoute.SignIn)}
           />
         </View>
