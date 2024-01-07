@@ -9,6 +9,7 @@ export type ColorTheme = {
   input: string;
   inputActive: string;
   codeInputBackground: string
+  default:string
 };
 
 const sharedColors = {
@@ -27,6 +28,7 @@ type ColorPalettes = {
 
 const Colors: ColorPalettes = {
   dark: {
+    default:sharedColors.white,
     primary: '#7075F1',
     secondary: '#A37878',
     grey: '#757177',
@@ -42,6 +44,7 @@ const Colors: ColorPalettes = {
     ...sharedColors,
   },
   light: {
+    default: sharedColors.black,
     primary: '#7075F1',
     secondary: '#A37878',
     grey: '#757177',

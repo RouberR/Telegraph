@@ -16,7 +16,7 @@ const initialFormState: SignUpForm = {
   firstName: '',
   lastName: '',
   email: '',
-  userName: "",
+  userName: '',
   password: '',
   confirmPassword: '',
 };
@@ -25,7 +25,7 @@ const placeholders: Record<keyof SignUpForm, string> = {
   firstName: 'First Name',
   lastName: 'Last Name',
   email: 'Email',
-  userName: "Username",
+  userName: 'Username',
   password: 'Password',
   confirmPassword: 'Confirm Password',
 };

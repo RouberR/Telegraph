@@ -9,13 +9,14 @@ import {useColors} from '../utils/hooks';
 import {Account} from '../screens/Settings/Account';
 import {Privacy} from '../screens/Settings/Privacy';
 import {Help} from '../screens/Settings/Help';
+import {ChatResponse} from '../api/Chat/ChatType';
 
 export type MainStackParamList = {
   Main: undefined;
   Home: undefined;
   Messenger: undefined;
   Contacts: undefined;
-  Chat: undefined;
+  Chat: ChatResponse;
   Settings: undefined;
   Account: undefined;
   Privacy: undefined;

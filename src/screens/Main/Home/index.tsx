@@ -1,97 +1,76 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {ScrollView, StyleSheet, View} from 'react-native';
-import {Button, Text, TextInput} from '../../../components';
-import {useState} from 'react';
-import {MIN_EMAIL_LENGTH, MIN_PASSWORD_LENGTH} from '../../../utils/constants';
+import {Button, Text} from '../../../components';
 import {MainRoute, MainStackParamList} from '../../../router/Main';
 import FastImage from 'react-native-fast-image';
 import ContactList from '../../../components/ContactList';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {useAppSelector} from '../../../utils/hooks';
+import {useAppSelector, useStyles} from '../../../utils/hooks';
+import {getChat} from '../../../api/Chat';
+import {TColors} from '../../../utils/theme/colors';
 
 type Props = NativeStackScreenProps<MainStackParamList, MainRoute.Home>;
-const contacts = [
-  {
-    id: '1',
-    name: 'John Doe',
-    avatar: require('./256.png'),
-    lastMessage: 'Hello there!',
-  },
-  {
-    id: '2',
-    name: 'Jane Smith',
-    avatar: require('./256.png'),
-    lastMessage: 'How are you doing?',
-  },
-  {
-    id: '3',
-    name: 'Jane Smith',
-    avatar: require('./256.png'),
-    lastMessage: 'How are you doing?',
-  },
-  {
-    id: '4',
-    name: 'Jane Smith',
-    avatar: require('./256.png'),
-    lastMessage: 'How are you doing?',
-  },
-  {
-    id: '5',
-    name: 'Jane Smith',
-    avatar: require('./256.png'),
-    lastMessage: 'How are you doing?',
-  },
-  {
-    id: '6',
-    name: 'Jane Smith',
-    avatar: require('./256.png'),
-    lastMessage: 'How are you doing?',
-  },
-];
+
 export const Home = ({route, navigation}: Props) => {
   const {bottom} = useSafeAreaInsets();
+
+  const {styles} = useStyles(createStyles(bottom));
+
   const user = useAppSelector(state => state.user);
-  const handleOnPressItem = (item: any) => {
-    console.log('item', item);
+
+  const handleOnPressItem = async (item: any) => {
+    try {
+      const response = await getChat(item.id);
+      navigation.navigate(MainRoute.Chat, {...response});
+    } catch (e) {
+      console.log('Error get chat ', e);
+    }
   };
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      <View>
-        <FastImage
-          style={{
-            height: 121,
-            width: 121,
-            alignSelf: 'center',
-            borderWidth: 1.5,
-            borderColor: 'white',
-            borderRadius: 60,
-          }}
-          source={require('./256.png')}
-        />
+      <View style={styles.containerHeader}>
+        <FastImage style={styles.avatarUser} source={{uri: user.avatarUrl}} />
         <Text>{user.email}</Text>
         <Text>{`${user.firstName} ${user.lastName} (${user.userName})`}</Text>
       </View>
       <ContactList
-        contacts={contacts}
+        contacts={user.chats}
         onPressItem={handleOnPressItem}
         showHeader={true}
       />
       <Button
         type="secondary"
         value="Add contact"
-        containerStyle={{marginBottom: bottom || 20}}
-        onPress={() => navigation.navigate('Chat')}
+        containerStyle={styles.containerButton}
+        onPress={() => navigation.navigate(MainRoute.Contacts)}
       />
     </ScrollView>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    marginHorizontal: 16,
-    gap: 16,
-    marginTop: 8,
-    flexGrow: 1,
-  },
-});
+const createStyles = (bottom: number) => (colors: TColors) =>
+  StyleSheet.create({
+    container: {
+      marginHorizontal: 16,
+      gap: 16,
+      marginTop: 8,
+      flexGrow: 1,
+    },
+    containerHeader: {
+      gap: 12,
+      marginBottom: 20,
+    },
+    avatarUser: {
+      height: 121,
+      width: 121,
+      alignSelf: 'center',
+      borderWidth: 1.5,
+      borderColor: colors.default,
+      borderRadius: 60,
+    },
+    containerButton: {
+      marginBottom: bottom || 20,
+      marginTop: 10,
+    },
+  });

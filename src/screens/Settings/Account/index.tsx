@@ -110,7 +110,7 @@ export const Account = ({route, navigation}: Props) => {
       keyboardShouldPersistTaps="handled">
       <Touchable style={{alignSelf: 'center'}} onPress={handleSelectImage}>
         <FastImage
-          source={{uri: photo?.assets?.[0]?.uri}}
+          source={{uri: photo?.assets?.[0]?.uri || user.avatarUrl}}
           style={{
             width: 121,
             height: 121,

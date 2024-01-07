@@ -1,16 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { UserProfile } from '../../api/Profile/ProfileType';
 
-interface UserState {
-  id: string,
-  firstName: string,
-  lastName:string,
-  email: string,
-  userName: string,
-  updatedAt: string,
-  avatarUrl: string;
-}
 
-const initialState: UserState = {
+
+const initialState: UserProfile = {
   id: "",
   firstName: "",
   lastName:"",
@@ -18,6 +11,7 @@ const initialState: UserState = {
   userName: "",
   updatedAt: "",
   avatarUrl: "",
+  chats: []
 }
 
 export const userSlice = createSlice({

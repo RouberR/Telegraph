@@ -133,7 +133,7 @@ export const Settings = ({route, navigation}: Props) => {
             marginBottom: 20,
           }}>
           <FastImage
-            source={require('../Main/Home/256.png')}
+            source={{uri: user.avatarUrl}}
             style={{width: 72, height: 72}}
           />
           <View style={{gap: 5}}>

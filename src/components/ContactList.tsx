@@ -38,7 +38,9 @@ const ContactList: React.FC<IContactList> = ({
               disabled={true}
               onPress={() => setSelectedTab('Group')}
               style={styles.tabGroup}>
-              <Text color={colors.grey}>Group</Text>
+              <Text style={{opacity: 0.5}} color={colors.grey}>
+                Group
+              </Text>
             </Touchable>
           </View>
         ) : (
@@ -55,7 +57,7 @@ const ContactList: React.FC<IContactList> = ({
               fontSize={12}
               color={colors.text}>{`${item.firstName} ${item.lastName}`}</Text>
             <Text color={colors.text} fontSize={14}>
-              {item.userName}
+              {item.userName || item.title}
             </Text>
             {/* <Text color={colors.text} fontSize={12}>
               {item.lastMessage}
@@ -77,14 +79,16 @@ const createStyles = (selectedTab: string) => (colors: TColors) =>
     },
     tabContact: {
       borderBottomWidth: selectedTab === 'Contact' ? 2 : 0,
-      borderBottomColor: selectedTab === 'Contact' ? 'white' : 'transparent',
+      borderBottomColor:
+        selectedTab === 'Contact' ? colors.default : 'transparent',
       padding: 10,
       flex: 1,
       alignItems: 'center',
     },
     tabGroup: {
       borderBottomWidth: selectedTab === 'Group' ? 2 : 0,
-      borderBottomColor: selectedTab === 'Group' ? 'white' : 'transparent',
+      borderBottomColor:
+        selectedTab === 'Group' ? colors.default : 'transparent',
       padding: 10,
       flex: 1,
       alignItems: 'center',
@@ -94,7 +98,7 @@ const createStyles = (selectedTab: string) => (colors: TColors) =>
       height: 40,
       borderRadius: 20,
       borderWidth: 1,
-      borderColor: colors.white,
+      borderColor: colors.default,
     },
     containerContact: {flexDirection: 'row', padding: 10},
     itemContent: {marginLeft: 10, gap: 4},
