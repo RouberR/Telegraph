@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
-
 import Modal from 'react-native-modal';
+
 import { useStyles } from '../utils/hooks';
 import { TColors } from '../utils/theme/colors';
 

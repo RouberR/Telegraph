@@ -1,22 +1,23 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Alert, ScrollView, StyleSheet, View } from 'react-native';
-import { Button, Text, Toggle, Touchable } from '../../components';
 import { useState } from 'react';
+import FastImage from 'react-native-fast-image';
+import { useDispatch } from 'react-redux';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { CompositeScreenProps } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import i18next from 'i18next';
+
+import { Button, Text, Toggle, Touchable } from '../../components';
 import { AsyncStore } from '../../utils/constants';
 import { MainRoute, MainStackParamList } from '../../router/Main';
-import FastImage from 'react-native-fast-image';
 import { addGroup, chield, folder, question, sun, userIcon } from '../../assets/settingsIcon';
 import { useAppSelector, useColors } from '../../utils/hooks';
-import { useDispatch } from 'react-redux';
 import { setTheme } from '../../store/Settings/settings';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { deleteUser } from '../../api/Profile';
 import { clearUser } from '../../store/User/user';
 import { RootParamList } from '../../router';
-import { CompositeScreenProps } from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { signOut } from '../../api/Auth';
-import i18next from 'i18next';
 
 type Props = CompositeScreenProps<
   NativeStackScreenProps<MainStackParamList, MainRoute.Settings>,

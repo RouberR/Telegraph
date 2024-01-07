@@ -1,6 +1,5 @@
 import { Animated, StyleSheet, Platform } from 'react-native';
 import React from 'react';
-
 import {
   CodeField,
   Cursor,
@@ -8,6 +7,7 @@ import {
   useBlurOnFulfill,
   useClearByFocusCell,
 } from 'react-native-confirmation-code-field';
+
 import { useColors } from '../utils/hooks';
 
 const { Value, Text: AnimatedText } = Animated;

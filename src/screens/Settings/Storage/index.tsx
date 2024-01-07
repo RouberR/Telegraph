@@ -1,6 +1,7 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { useState } from 'react';
+
 import { Button, Text, TextInput } from '../../../components';
 import { MIN_EMAIL_LENGTH, MIN_PASSWORD_LENGTH } from '../../../utils/constants';
 import { MainRoute, MainStackParamList } from '../../../router/Main';

@@ -8,6 +8,7 @@ import {
   ImagePickerResponse,
   launchImageLibrary,
 } from 'react-native-image-picker';
+
 import { AuthRoute, AuthStackParamList } from '../../../router/Auth';
 import { Button, Loading, TextInput, Touchable } from '../../../components';
 import {

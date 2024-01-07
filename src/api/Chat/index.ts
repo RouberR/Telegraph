@@ -1,4 +1,5 @@
 import { Options } from 'ky';
+
 import { api } from '..';
 import { ChatResponse, CreateChatData, UsersResponse } from './ChatType';
 
@@ -46,10 +47,8 @@ export const deleteChat = async (id: string) => {
     method: 'DELETE',
   };
   const response = await api(`${ChatLink.CHAT}/${id}`, options);
-  return response
+  return response;
 };
-
-
 
 export const getChat = async (id: string): Promise<ChatResponse> => {
   const options: Options = {

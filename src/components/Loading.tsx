@@ -1,4 +1,5 @@
 import { ActivityIndicator } from 'react-native';
+
 import { useColors } from '../utils/hooks';
 
 type ILoading = {

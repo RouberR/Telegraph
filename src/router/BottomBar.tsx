@@ -2,6 +2,7 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import FastImage from 'react-native-fast-image';
 import { useNavigation } from '@react-navigation/native';
+
 import { MainRoute } from './Main';
 import { Home } from '../screens/Main/Home';
 import { Messenger } from '../screens/Main/Messenger';

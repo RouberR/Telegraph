@@ -7,6 +7,7 @@ import {
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import i18next from 'i18next';
+
 import AuthNavigator from './Auth';
 import { useAppSelector, useColors } from '../utils/hooks';
 import { Colors } from '../utils/theme';

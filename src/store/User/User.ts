@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+
 import { UserProfile } from '../../api/Profile/ProfileType';
 
 const initialState: UserProfile = {

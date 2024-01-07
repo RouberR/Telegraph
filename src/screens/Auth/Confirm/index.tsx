@@ -1,17 +1,18 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { StyleSheet, View } from 'react-native';
+import { useEffect, useState } from 'react';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { CompositeScreenProps } from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
+
 import { AuthRoute, AuthStackParamList } from '../../../router/Auth';
 import { Button, CodeFieldAnimated, Text } from '../../../components';
-import { useEffect, useState } from 'react';
 import { AsyncStore } from '../../../utils/constants';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { confirmEmail, resendEmailCode } from '../../../api/Auth';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { RootRoutes } from '../../../router';
 import { MainStackParamList } from '../../../router/Main';
-import { CompositeScreenProps } from '@react-navigation/native';
 import { getUser } from '../../../api/Profile';
-import { useDispatch } from 'react-redux';
 import { setUserInfo } from '../../../store/User/user';
 
 type Props = CompositeScreenProps<

@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleProp, StyleSheet, ViewStyle } from 'react-native';
+
 import { Loading, Text, Touchable } from '.';
 import { useStyles } from '../utils/hooks';
 import { TColors } from '../utils/theme/colors';

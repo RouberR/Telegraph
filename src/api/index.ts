@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ky from 'ky';
+
 import { AsyncStore } from '../utils/constants';
 import { clearUser } from '../store/User/user';
 import { RootRoutes } from '../router';
@@ -17,7 +18,7 @@ export const setNavigationReference = (ref: ReactNavigation.RootParamList) => {
   navigation = ref;
 };
 
-export const setStoreReference = (reduxStore:any) => {
+export const setStoreReference = (reduxStore: any) => {
   store = reduxStore;
 };
 
@@ -43,14 +44,15 @@ export const api = ky.create({
                   Authorization: `${accessToken}`,
                   Cookie: `refresh_token=${refreshToken}`,
                 },
-              }).text()
-            const parseToken = JSON.parse(token)
+              })
+              .text();
+            const parseToken = JSON.parse(token);
             await AsyncStorage.setItem(AsyncStore.ACCESS_TOKEN, parseToken.accessToken);
-            await AsyncStorage.setItem(AsyncStore.REFRESH_TOKEN,parseToken.refreshToken);
+            await AsyncStorage.setItem(AsyncStore.REFRESH_TOKEN, parseToken.refreshToken);
             request.headers.set('Authorization', `${parseToken.accessToken}`);
             return ky(request);
           } catch (e) {
-            console.log("Error refreshToken", e)
+            console.log('Error refreshToken', e);
             store.dispatch(clearUser());
             navigation.navigate(RootRoutes.Auth);
           }

@@ -6,6 +6,7 @@ import Animated, {
   useDerivedValue,
   useAnimatedStyle,
 } from 'react-native-reanimated';
+
 import { useColors } from '../utils/hooks';
 
 interface ToggleProps {

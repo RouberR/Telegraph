@@ -1,4 +1,5 @@
 import { Options } from 'ky';
+
 import { ApiError, api } from '..';
 import {
   ConfirmEmailRequest,

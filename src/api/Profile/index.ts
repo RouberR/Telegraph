@@ -1,4 +1,5 @@
 import { Options } from 'ky';
+
 import { api } from '..';
 import { UpdateUserRequest, UserProfile } from './ProfileType';
 

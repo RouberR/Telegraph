@@ -1,18 +1,18 @@
 import { ScrollView, StyleSheet } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { CompositeScreenProps } from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
 
 import { AuthRoute, AuthStackParamList } from '../../../router/Auth';
 import { Button, TextInput } from '../../../components';
-import { useState } from 'react';
 import { AsyncStore, MIN_EMAIL_LENGTH, MIN_PASSWORD_LENGTH } from '../../../utils/constants';
 import { authSignIn } from '../../../api/Auth';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { RootRoutes } from '../../../router';
-import { CompositeScreenProps } from '@react-navigation/native';
 import { MainStackParamList } from '../../../router/Main';
 import { isEmailValid } from '../../../utils/stringsValidation';
 import { getUser } from '../../../api/Profile';
-import { useDispatch } from 'react-redux';
 import { setUserInfo } from '../../../store/User/user';
 
 type Props = CompositeScreenProps<

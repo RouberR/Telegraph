@@ -1,5 +1,6 @@
 import React, { memo } from 'react';
 import { ColorValue, StyleSheet, Text, TextProps, TextStyle } from 'react-native';
+
 import { useColors } from '../utils/hooks';
 
 interface ITextProps extends TextProps {

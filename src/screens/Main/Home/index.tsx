@@ -2,6 +2,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
 import { Button, Text } from '../../../components';
 import { MainRoute, MainStackParamList } from '../../../router/Main';
 import ContactList from '../../../components/ContactList';

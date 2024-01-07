@@ -1,6 +1,7 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { View } from 'react-native';
+
 import { Home } from '../screens/Main/Home';
 import BottomBar from './BottomBar';
 import { Chat } from '../screens/Main/Chat';

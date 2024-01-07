@@ -1,4 +1,5 @@
 import { FC, createContext, useState } from 'react';
+
 import Colors, { TColors } from './colors';
 
 type ThemeContextType = {

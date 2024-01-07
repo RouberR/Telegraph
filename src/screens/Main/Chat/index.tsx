@@ -1,11 +1,11 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Alert, ScrollView, StyleSheet, View } from 'react-native';
-
 import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
 import { GiftedChat, IMessage } from 'react-native-gifted-chat';
 import { Socket, io } from 'socket.io-client';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import FastImage from 'react-native-fast-image';
+
 import { useAppSelector, useColors } from '../../../utils/hooks';
 import { AsyncStore } from '../../../utils/constants';
 import { MainRoute, MainStackParamList } from '../../../router/Main';

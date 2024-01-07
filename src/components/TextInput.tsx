@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, TextInput, StyleSheet, TextInputProps, StyleProp, ViewStyle } from 'react-native';
 import Animated, { FadeInDown, FadeOut } from 'react-native-reanimated';
 import FastImage from 'react-native-fast-image';
+
 import { useStyles } from '../utils/hooks';
 import { TColors } from '../utils/theme/colors';
 import Text from './Text';
