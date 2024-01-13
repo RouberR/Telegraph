@@ -12,7 +12,7 @@ import ContactList from '../../../components/ContactList';
 import { TYPE_CHAT } from '../../../api/Chat/ChatType';
 import { getChat } from '../../../api/Chat';
 import { useAppSelector } from '../../../utils/hooks';
-import { setUserInfo } from '../../../store/User/user';
+import { setUserInfo } from '../../../store/User/User';
 
 type Props = NativeStackScreenProps<MainStackParamList, MainRoute.Messenger>;
 

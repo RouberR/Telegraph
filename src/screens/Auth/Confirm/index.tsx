@@ -13,7 +13,7 @@ import { confirmEmail, resendEmailCode } from '../../../api/Auth';
 import { RootRoutes } from '../../../router';
 import { MainStackParamList } from '../../../router/Main';
 import { getUser } from '../../../api/Profile';
-import { setUserInfo } from '../../../store/User/user';
+import { setUserInfo } from '../../../store/User/User';
 
 type Props = CompositeScreenProps<
   NativeStackScreenProps<AuthStackParamList, AuthRoute.Confirm>,

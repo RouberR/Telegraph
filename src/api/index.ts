@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import ky from 'ky';
 
 import { AsyncStore } from '../utils/constants';
-import { clearUser } from '../store/User/user';
+import { clearUser } from '../store/User/User';
 import { RootRoutes } from '../router';
 
 export interface ApiError {

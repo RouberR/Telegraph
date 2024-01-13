@@ -13,7 +13,7 @@ import { RootRoutes } from '../../../router';
 import { MainStackParamList } from '../../../router/Main';
 import { isEmailValid } from '../../../utils/stringsValidation';
 import { getUser } from '../../../api/Profile';
-import { setUserInfo } from '../../../store/User/user';
+import { setUserInfo } from '../../../store/User/User';
 
 type Props = CompositeScreenProps<
   NativeStackScreenProps<AuthStackParamList, AuthRoute.SignIn>,

@@ -20,7 +20,7 @@ import {
 import { MainRoute, MainStackParamList } from '../../../router/Main';
 import { useAppSelector } from '../../../utils/hooks';
 import { updateUser } from '../../../api/Profile';
-import { setUserInfo } from '../../../store/User/user';
+import { setUserInfo } from '../../../store/User/User';
 
 type Props = NativeStackScreenProps<MainStackParamList, MainRoute.Account>;
 
