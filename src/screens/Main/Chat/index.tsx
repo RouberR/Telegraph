@@ -1,26 +1,26 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { Alert, ScrollView, StyleSheet, View } from 'react-native';
-import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
+import { Alert, StyleSheet, View } from 'react-native';
+import { useCallback, useEffect, useState } from 'react';
 import { GiftedChat, IMessage } from 'react-native-gifted-chat';
 import { Socket, io } from 'socket.io-client';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import FastImage from 'react-native-fast-image';
 
-import { useAppSelector, useColors } from '../../../utils/hooks';
+import { useAppSelector, useStyles } from '../../../utils/hooks';
 import { AsyncStore } from '../../../utils/constants';
 import { MainRoute, MainStackParamList } from '../../../router/Main';
-import { Button, Text, TextInput, Touchable } from '../../../components';
+import {  Text, Touchable } from '../../../components';
 import { backIcon, deleteIcon } from '../../../assets';
-import { Colors } from '../../../utils/theme';
 import { deleteChat } from '../../../api/Chat';
+import { TColors } from '../../../utils/theme/colors';
 
 type Props = NativeStackScreenProps<MainStackParamList, MainRoute.Chat>;
 
 export const Chat = ({ route, navigation }: Props) => {
+  const { styles, colors } = useStyles(createStyles);
   const user = useAppSelector((state) => state.user);
-  const { colors } = useColors();
   const chatParams = route.params;
-  const { title, participants } = chatParams;
+  const { participants } = chatParams;
 
   const formatMessage = (message: any) => ({
     _id: message.id,
@@ -96,11 +96,6 @@ export const Chat = ({ route, navigation }: Props) => {
     [socket, chatParams.id]
   );
 
-  // const onInputTextChanged = useCallback((text: string) => {
-
-  //   console.log('Текст ввода:', text);
-  // }, []);
-
   const handleDeleteChat = async () => {
     try {
       await deleteChat(chatParams.id);
@@ -125,51 +120,43 @@ export const Chat = ({ route, navigation }: Props) => {
   };
 
   return (
-    <View style={{ flex: 1 }}>
-      <View
-        style={{
-          flexDirection: 'row',
-          borderBottomWidth: 0.7,
-          alignItems: 'center',
-          paddingHorizontal: 16,
-          justifyContent: 'space-between',
-          borderColor: colors.text,
-          marginTop: 10,
-        }}
-      >
-        <View style={{ gap: 10, flexDirection: 'row', alignItems: 'center' }}>
+    <View style={styles.container}>
+      <View style={styles.containerHeader}>
+        <View style={styles.headerLeft}>
           <Touchable onPress={() => navigation.goBack()}>
-            <FastImage
-              source={backIcon}
-              style={{ width: 24, height: 24 }}
-              tintColor={colors.text}
-            />
+            <FastImage source={backIcon} style={styles.icon} tintColor={colors.text} />
           </Touchable>
-          <FastImage
-            source={{ uri: participants[0]?.avatarUrl }}
-            style={{ width: 44, height: 44 }}
-          />
+          <FastImage source={{ uri: participants[0]?.avatarUrl }} style={styles.avatar} />
           <Text>{participants[1]?.userName || participants[0]?.userName}</Text>
         </View>
         <Touchable onPress={showModalDeleteAccount}>
-          <FastImage source={deleteIcon} style={{ width: 24, height: 24 }} tintColor={colors.red} />
+          <FastImage source={deleteIcon} style={styles.icon} tintColor={colors.red} />
         </Touchable>
       </View>
       <GiftedChat
         messages={messages}
         onSend={onSend}
         user={{ _id: user.id, name: user.userName, avatar: user.avatarUrl }}
-        // onInputTextChanged={onInputTextChanged}
-        // isTyping={true}
       />
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    marginHorizontal: 16,
-    gap: 24,
-    marginTop: 24,
-  },
-});
+const createStyles = (colors: TColors) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+    },
+    containerHeader: {
+      flexDirection: 'row',
+      borderBottomWidth: 0.7,
+      alignItems: 'center',
+      paddingHorizontal: 16,
+      justifyContent: 'space-between',
+      borderColor: colors.text,
+      marginTop: 10,
+    },
+    headerLeft: { gap: 10, flexDirection: 'row', alignItems: 'center' },
+    icon: { width: 24, height: 24 },
+    avatar: { width: 44, height: 44 },
+  });

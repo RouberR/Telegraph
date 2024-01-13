@@ -11,7 +11,6 @@ import i18next from 'i18next';
 import AuthNavigator from './Auth';
 import { useAppSelector, useColors } from '../utils/hooks';
 import { Colors } from '../utils/theme';
-import BottomBar from './BottomBar';
 import MainNavigator from './Main';
 import { setNavigationReference } from '../api';
 import { AsyncStore } from '../utils/constants';
@@ -63,7 +62,7 @@ const RootNavigator: React.FC = () => {
       background: colors.appBackground,
     },
   };
-  console.log('123', !!user.id);
+
   return (
     <NavigationContainer theme={MyTheme} ref={navigationRef}>
       <RootStack.Navigator

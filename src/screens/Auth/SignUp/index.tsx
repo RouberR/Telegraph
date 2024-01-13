@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
-import { Alert, KeyboardAvoidingView, ScrollView, StyleSheet } from 'react-native';
+import { Alert, StyleSheet } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useTranslation } from 'react-i18next';
-
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { AuthRoute, AuthStackParamList } from '../../../router/Auth';
 import { Button, TextInput } from '../../../components';
 import { MIN_EMAIL_LENGTH, MIN_PASSWORD_LENGTH } from '../../../utils/constants';
 import { authSignUp } from '../../../api/Auth';
 import { ModalCustom } from '../../../components/Modal';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 type Props = NativeStackScreenProps<AuthStackParamList, AuthRoute.SignUp>;
 
@@ -25,7 +26,7 @@ const initialFormState: SignUpForm = {
 
 export const SignUp = ({ route, navigation }: Props) => {
   const { t } = useTranslation();
-
+  const { bottom } = useSafeAreaInsets();
   const [isModal, setIsModal] = useState(false);
   const [formState, setFormState] = useState(initialFormState);
   const [loading, setLoading] = useState(false);
@@ -96,7 +97,11 @@ export const SignUp = ({ route, navigation }: Props) => {
         title={error.error}
         setIsModalVisible={setIsModal}
       />
-      <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
+      <KeyboardAwareScrollView
+        contentContainerStyle={styles.container}
+        keyboardShouldPersistTaps="handled"
+        extraScrollHeight={50}
+      >
         {Object.keys(initialFormState).map((fieldName) => (
           <TextInput
             key={fieldName}
@@ -106,15 +111,14 @@ export const SignUp = ({ route, navigation }: Props) => {
             isSecurity={fieldName === 'password' || fieldName === 'confirmPassword'}
           />
         ))}
-        <KeyboardAvoidingView behavior="padding" enabled>
-          <Button
-            value={t('SIGN_UP')}
-            onPress={handleSignUp}
-            disabled={isSignUpDisabled()}
-            isLoading={loading}
-          />
-        </KeyboardAvoidingView>
-      </ScrollView>
+        <Button
+          value={t('SIGN_UP')}
+          onPress={handleSignUp}
+          disabled={isSignUpDisabled()}
+          isLoading={loading}
+          containerStyle={{ marginBottom: bottom || 44 }}
+        />
+      </KeyboardAwareScrollView>
     </>
   );
 };
