@@ -19,7 +19,7 @@ type Props = CompositeScreenProps<
   NativeStackScreenProps<AuthStackParamList, AuthRoute.SignIn>,
   NativeStackScreenProps<MainStackParamList>
 >;
-export const SignIn = ({ route, navigation }: Props) => {
+export const SignIn = ({ navigation }: Props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);

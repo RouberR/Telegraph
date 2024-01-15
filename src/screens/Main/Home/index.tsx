@@ -9,6 +9,7 @@ import ContactList from '../../../components/ContactList';
 import { useAppSelector, useStyles } from '../../../utils/hooks';
 import { getChat } from '../../../api/Chat';
 import { TColors } from '../../../utils/theme/colors';
+import { composeUserDisplayName } from '../../../utils/stringsValidation';
 
 type Props = NativeStackScreenProps<MainStackParamList, MainRoute.Home>;
 
@@ -33,7 +34,7 @@ export const Home = ({ route, navigation }: Props) => {
       <View style={styles.containerHeader}>
         <FastImage style={styles.avatarUser} source={{ uri: user.avatarUrl }} />
         <Text>{user.email}</Text>
-        <Text>{`${user.firstName} ${user.lastName} (${user.userName})`}</Text>
+        <Text>{composeUserDisplayName(user.firstName, user.lastName, user.userName)}</Text>
       </View>
       <ContactList contacts={user.chats} onPressItem={handleOnPressItem} showHeader />
       <Button

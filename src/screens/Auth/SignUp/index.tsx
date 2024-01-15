@@ -40,7 +40,7 @@ export const SignUp = ({ route, navigation }: Props) => {
 
   const placeholders: Record<keyof SignUpForm, string> = {
     firstName: t('FIRST_NAME'),
-    lastName: t('FIRST_NAME'),
+    lastName: t('LAST_NAME'),
     email: t('EMAIL'),
     userName: t('USER_NAME'),
     password: t('PASSWORD'),

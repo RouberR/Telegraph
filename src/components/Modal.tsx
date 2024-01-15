@@ -18,7 +18,7 @@ export const ModalCustom: React.FC<IModalCustomProps> = ({
   title = 'Error',
   setIsModalVisible,
 }) => {
-  const { colors, styles } = useStyles(createStyles);
+  const { styles } = useStyles(createStyles);
 
   const handleClose = () => {
     setIsModalVisible(false);

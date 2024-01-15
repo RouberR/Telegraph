@@ -15,7 +15,7 @@ import { addGroup, chield, folder, question, sun, userIcon } from '../../assets/
 import { useAppSelector, useColors } from '../../utils/hooks';
 import { setTheme } from '../../store/Settings/settings';
 import { deleteUser } from '../../api/Profile';
-import { clearUser } from '../../store/User/user';
+import { clearUser } from '../../store/User/User';
 import { RootParamList } from '../../router';
 import { signOut } from '../../api/Auth';
 
@@ -118,6 +118,8 @@ export const Settings = ({ route, navigation }: Props) => {
       await AsyncStorage.removeItem(AsyncStore.ACCESS_TOKEN);
     } catch (e) {
       console.log('Error logout user ', e);
+      dispatch(clearUser());
+      await AsyncStorage.removeItem(AsyncStore.ACCESS_TOKEN);
     }
   };
 

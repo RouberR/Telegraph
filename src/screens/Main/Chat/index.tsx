@@ -9,7 +9,7 @@ import FastImage from 'react-native-fast-image';
 import { useAppSelector, useStyles } from '../../../utils/hooks';
 import { AsyncStore } from '../../../utils/constants';
 import { MainRoute, MainStackParamList } from '../../../router/Main';
-import {  Text, Touchable } from '../../../components';
+import { Text, Touchable } from '../../../components';
 import { backIcon, deleteIcon } from '../../../assets';
 import { deleteChat } from '../../../api/Chat';
 import { TColors } from '../../../utils/theme/colors';
