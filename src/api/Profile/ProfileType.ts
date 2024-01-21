@@ -1,4 +1,4 @@
-import { TYPE_CHAT } from '../Chat/ChatType';
+import { ChatResponse, ParticipantType, TYPE_CHAT } from '../Chat/ChatType';
 
 export type UserProfile = {
   id: string;
@@ -8,11 +8,7 @@ export type UserProfile = {
   email: string;
   updatedAt: string;
   avatarUrl: string;
-  chats: Array<{
-    id: string;
-    title: string;
-    type: TYPE_CHAT;
-  }>;
+  chats: ChatResponse[]
 };
 
 export type UpdateUserRequest = {

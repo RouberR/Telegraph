@@ -28,15 +28,12 @@ export type ChatResponse = {
   id: string;
   title: string;
   type: string;
-  participants: Array<{
-    id: string;
-    userName: string;
-    firstName: string;
-    lastName: string;
-    email: string;
-    avatarUrl: string;
-    updatedAt: string;
-  }>;
+  lastMessage: {
+    content: string
+  }
+  participants: {
+    users: ParticipantType[]
+  };
   messages: Array<{
     id: string;
     content: string;
@@ -46,6 +43,8 @@ export type ChatResponse = {
     chatId: string;
   }>;
 };
+
+export type ParticipantType = UsersData
 
 export enum TYPE_CHAT {
   DIRECT = 'Direct',

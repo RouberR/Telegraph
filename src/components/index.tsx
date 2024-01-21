@@ -5,5 +5,5 @@ import TextInput from './TextInput';
 import CodeFieldAnimated from './CodeInput';
 import { Loading } from './Loading';
 import Toggle from './Toggle';
-
-export { Touchable, Text, Button, TextInput, CodeFieldAnimated, Loading, Toggle };
+import ChatList from './ChatList';
+export { Touchable, Text, Button, TextInput, CodeFieldAnimated, Loading, Toggle, ChatList };

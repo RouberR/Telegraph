@@ -9,6 +9,18 @@
         "PASSWORD": "Password",
         "CONFIRM_PASSWORD": "Confirm Password",
         "FIND_USER_BY_EMAIL": "Find the user by email",
-        "FIND_USER_BY_USERNAME": "Find the user by username"
+        "FIND_USER_BY_USERNAME": "Find the user by username",
+        "ACCOUNT": "Account",
+        "PRIVACY": "Privacy",
+        "DART_MODE": "Dart mode",
+        "LANGUAGE": "Language",
+        "HELP": "Help",
+        "INVITE_FRIEND": "Invite a Friend",
+        "ACCOUNT_DELETING": "Account deleting",
+        "MESSAGE_DELETE_ACCOUNT": "Are you sure you want to delete your account?",
+        "CANCEL": "Cancel",
+        "DELETE": "Delete",
+        "LOGOUT": "Logout",
+        "DELETE_ACCOUNT": "Delete account"
      }
 }

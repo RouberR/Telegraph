@@ -38,7 +38,7 @@ export const isEmailValid = (email: string) => {
 };
 
 
-export const composeUserDisplayName = (firstName:string, lastName:string, userName:string) => {
+export const composeUserDisplayName = (firstName?:string, lastName?:string, userName?:string) => {
   const mergedName = `${firstName || ''} ${lastName || ''}`;
   const userString = userName ? `(${userName})` : '';
 

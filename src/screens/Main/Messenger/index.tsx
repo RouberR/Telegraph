@@ -1,26 +1,26 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RefreshControl, ScrollView, StyleSheet } from 'react-native';
-import { useCallback, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { debounce } from 'lodash';
 import { useDispatch } from 'react-redux';
 import { useFocusEffect } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 
-import { Loading, TextInput } from '../../../components';
+import { ChatList, Loading, TextInput } from '../../../components';
 import { MainRoute, MainStackParamList } from '../../../router/Main';
 import ContactList from '../../../components/ContactList';
-import { TYPE_CHAT } from '../../../api/Chat/ChatType';
 import { getChat } from '../../../api/Chat';
 import { useAppSelector } from '../../../utils/hooks';
 import { setUserInfo } from '../../../store/User/User';
+import { UserProfile } from '../../../api/Profile/ProfileType';
+import { getUser } from '../../../api/Profile';
 
 type Props = NativeStackScreenProps<MainStackParamList, MainRoute.Messenger>;
 
 export const Messenger = ({ route, navigation }: Props) => {
   const { t } = useTranslation();
   const [search, setSearch] = useState('');
-  const [searchResults, setSearchResults] =
-    useState<Array<{ id: string; title: string; type: TYPE_CHAT }>>();
+  const [searchResults, setSearchResults] = useState<UserProfile['chats']>();
   const [loading, setLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const user = useAppSelector((state) => state.user);
@@ -38,7 +38,7 @@ export const Messenger = ({ route, navigation }: Props) => {
       setLoading(false);
     }
   };
-  const debouncedSearch = useCallback(debounce(handleSearch, 2000), []);
+  const debouncedSearch = useCallback(debounce(handleSearch, 500), []);
 
   const handleInputChange = (text: string) => {
     setSearch(text);
@@ -57,7 +57,7 @@ export const Messenger = ({ route, navigation }: Props) => {
   const onRefresh = async () => {
     try {
       setRefreshing(true);
-      getUser();
+      handleGetUser();
     } catch (e) {
       console.log('Error refresh ', e);
     } finally {
@@ -65,14 +65,18 @@ export const Messenger = ({ route, navigation }: Props) => {
     }
   };
 
-  const getUser = async () => {
-    const getUserResponse = await getUser();
-    dispatch(setUserInfo(getUserResponse));
+  const handleGetUser = async () => {
+    try {
+      const getUserResponse = await getUser();
+      dispatch(setUserInfo(getUserResponse));
+    } catch (e) {
+      console.log('Error get user ', e);
+    }
   };
 
   useFocusEffect(
-    useCallback(() => {
-      getUser();
+    React.useCallback(() => {
+      handleGetUser();
     }, [])
   );
 
@@ -88,7 +92,7 @@ export const Messenger = ({ route, navigation }: Props) => {
         onChangeText={handleInputChange}
         rightIcon
       />
-      <ContactList contacts={searchResults || user.chats} onPressItem={handleOnPressItem} />
+      <ChatList data={searchResults || user.chats} onPressItem={handleOnPressItem} />
       <Loading loading={loading} />
     </ScrollView>
   );

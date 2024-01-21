@@ -6,9 +6,11 @@ import { debounce } from 'lodash';
 import { Loading, TextInput } from '../../../components';
 import { MainRoute, MainStackParamList } from '../../../router/Main';
 import ContactList from '../../../components/ContactList';
-import { createChat, getAllUsers } from '../../../api/Chat';
-import { UsersResponse } from '../../../api/Chat/ChatType';
+import { createChat, getAllUsers, getChat } from '../../../api/Chat';
+import { ParticipantType, UsersResponse } from '../../../api/Chat/ChatType';
 import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
+import { useAppSelector } from '../../../utils/hooks';
 
 type Props = NativeStackScreenProps<MainStackParamList, MainRoute.Contacts>;
 
@@ -17,6 +19,7 @@ export const Contacts = ({ route, navigation }: Props) => {
   const [search, setSearch] = useState('');
   const [searchResults, setSearchResults] = useState<UsersResponse>();
   const [loading, setLoading] = useState(false);
+  const user = useAppSelector((state) => state.user);
   const handleSearch = async (textSearch: string) => {
     try {
       setLoading(true);
@@ -32,8 +35,15 @@ export const Contacts = ({ route, navigation }: Props) => {
 
   const debouncedSearch = useCallback(debounce(handleSearch, 2000), []);
 
-  const handleOnPressItem = async (item: any) => {
+  const handleOnPressItem = async (item: ParticipantType) => {
     try {
+      const existChat = user.chats.find((i) => i.title === item.userName);
+      if (existChat) {
+        console.log('hi 222');
+        const response = await getChat(existChat.id);
+        navigation.navigate(MainRoute.Chat, { ...response });
+        return;
+      }
       const createNewChat = await createChat({
         title: item.userName,
         participantId: item.id,
@@ -58,7 +68,10 @@ export const Contacts = ({ route, navigation }: Props) => {
         onChangeText={handleInputChange}
         rightIcon
       />
-      <ContactList contacts={searchResults?.data || []} onPressItem={handleOnPressItem} />
+      <ContactList
+        data={searchResults?.data.filter((i) => i.userName !== user.userName) || []}
+        onPressItem={handleOnPressItem}
+      />
       <Loading loading={loading} />
     </ScrollView>
   );

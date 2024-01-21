@@ -28,9 +28,12 @@ export const Chat = ({ route, navigation }: Props) => {
     createdAt: new Date(message.createdAt),
     user: {
       _id: message.senderId,
-      name: participants.find((participant) => participant.id === message.senderId)?.userName || '',
+      name:
+        participants?.find((participant: any) => participant.id === message.senderId)?.userName ||
+        '',
       avatar:
-        participants.find((participant) => participant.id === message.senderId)?.avatarUrl || '',
+        participants?.find((participant: any) => participant.id === message.senderId)?.avatarUrl ||
+        '',
     },
   });
 
@@ -126,7 +129,10 @@ export const Chat = ({ route, navigation }: Props) => {
           <Touchable onPress={() => navigation.goBack()}>
             <FastImage source={backIcon} style={styles.icon} tintColor={colors.text} />
           </Touchable>
-          <FastImage source={{ uri: participants[0]?.avatarUrl }} style={styles.avatar} />
+          <FastImage
+            source={{ uri: participants[1]?.avatarUrl || participants[0]?.avatarUrl }}
+            style={styles.avatar}
+          />
           <Text>{participants[1]?.userName || participants[0]?.userName}</Text>
         </View>
         <Touchable onPress={showModalDeleteAccount}>
@@ -158,5 +164,11 @@ const createStyles = (colors: TColors) =>
     },
     headerLeft: { gap: 10, flexDirection: 'row', alignItems: 'center' },
     icon: { width: 24, height: 24 },
-    avatar: { width: 44, height: 44 },
+    avatar: {
+      width: 44,
+      height: 44,
+      borderRadius: 22,
+      borderWidth: 1,
+      borderColor: colors.default,
+    },
   });

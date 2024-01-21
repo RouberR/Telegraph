@@ -7,17 +7,18 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { CompositeScreenProps } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import i18next from 'i18next';
-
+import Share from 'react-native-share';
 import { Button, Text, Toggle, Touchable } from '../../components';
 import { AsyncStore } from '../../utils/constants';
 import { MainRoute, MainStackParamList } from '../../router/Main';
-import { addGroup, chield, folder, question, sun, userIcon } from '../../assets/settingsIcon';
+import { addGroup, chield, question, sun, userIcon } from '../../assets/settingsIcon';
 import { useAppSelector, useColors } from '../../utils/hooks';
 import { setTheme } from '../../store/Settings/settings';
 import { deleteUser } from '../../api/Profile';
 import { clearUser } from '../../store/User/User';
 import { RootParamList } from '../../router';
 import { signOut } from '../../api/Auth';
+import { useTranslation } from 'react-i18next';
 
 type Props = CompositeScreenProps<
   NativeStackScreenProps<MainStackParamList, MainRoute.Settings>,
@@ -25,6 +26,7 @@ type Props = CompositeScreenProps<
 >;
 export const Settings = ({ route, navigation }: Props) => {
   const { colors } = useColors();
+  const { t } = useTranslation();
   const { bottom } = useSafeAreaInsets();
   const dispatch = useDispatch();
 
@@ -37,29 +39,42 @@ export const Settings = ({ route, navigation }: Props) => {
     dispatch(setTheme(newTheme));
   };
 
+  const shareMessage = async () => {
+    try {
+      const options = {
+        title: 'Приглашение',
+        message: `Приглашаю присоединиться к чату! Найди меня '${user.userName}'. `,
+        url: 'https://play.google.com/store/apps/details?id=com.telegraphh',
+      };
+      await Share.open(options);
+    } catch (error) {
+      console.error('Error share', error);
+    }
+  };
+
   const settingsConfig = [
     {
       id: '1',
-      title: 'Account',
+      title: t('ACCOUNT'),
       icon: userIcon,
       onPress: () => navigation.navigate(MainRoute.Account),
     },
     {
       id: '2',
-      title: 'Privacy',
+      title: t('PRIVACY'),
       icon: chield,
       onPress: () => navigation.navigate(MainRoute.Privacy),
     },
     {
       id: '3',
-      title: 'Dart mode',
+      title: t('DART_MODE'),
       icon: sun,
       onPress: () => toggleTheme(),
       dartMode: true,
     },
     {
       id: '4',
-      title: 'Language',
+      title: t('LANGUAGE'),
       icon: sun,
       onPress: async () => {
         const language = userLanguage === 'ru' ? 'en' : 'ru';
@@ -69,33 +84,33 @@ export const Settings = ({ route, navigation }: Props) => {
       },
       languageMode: true,
     },
-    {
-      id: '5',
-      title: 'Storage and Data',
-      icon: folder,
-      onPress: () => {},
-    },
+    // {
+    //   id: '5',
+    //   title: 'Storage and Data',
+    //   icon: folder,
+    //   onPress: () => {},
+    // },
     {
       id: '6',
-      title: 'Help',
+      title: t('HELP'),
       icon: question,
       onPress: () => navigation.navigate(MainRoute.Help),
     },
     {
       id: '7',
-      title: 'Invite a Friend',
+      title: t('INVITE_FRIEND'),
       icon: addGroup,
-      onPress: () => {},
+      onPress: () => shareMessage(),
     },
   ];
 
   const showModalDeleteAccount = () => {
     Alert.alert(
-      'Удаление аккаунта',
-      'Вы уверены, что хотите удалить аккаунт?',
+      t('ACCOUNT_DELETING'),
+      t('MESSAGE_DELETE_ACCOUNT'),
       [
-        { text: 'Отмена', style: 'cancel' },
-        { text: 'Удалить', onPress: deleteAccount },
+        { text: t('CANCEL'), style: 'cancel' },
+        { text: t('DELETE'), onPress: deleteAccount },
       ],
       { cancelable: false }
     );
@@ -153,7 +168,7 @@ export const Settings = ({ route, navigation }: Props) => {
                 <Text>{item.title}</Text>
               </View>
               {item.dartMode && <Toggle isToggled={theme === 'dark' ? true : false} />}
-              {item.languageMode && <Text>{userLanguage}</Text>}
+              {item.languageMode && <Text>{userLanguage === 'en' ? 'English' : 'Русский'}</Text>}
             </Touchable>
           ))}
           <Text
@@ -162,14 +177,14 @@ export const Settings = ({ route, navigation }: Props) => {
             color={colors.red}
             onPress={handleLogout}
           >
-            Logout
+            {t('LOGOUT')}
           </Text>
         </View>
       </ScrollView>
       <Button
         containerStyle={StyleSheet.compose(styles.button, { marginBottom: bottom || 22 })}
         type="error"
-        value="Delete account"
+        value={t('DELETE_ACCOUNT')}
         onPress={showModalDeleteAccount}
       />
     </View>

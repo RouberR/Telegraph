@@ -2,58 +2,47 @@ import React, { useState } from 'react';
 import { View, FlatList, StyleSheet } from 'react-native';
 import FastImage from 'react-native-fast-image';
 
-import { useStyles } from '../utils/hooks';
+import { useAppSelector, useStyles } from '../utils/hooks';
 import { TColors } from '../utils/theme/colors';
 import { Text, Touchable } from '.';
-import { UsersData } from '../api/Chat/ChatType';
+import { ParticipantType, UsersData } from '../api/Chat/ChatType';
+import { UserProfile } from '../api/Profile/ProfileType';
+import { composeUserDisplayName } from '../utils/stringsValidation';
 
 type IContactList = {
-  contacts: Array<UsersData>;
-  onPressItem: (item: UsersData) => void;
-  showHeader?: boolean;
+  data: ParticipantType[];
+  onPressItem: (item: ParticipantType) => void;
 };
 
-const ContactList: React.FC<IContactList> = ({ contacts, onPressItem, showHeader = false }) => {
+const ContactList: React.FC<IContactList> = ({ data, onPressItem }) => {
   const [selectedTab, setSelectedTab] = useState('Contact');
   const { colors, styles } = useStyles(createStyles(selectedTab));
-
   return (
     <FlatList
-      data={selectedTab === 'Contact' ? contacts : []}
+      data={data}
       keyExtractor={(item) => item.id}
       scrollEnabled={false}
-      ListHeaderComponent={
-        showHeader ? (
-          <View style={styles.containerTab}>
-            <Touchable onPress={() => setSelectedTab('Contact')} style={styles.tabContact}>
-              <Text color={colors.text}>Contact</Text>
-            </Touchable>
-            <Touchable disabled onPress={() => setSelectedTab('Group')} style={styles.tabGroup}>
-              <Text style={{ opacity: 0.5 }} color={colors.grey}>
-                Group
+      renderItem={({ item }) => {
+        return (
+          <Touchable onPress={() => onPressItem(item)} style={styles.containerContact}>
+            <FastImage
+              source={{
+                uri: item?.avatarUrl,
+              }}
+              style={styles.avatar}
+            />
+            <View style={styles.itemContent}>
+              <Text fontSize={12} color={colors.text}>
+                {composeUserDisplayName(item?.firstName, item?.lastName, item?.userName)}
               </Text>
-            </Touchable>
-          </View>
-        ) : (
-          <></>
-        )
-      }
-      renderItem={({ item }) => (
-        <Touchable onPress={() => onPressItem(item)} style={styles.containerContact}>
-          <FastImage source={{ uri: item.avatarUrl }} style={styles.avatar} />
-          <View style={styles.itemContent}>
-            <Text fontSize={12} color={colors.text}>
-              {`${item.firstName} ${item.lastName}`}
-            </Text>
-            <Text color={colors.text} fontSize={14}>
-              {item.userName || item.title}
-            </Text>
-            {/* <Text color={colors.text} fontSize={12}>
-              {item.lastMessage}
-            </Text> */}
-          </View>
-        </Touchable>
-      )}
+
+              <Text color={colors.text} fontSize={14}>
+                {item?.userName}
+              </Text>
+            </View>
+          </Touchable>
+        );
+      }}
     />
   );
 };
