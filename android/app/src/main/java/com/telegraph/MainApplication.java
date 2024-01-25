@@ -1,4 +1,4 @@
-package com.telegraph;
+package com.telegraphh;
 
 import android.app.Application;
 import com.facebook.react.PackageList;

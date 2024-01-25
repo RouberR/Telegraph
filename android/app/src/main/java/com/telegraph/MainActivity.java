@@ -1,4 +1,4 @@
-package com.telegraph;
+package com.telegraphh;
 import android.os.Bundle;
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;

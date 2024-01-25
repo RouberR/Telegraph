@@ -8,7 +8,8 @@ export type ColorTheme = {
   red: string;
   input: string;
   inputActive: string;
-  codeInputBackground: string
+  codeInputBackground: string;
+  default: string;
 };
 
 const sharedColors = {
@@ -27,30 +28,32 @@ type ColorPalettes = {
 
 const Colors: ColorPalettes = {
   dark: {
+    default: sharedColors.white,
     primary: '#7075F1',
     secondary: '#A37878',
     grey: '#757177',
     red: '#BD2027',
     text: sharedColors.white,
-    textSecondary:sharedColors.white,
-    input: "#384857",
-    inputActive: "#207198",
-    codeInputBackground: "#585252",
+    textSecondary: sharedColors.white,
+    input: '#384857',
+    inputActive: '#207198',
+    codeInputBackground: '#585252',
     // placheolder: "#717E8C",
 
     appBackground: '#121212',
     ...sharedColors,
   },
   light: {
+    default: sharedColors.black,
     primary: '#7075F1',
     secondary: '#A37878',
     grey: '#757177',
     red: '#BD2027',
     text: sharedColors.black,
     textSecondary: sharedColors.black,
-    input: "#384857",
-    inputActive: "#207198",
-    codeInputBackground: "#FFF",
+    input: '#384857',
+    inputActive: '#207198',
+    codeInputBackground: '#FFF',
     // placheolder: "#717E8C",
 
     appBackground: '#FFFFFF',

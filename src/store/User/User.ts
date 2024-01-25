@@ -1,19 +1,17 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit';
 
-interface UserState {
-  id: string,
-  firstName: string,
-  lastName:string
-  email: string
+import { UserProfile } from '../../api/Profile/ProfileType';
 
-}
-
-const initialState: UserState = {
-  id: "",
-  firstName: "",
-  lastName:"",
-  email: ""
-}
+const initialState: UserProfile = {
+  id: '',
+  firstName: '',
+  lastName: '',
+  email: '',
+  userName: '',
+  updatedAt: '',
+  avatarUrl: '',
+  chats: [],
+};
 
 export const userSlice = createSlice({
   name: 'user',
@@ -22,13 +20,16 @@ export const userSlice = createSlice({
     // setToken: (state, action) => {
     //   state.token = action.payload
     // },
-    // setUserInfo: (state, action) => {
-    //   state.userInfo = action.payload
-    // },
+    setUserInfo: (state, action) => {
+      return {
+        ...action.payload,
+      };
+    },
 
-
-    clearUser: () => initialState,
+    clearUser: () => {
+      return initialState;
+    },
   },
-})
+});
 
-export const { clearUser } = userSlice.actions
+export const { clearUser, setUserInfo } = userSlice.actions;

@@ -1,91 +1,125 @@
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {ScrollView, StyleSheet, View} from 'react-native';
-import {Button, Text, TextInput} from '../../../components';
-import {useState} from 'react';
-import {MIN_EMAIL_LENGTH, MIN_PASSWORD_LENGTH} from '../../../utils/constants';
-import {MainRoute, MainStackParamList} from '../../../router/Main';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import FastImage from 'react-native-fast-image';
-import ContactList from './TabList';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
+import { Button, ChatList, Text, Touchable } from '../../../components';
+import { MainRoute, MainStackParamList } from '../../../router/Main';
+import ContactList from '../../../components/ContactList';
+import { useAppSelector, useStyles } from '../../../utils/hooks';
+import { getChat } from '../../../api/Chat';
+import { TColors } from '../../../utils/theme/colors';
+import { composeUserDisplayName } from '../../../utils/stringsValidation';
+import { ChatResponse } from '../../../api/Chat/ChatType';
+import React, { useState } from 'react';
+import { getUser } from '../../../api/Profile';
+import { useFocusEffect } from '@react-navigation/native';
+import { setUserInfo } from '../../../store/User/User';
+import { useDispatch } from 'react-redux';
 
 type Props = NativeStackScreenProps<MainStackParamList, MainRoute.Home>;
-const contacts = [
-  {
-    id: '1',
-    name: 'John Doe',
-    avatar: require('./256.png'),
-    lastMessage: 'Hello there!',
-  },
-  {
-    id: '2',
-    name: 'Jane Smith',
-    avatar: require('./256.png'),
-    lastMessage: 'How are you doing?',
-  },
-  {
-    id: '3',
-    name: 'Jane Smith',
-    avatar: require('./256.png'),
-    lastMessage: 'How are you doing?',
-  },
-  {
-    id: '4',
-    name: 'Jane Smith',
-    avatar: require('./256.png'),
-    lastMessage: 'How are you doing?',
-  },
-  {
-    id: '5',
-    name: 'Jane Smith',
-    avatar: require('./256.png'),
-    lastMessage: 'How are you doing?',
-  },
-  {
-    id: '6',
-    name: 'Jane Smith',
-    avatar: require('./256.png'),
-    lastMessage: 'How are you doing?',
-  },
-];
-export const Home = ({route, navigation}: Props) => {
-  const {bottom} = useSafeAreaInsets();
-  const handleOnPressItem = (item: any) => {
-    console.log('item', item);
+
+export const Home = ({ route, navigation }: Props) => {
+  const { bottom } = useSafeAreaInsets();
+  const [selectedTab, setSelectedTab] = useState('Contact');
+  const { styles, colors } = useStyles(createStyles(bottom, selectedTab));
+  const dispatch = useDispatch();
+  const user = useAppSelector((state) => state.user);
+
+  const handleOnPressItem = async (item: ChatResponse) => {
+    try {
+      const response = await getChat(item.id);
+      navigation.navigate(MainRoute.Chat, { ...response });
+    } catch (e) {
+      console.log('Error get chat ', e);
+    }
   };
+
+  const handleGetUser = async () => {
+    try {
+      const getUserResponse = await getUser();
+      dispatch(setUserInfo(getUserResponse));
+    } catch (e) {
+      console.log('Error get user ', e);
+    }
+  };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      handleGetUser();
+    }, [])
+  );
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      <View>
-        <FastImage
-          style={{
-            height: 121,
-            width: 121,
-            alignSelf: 'center',
-            borderWidth: 1.5,
-            borderColor: 'white',
-            borderRadius: 60,
-          }}
-          source={require('./256.png')}
-        />
-        <Text>Email</Text>
-        <Text>FirsName</Text>
+      <View style={styles.containerHeader}>
+        <FastImage style={styles.avatarUser} source={{ uri: user.avatarUrl }} />
+        <Text>{user.email}</Text>
+        <Text>{composeUserDisplayName(user.firstName, user.lastName, user.userName)}</Text>
       </View>
-      <ContactList contacts={contacts} onPressItem={handleOnPressItem} />
+      <View style={styles.containerTab}>
+        <Touchable onPress={() => setSelectedTab('Contact')} style={styles.tabContact}>
+          <Text color={colors.text}>Contact</Text>
+        </Touchable>
+        <Touchable disabled onPress={() => setSelectedTab('Group')} style={styles.tabGroup}>
+          <Text style={{ opacity: 0.5 }} color={colors.grey}>
+            Group
+          </Text>
+        </Touchable>
+      </View>
+      <ChatList data={user.chats} onPressItem={handleOnPressItem} />
       <Button
         type="secondary"
         value="Add contact"
-        containerStyle={{marginBottom: bottom || 20}}
-        onPress={() => navigation.navigate('Chat')}
+        containerStyle={styles.containerButton}
+        onPress={() => navigation.navigate(MainRoute.Contacts)}
       />
     </ScrollView>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    marginHorizontal: 16,
-    gap: 16,
-    marginTop: 8,
-    flexGrow: 1,
-  },
-});
+const createStyles = (bottom: number, selectedTab: string) => (colors: TColors) =>
+  StyleSheet.create({
+    container: {
+      marginHorizontal: 16,
+      gap: 16,
+      marginTop: 8,
+      flexGrow: 1,
+    },
+    containerHeader: {
+      gap: 12,
+      marginBottom: 20,
+    },
+    avatarUser: {
+      height: 121,
+      width: 121,
+      alignSelf: 'center',
+      borderWidth: 1.5,
+      borderColor: colors.default,
+      borderRadius: 60,
+    },
+    containerButton: {
+      marginBottom: bottom || 20,
+      marginTop: 10,
+    },
+    containerTab: {
+      flexDirection: 'row',
+      flex: 1,
+      justifyContent: 'space-between',
+      marginBottom: 16,
+    },
+    tabContact: {
+      borderBottomWidth: selectedTab === 'Contact' ? 2 : 0,
+      borderBottomColor: selectedTab === 'Contact' ? colors.default : 'transparent',
+      padding: 10,
+      flex: 1,
+      alignItems: 'center',
+    },
+    tabGroup: {
+      borderBottomWidth: selectedTab === 'Group' ? 2 : 0,
+      borderBottomColor: selectedTab === 'Group' ? colors.default : 'transparent',
+      padding: 10,
+      flex: 1,
+      alignItems: 'center',
+    },
+  });

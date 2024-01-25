@@ -1,10 +1,13 @@
-import React, {useState} from 'react';
-import {View, TextInput, StyleSheet, TextInputProps} from 'react-native';
-import {useStyles} from '../utils/hooks';
-import {TColors} from '../utils/theme/colors';
+import React, { useState } from 'react';
+import { View, TextInput, StyleSheet, TextInputProps, StyleProp, ViewStyle } from 'react-native';
+import Animated, { FadeInDown, FadeOut } from 'react-native-reanimated';
+import FastImage from 'react-native-fast-image';
+
+import { useStyles } from '../utils/hooks';
+import { TColors } from '../utils/theme/colors';
 import Text from './Text';
-import {Touchable} from '.';
-import Animated, {FadeInDown, FadeOut} from 'react-native-reanimated';
+import { Touchable } from '.';
+import { search } from '../assets';
 
 interface ITextInput extends TextInputProps {
   placeholder: string;
@@ -14,6 +17,9 @@ interface ITextInput extends TextInputProps {
   autoFocus?: boolean;
   error?: boolean;
   errorMessage?: string;
+  disabled?: boolean;
+  containerStyle?: StyleProp<ViewStyle>;
+  rightIcon?: boolean;
 }
 
 const _TextInput: React.FC<ITextInput> = ({
@@ -24,9 +30,12 @@ const _TextInput: React.FC<ITextInput> = ({
   autoFocus,
   error,
   errorMessage,
+  disabled,
+  containerStyle,
+  rightIcon,
   ...props
 }) => {
-  const {colors, styles} = useStyles(createStyles);
+  const { colors, styles } = useStyles(createStyles);
   const [isFocused, setFocused] = useState(false);
   const [secureTextEntry, setSecureTextEntry] = useState(isSecurity);
 
@@ -42,13 +51,10 @@ const _TextInput: React.FC<ITextInput> = ({
         style={[
           styles.label,
           {
-            color: isFocused
-              ? colors.inputActive
-              : error
-              ? colors.red
-              : colors.input,
+            color: isFocused ? colors.inputActive : error ? colors.red : colors.input,
           },
-        ]}>
+        ]}
+      >
         {value && placeholder}
       </Animated.Text>
 
@@ -56,13 +62,11 @@ const _TextInput: React.FC<ITextInput> = ({
         style={[
           styles.inputContainer,
           {
-            borderColor: isFocused
-              ? colors.inputActive
-              : error
-              ? colors.red
-              : colors.input,
+            borderColor: isFocused ? colors.inputActive : error ? colors.red : colors.input,
           },
-        ]}>
+          containerStyle,
+        ]}
+      >
         <TextInput
           style={styles.input}
           placeholder={placeholder}
@@ -73,13 +77,19 @@ const _TextInput: React.FC<ITextInput> = ({
           onBlur={() => setFocused(false)}
           secureTextEntry={secureTextEntry}
           autoFocus={autoFocus}
+          editable={disabled}
           {...props}
         />
+        {rightIcon && (
+          <FastImage
+            source={search}
+            style={{ width: 24, height: 24, marginRight: 16 }}
+            tintColor={isFocused ? colors.inputActive : colors.input}
+          />
+        )}
         {isSecurity && isFocused && (
-          <Touchable
-            style={styles.toggleButton}
-            onPress={toggleSecureTextEntry}>
-            <Text>{secureTextEntry ? 'Show' : 'Hide'}</Text>
+          <Touchable style={styles.toggleButton} onPress={toggleSecureTextEntry}>
+            <Text style={styles.secureText}>{secureTextEntry ? 'Show' : 'Hide'}</Text>
           </Touchable>
         )}
       </View>
@@ -120,6 +130,9 @@ const createStyles = (colors: TColors) =>
       backgroundColor: colors.appBackground,
       alignSelf: 'flex-start',
       zIndex: 2,
+      fontSize: 12,
+    },
+    secureText: {
       fontSize: 12,
     },
   });

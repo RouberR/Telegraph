@@ -2,6 +2,7 @@ export type SignUpRequestData = {
   firstName: string;
   lastName: string;
   email: string;
+  userName: string;
   password: string;
   confirmPassword: string;
 };
@@ -14,12 +15,13 @@ export type SignUpResponseData = {
 };
 
 export type SignInRequestData = {
-  email: string
-  password: string
+  email: string;
+  password: string;
 };
 
 export type SignInpResponseData = {
   accessToken: string;
+  refreshToken: string;
 };
 
 export type ResendEmailCodeRequest = {
@@ -40,4 +42,5 @@ export type ConfirmEmailRequest = {
 
 export type ConfirmEmailResponse = {
   accessToken: string;
+  refreshToken: string;
 };

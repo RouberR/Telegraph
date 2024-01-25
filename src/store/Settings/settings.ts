@@ -1,10 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 interface SettingsState {
-    theme: "dark" | "light"
-    language: "en"
-  
-  }
+  theme: 'dark' | 'light';
+  language: 'en';
+}
 
 const initialState: SettingsState = {
   theme: 'dark',
@@ -25,4 +24,3 @@ export const settingsSlice = createSlice({
 });
 
 export const { setTheme, setLanguage } = settingsSlice.actions;
-

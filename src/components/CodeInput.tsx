@@ -1,6 +1,5 @@
-import {Animated, StyleSheet, Platform} from 'react-native';
+import { Animated, StyleSheet, Platform } from 'react-native';
 import React from 'react';
-
 import {
   CodeField,
   Cursor,
@@ -8,9 +7,10 @@ import {
   useBlurOnFulfill,
   useClearByFocusCell,
 } from 'react-native-confirmation-code-field';
-import {useColors} from '../utils/hooks';
 
-const {Value, Text: AnimatedText} = Animated;
+import { useColors } from '../utils/hooks';
+
+const { Value, Text: AnimatedText } = Animated;
 
 const CELL_COUNT = 4;
 const CELL_SIZE = 70;
@@ -47,19 +47,19 @@ const CodeFieldAnimated = ({
   value: string;
   setValue: (text: string) => void;
 }) => {
-  const {colors} = useColors();
+  const { colors } = useColors();
 
   const DEFAULT_CELL_BG_COLOR = colors.codeInputBackground;
   const NOT_EMPTY_CELL_BG_COLOR = '#3557b7';
   const ACTIVE_CELL_BG_COLOR = '#f7fafe';
-  const ref = useBlurOnFulfill({value, cellCount: CELL_COUNT});
+  const ref = useBlurOnFulfill({ value, cellCount: CELL_COUNT });
   const [props, getCellOnLayoutHandler] = useClearByFocusCell({
     value,
     setValue,
   });
 
   const renderCell = (options: RenderCellOptions) => {
-    const {index, symbol, isFocused} = options;
+    const { index, symbol, isFocused } = options;
     const hasValue = Boolean(symbol);
     const animatedCellStyle = {
       backgroundColor: hasValue
@@ -86,14 +86,15 @@ const CodeFieldAnimated = ({
     };
 
     setTimeout(() => {
-      animateCell({hasValue, index, isFocused});
+      animateCell({ hasValue, index, isFocused });
     }, 0);
 
     return (
       <AnimatedText
         key={index}
         style={[styles.cell, animatedCellStyle]}
-        onLayout={getCellOnLayoutHandler(index)}>
+        onLayout={getCellOnLayoutHandler(index)}
+      >
         {symbol || (isFocused ? <Cursor /> : null)}
       </AnimatedText>
     );
@@ -126,7 +127,7 @@ const styles = StyleSheet.create({
     height: CELL_SIZE,
     width: CELL_SIZE,
     lineHeight: CELL_SIZE - 5,
-    ...Platform.select({web: {lineHeight: 65}}),
+    ...Platform.select({ web: { lineHeight: 65 } }),
     fontSize: 30,
     textAlign: 'center',
     borderRadius: CELL_BORDER_RADIUS,
