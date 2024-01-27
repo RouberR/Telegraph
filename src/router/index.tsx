@@ -14,6 +14,7 @@ import { Colors } from '../utils/theme';
 import MainNavigator from './Main';
 import { setNavigationReference } from '../api';
 import { AsyncStore } from '../utils/constants';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 export enum RootRoutes {
   Auth = 'Auth',
@@ -64,18 +65,20 @@ const RootNavigator: React.FC = () => {
   };
 
   return (
-    <NavigationContainer theme={MyTheme} ref={navigationRef}>
-      <RootStack.Navigator
-        initialRouteName={RootRoutes.Auth}
-        screenOptions={{ headerShown: false }}
-      >
-        {user.id ? (
-          <RootStack.Screen component={MainNavigator} name={RootRoutes.Main} />
-        ) : (
-          <RootStack.Screen component={AuthNavigator} name={RootRoutes.Auth} />
-        )}
-      </RootStack.Navigator>
-    </NavigationContainer>
+    <SafeAreaProvider>
+      <NavigationContainer theme={MyTheme} ref={navigationRef}>
+        <RootStack.Navigator
+          initialRouteName={RootRoutes.Auth}
+          screenOptions={{ headerShown: false }}
+        >
+          {user.id ? (
+            <RootStack.Screen component={MainNavigator} name={RootRoutes.Main} />
+          ) : (
+            <RootStack.Screen component={AuthNavigator} name={RootRoutes.Auth} />
+          )}
+        </RootStack.Navigator>
+      </NavigationContainer>
+    </SafeAreaProvider>
   );
 };
 

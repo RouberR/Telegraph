@@ -17,15 +17,11 @@ export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    // setToken: (state, action) => {
-    //   state.token = action.payload
-    // },
     setUserInfo: (state, action) => {
       return {
         ...action.payload,
       };
     },
-
     clearUser: () => {
       return initialState;
     },

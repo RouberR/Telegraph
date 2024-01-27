@@ -5,7 +5,6 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Button, ChatList, Text, Touchable } from '../../../components';
 import { MainRoute, MainStackParamList } from '../../../router/Main';
-import ContactList from '../../../components/ContactList';
 import { useAppSelector, useStyles } from '../../../utils/hooks';
 import { getChat } from '../../../api/Chat';
 import { TColors } from '../../../utils/theme/colors';

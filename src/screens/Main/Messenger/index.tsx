@@ -8,7 +8,6 @@ import { useTranslation } from 'react-i18next';
 
 import { ChatList, Loading, TextInput } from '../../../components';
 import { MainRoute, MainStackParamList } from '../../../router/Main';
-import ContactList from '../../../components/ContactList';
 import { getChat } from '../../../api/Chat';
 import { useAppSelector } from '../../../utils/hooks';
 import { setUserInfo } from '../../../store/User/User';
@@ -102,7 +101,7 @@ const styles = StyleSheet.create({
   container: {
     marginHorizontal: 16,
     gap: 24,
-    marginTop: 24,
+    marginTop: 12,
     flex: 1,
   },
 });

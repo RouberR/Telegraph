@@ -13,6 +13,7 @@ import { Text, Touchable } from '../../../components';
 import { backIcon, deleteIcon } from '../../../assets';
 import { deleteChat } from '../../../api/Chat';
 import { TColors } from '../../../utils/theme/colors';
+import { SafeAreaInsetsContext, SafeAreaView } from 'react-native-safe-area-context';
 
 type Props = NativeStackScreenProps<MainStackParamList, MainRoute.Chat>;
 
@@ -121,30 +122,33 @@ export const Chat = ({ route, navigation }: Props) => {
       { cancelable: false }
     );
   };
-
+  const participant = participants?.find((i) => i.id !== user.id);
+  console.log('participant', participant);
   return (
-    <View style={styles.container}>
-      <View style={styles.containerHeader}>
-        <View style={styles.headerLeft}>
-          <Touchable onPress={() => navigation.goBack()}>
-            <FastImage source={backIcon} style={styles.icon} tintColor={colors.text} />
+    <SafeAreaView style={{ flex: 1 }}>
+      <View style={styles.container}>
+        <View style={styles.containerHeader}>
+          <View style={styles.headerLeft}>
+            <Touchable onPress={() => navigation.goBack()}>
+              <FastImage source={backIcon} style={styles.icon} tintColor={colors.text} />
+            </Touchable>
+            <FastImage
+              source={{ uri: participant?.avatarUrl || user?.avatarUrl }}
+              style={styles.avatar}
+            />
+            <Text>{participant.userName || user?.userName}</Text>
+          </View>
+          <Touchable onPress={showModalDeleteAccount}>
+            <FastImage source={deleteIcon} style={styles.icon} tintColor={colors.red} />
           </Touchable>
-          <FastImage
-            source={{ uri: participants[1]?.avatarUrl || participants[0]?.avatarUrl }}
-            style={styles.avatar}
-          />
-          <Text>{participants[1]?.userName || participants[0]?.userName}</Text>
         </View>
-        <Touchable onPress={showModalDeleteAccount}>
-          <FastImage source={deleteIcon} style={styles.icon} tintColor={colors.red} />
-        </Touchable>
+        <GiftedChat
+          messages={messages}
+          onSend={onSend}
+          user={{ _id: user.id, name: user.userName, avatar: user.avatarUrl }}
+        />
       </View>
-      <GiftedChat
-        messages={messages}
-        onSend={onSend}
-        user={{ _id: user.id, name: user.userName, avatar: user.avatarUrl }}
-      />
-    </View>
+    </SafeAreaView>
   );
 };
 

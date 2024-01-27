@@ -38,7 +38,7 @@ const BottomBar: React.FC = () => {
           elevation: 0,
           shadowOpacity: 0,
           borderBottomWidth: 0,
-          height: 40,
+          height: 60,
         },
         headerShown: true,
         tabBarStyle: {
@@ -46,6 +46,7 @@ const BottomBar: React.FC = () => {
           borderTopColor: colors.grey,
         },
         tabBarShowLabel: false,
+
         headerLeft: () => (
           <FastImage
             source={logo}
