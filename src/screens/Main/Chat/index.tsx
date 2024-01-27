@@ -13,7 +13,7 @@ import { Text, Touchable } from '../../../components';
 import { backIcon, deleteIcon } from '../../../assets';
 import { deleteChat } from '../../../api/Chat';
 import { TColors } from '../../../utils/theme/colors';
-import { SafeAreaInsetsContext, SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 type Props = NativeStackScreenProps<MainStackParamList, MainRoute.Chat>;
 
